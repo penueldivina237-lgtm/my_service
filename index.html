@@ -223,6 +223,21 @@
       margin-bottom: 5px;
     }
 
+    #pageContent {
+      transition: filter 0.25s ease;
+      will-change: filter;
+    }
+
+    body.drawer-open #pageContent {
+      filter: blur(10px);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #pageContent {
+        transition: none;
+      }
+    }
+
     @media (max-width: 900px) {
       .nav-links {
         display: none;
@@ -1045,6 +1060,7 @@
     </div>
   </header>
 
+  <main id="pageContent">
   <section class="hero" id="home">
     <div class="container hero-content">
       <div class="hero-text">
@@ -1456,6 +1472,8 @@
     </div>
   </footer>
 
+  </main>
+
   <script>
     const hourlyRate = 120;
     // Stripe Payment Link (created in your Stripe Dashboard)
@@ -1571,11 +1589,13 @@
           drawer.classList.remove('active');
           drawerOverlay.classList.remove('active');
           menuToggle.classList.remove('active');
+          document.body.classList.remove('drawer-open');
           document.body.style.overflow = '';
         } else {
           drawer.classList.add('active');
           drawerOverlay.classList.add('active');
           menuToggle.classList.add('active');
+          document.body.classList.add('drawer-open');
           document.body.style.overflow = 'hidden';
         }
       };
@@ -1604,6 +1624,7 @@
           drawer.classList.remove('active');
           drawerOverlay.classList.remove('active');
           menuToggle.classList.remove('active');
+          document.body.classList.remove('drawer-open');
           document.body.style.overflow = '';
         });
       });

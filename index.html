@@ -181,6 +181,10 @@
       display: flex;
       flex-direction: column;
       gap: 20px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
       transition: 0.3s ease-in-out;
     }
 
@@ -569,6 +573,11 @@
       fill: none;
       stroke: rgba(212, 175, 55, 0.25);
       stroke-width: 2;
+      stroke-linecap: round;
+    }
+
+    .connector-line.active {
+      stroke: rgba(212, 175, 55, 0.55);
     }
 
     .node-box {
@@ -583,6 +592,12 @@
       transition: 0.3s;
     }
     .node-box:hover { border-color: #d4af37; transform: translateY(-5px); }
+
+    .node-box.active {
+      border-color: rgba(212, 175, 55, 0.9);
+      box-shadow: 0 0 0 1px rgba(212,175,55,0.2), 0 0 24px rgba(212,175,55,0.12);
+      transform: translateY(-4px);
+    }
     .node-box h4 { font-size: 0.85rem; color: #fff; margin-bottom: 5px; }
     .node-box span { font-size: 0.7rem; color: #777; }
 
@@ -649,6 +664,18 @@
       width: 100%;
     }
 
+    .ai-cursor {
+      display: inline-block;
+      width: 10px;
+      color: #00ff41;
+      animation: aiBlink 1s step-end infinite;
+    }
+
+    @keyframes aiBlink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
     .ai-bot-hands {
       position: absolute;
       bottom: -60px;
@@ -683,7 +710,41 @@
     }
 
     .floating-code-particles {
-      display: none;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: block;
+      opacity: 0.9;
+    }
+
+    .floating-code-particles .particle {
+      position: absolute;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.72rem;
+      color: rgba(0, 255, 65, 0.22);
+      transform: translateY(18px);
+      animation: particleFloat 9s linear infinite;
+      will-change: transform, opacity;
+    }
+
+    .floating-code-particles .particle:nth-child(2) { animation-duration: 11s; animation-delay: 0.6s; }
+    .floating-code-particles .particle:nth-child(3) { animation-duration: 10s; animation-delay: 1.2s; }
+    .floating-code-particles .particle:nth-child(4) { animation-duration: 12s; animation-delay: 1.8s; }
+
+    @keyframes particleFloat {
+      0% { opacity: 0; transform: translateY(18px); }
+      12% { opacity: 1; }
+      85% { opacity: 1; }
+      100% { opacity: 0; transform: translateY(-38px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .floating-code-particles .particle {
+        animation: none;
+      }
+      .ai-cursor {
+        animation: none;
+      }
     }
 
     .gallery-grid {
@@ -1718,75 +1779,293 @@
       document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeModal(); });
     })();
 
-    // Live Technical Charts Initialization
+    // Live AI + Workflow + Charts
     (function() {
-      // Bar Chart: Code Distribution
-      const ctxBar = document.getElementById('barChart').getContext('2d');
-      new Chart(ctxBar, {
-        type: 'bar',
-        data: {
-          labels: ['React/Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS', 'Docker'],
-          datasets: [{
-            label: 'Codebase %',
-            data: [35, 25, 15, 10, 10, 5],
-            backgroundColor: 'rgba(212, 175, 55, 0.6)',
-            borderColor: '#d4af37',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          scales: {
-            y: {
-              beginAtZero: true,
-              grid: { color: 'rgba(255, 255, 255, 0.05)' },
-              ticks: { color: '#e6e6e6' }
-            },
-            x: {
-              grid: { display: false },
-              ticks: { color: '#e6e6e6' }
-            }
-          },
-          plugins: {
-            legend: { display: false }
+      const prefersReducedMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+
+      function clamp(value, min, max) {
+        return Math.min(max, Math.max(min, value));
+      }
+
+      function initCharts() {
+        if (typeof Chart === 'undefined') return;
+
+        const barCanvas = document.getElementById('barChart');
+        const donutCanvas = document.getElementById('donutChart');
+        let barChart = null;
+        let donutChart = null;
+
+        if (barCanvas && typeof barCanvas.getContext === 'function') {
+          const ctxBar = barCanvas.getContext('2d');
+          if (ctxBar) {
+            barChart = new Chart(ctxBar, {
+              type: 'bar',
+              data: {
+                labels: ['React/Next.js', 'TypeScript', 'Node.js', 'PostgreSQL', 'Tailwind CSS', 'Docker'],
+                datasets: [{
+                  label: 'Codebase %',
+                  data: [35, 25, 15, 10, 10, 5],
+                  backgroundColor: 'rgba(212, 175, 55, 0.6)',
+                  borderColor: '#d4af37',
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                responsive: true,
+                animation: prefersReducedMotion ? false : undefined,
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                    ticks: { color: '#e6e6e6' }
+                  },
+                  x: {
+                    grid: { display: false },
+                    ticks: { color: '#e6e6e6' }
+                  }
+                },
+                plugins: {
+                  legend: { display: false }
+                }
+              }
+            });
           }
         }
-      });
 
-      // Donut Chart: Implementation Status
-      const ctxDonut = document.getElementById('donutChart').getContext('2d');
-      new Chart(ctxDonut, {
-        type: 'doughnut',
-        data: {
-          labels: ['Marketplace Engine', 'Advanced Filtering', 'Stripe Payments', 'Real-time Notifications', 'Analytics Pro'],
-          datasets: [{
-            data: [100, 95, 80, 70, 45],
-            backgroundColor: [
-              'rgba(212, 175, 55, 1)',   // Completed
-              'rgba(212, 175, 55, 0.8)', // Almost done
-              'rgba(212, 175, 55, 0.6)', // In progress
-              'rgba(212, 175, 55, 0.3)', // Early stage
-              'rgba(255, 255, 255, 0.1)' // Future
-            ],
-            borderColor: '#0d0d0d',
-            borderWidth: 2
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: {
-                color: '#e6e6e6',
-                font: { size: 11 },
-                padding: 15
+        if (donutCanvas && typeof donutCanvas.getContext === 'function') {
+          const ctxDonut = donutCanvas.getContext('2d');
+          if (ctxDonut) {
+            donutChart = new Chart(ctxDonut, {
+              type: 'doughnut',
+              data: {
+                labels: ['Marketplace Engine', 'Advanced Filtering', 'Stripe Payments', 'Real-time Notifications', 'Analytics Pro'],
+                datasets: [{
+                  data: [100, 95, 80, 70, 45],
+                  backgroundColor: [
+                    'rgba(212, 175, 55, 1)',
+                    'rgba(212, 175, 55, 0.8)',
+                    'rgba(212, 175, 55, 0.6)',
+                    'rgba(212, 175, 55, 0.3)',
+                    'rgba(255, 255, 255, 0.1)'
+                  ],
+                  borderColor: '#0d0d0d',
+                  borderWidth: 2
+                }]
+              },
+              options: {
+                responsive: true,
+                animation: prefersReducedMotion ? false : undefined,
+                plugins: {
+                  legend: {
+                    position: 'bottom',
+                    labels: {
+                      color: '#e6e6e6',
+                      font: { size: 11 },
+                      padding: 15
+                    }
+                  }
+                },
+                cutout: '70%'
               }
-            }
-          },
-          cutout: '70%'
+            });
+          }
         }
-      });
+
+        if (prefersReducedMotion) return;
+        if (!barChart && !donutChart) return;
+
+        let updateTimer = null;
+
+        function tick() {
+          if (document.visibilityState === 'hidden') return;
+
+          if (barChart) {
+            const values = barChart.data.datasets[0].data;
+            const next = values.map((v) => clamp(v + (Math.random() * 6 - 3), 2, 45));
+            const sum = next.reduce((a, b) => a + b, 0) || 1;
+            barChart.data.datasets[0].data = next.map((v) => Math.round((v / sum) * 100));
+            barChart.update('none');
+          }
+
+          if (donutChart) {
+            const values = donutChart.data.datasets[0].data;
+            const next = values.map((v) => clamp(v + (Math.random() * 4 - 1), 30, 100));
+            donutChart.data.datasets[0].data = next.map((v) => Math.round(v));
+            donutChart.update('none');
+          }
+        }
+
+        function start() {
+          if (updateTimer) return;
+          updateTimer = window.setInterval(tick, 2500);
+        }
+
+        function stop() {
+          if (!updateTimer) return;
+          window.clearInterval(updateTimer);
+          updateTimer = null;
+        }
+
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'hidden') stop();
+          else start();
+        });
+
+        start();
+      }
+
+      function initWorkflow() {
+        const container = document.querySelector('.workflow-container');
+        if (!container) return;
+
+        const nodes = Array.from(container.querySelectorAll('.node-box'));
+        const lines = Array.from(container.querySelectorAll('.connector-line'));
+        if (!nodes.length || !lines.length) return;
+
+        lines.forEach((line) => {
+          try {
+            const len = line.getTotalLength();
+            line.dataset.len = String(len);
+            line.style.strokeDasharray = `${len} ${len}`;
+            line.style.strokeDashoffset = `${len}`;
+          } catch (e) {
+            // ignore
+          }
+        });
+
+        const activate = (index) => {
+          nodes.forEach((n, i) => n.classList.toggle('active', i === index));
+          lines.forEach((l) => l.classList.add('active'));
+        };
+
+        if (prefersReducedMotion) {
+          activate(0);
+          lines.forEach((line) => {
+            line.style.strokeDasharray = '';
+            line.style.strokeDashoffset = '';
+          });
+          return;
+        }
+
+        let step = 0;
+        let timer = null;
+
+        const drawOnce = () => {
+          if (document.visibilityState === 'hidden') return;
+
+          const idx = step % nodes.length;
+          activate(idx);
+
+          lines.forEach((line) => {
+            const len = Number(line.dataset.len || 0);
+            if (!len) return;
+            line.style.transition = 'none';
+            line.style.strokeDashoffset = String(len);
+            void line.getBoundingClientRect();
+            line.style.transition = 'stroke-dashoffset 700ms ease';
+            line.style.strokeDashoffset = '0';
+          });
+
+          step += 1;
+        };
+
+        const start = () => {
+          if (timer) return;
+          drawOnce();
+          timer = window.setInterval(drawOnce, 2200);
+        };
+
+        const stop = () => {
+          if (!timer) return;
+          window.clearInterval(timer);
+          timer = null;
+        };
+
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'hidden') stop();
+          else start();
+        });
+
+        start();
+      }
+
+      function initAiTerminal() {
+        const area = document.querySelector('.ai-code-area');
+        if (!area) return;
+
+        const lineEls = Array.from(area.querySelectorAll('.ai-code-line'));
+        if (!lineEls.length) return;
+
+        const messages = lineEls.map((el) => (el.textContent || '').trim());
+        if (!messages.filter(Boolean).length) return;
+
+        if (prefersReducedMotion) return;
+
+        lineEls.forEach((el) => { el.textContent = ''; });
+
+        let lineIndex = 0;
+        let charIndex = 0;
+        let timer = null;
+
+        const render = () => {
+          lineEls.forEach((el, idx) => {
+            if (idx < lineIndex) {
+              el.textContent = messages[idx] || '';
+              return;
+            }
+            if (idx === lineIndex) {
+              const full = messages[idx] || '';
+              const shown = full.slice(0, charIndex);
+              el.innerHTML = `${shown}<span class="ai-cursor">▍</span>`;
+              return;
+            }
+            el.textContent = '';
+          });
+        };
+
+        const step = () => {
+          if (document.visibilityState === 'hidden') {
+            timer = window.setTimeout(step, 400);
+            return;
+          }
+
+          const full = messages[lineIndex] || '';
+          if (charIndex <= full.length) {
+            render();
+            charIndex += 1;
+            timer = window.setTimeout(step, 26);
+            return;
+          }
+
+          // line complete
+          lineEls[lineIndex].textContent = full;
+          lineIndex += 1;
+          charIndex = 0;
+
+          if (lineIndex >= lineEls.length) {
+            timer = window.setTimeout(() => {
+              lineIndex = 0;
+              charIndex = 0;
+              lineEls.forEach((el) => { el.textContent = ''; });
+              step();
+            }, 1100);
+            return;
+          }
+
+          timer = window.setTimeout(step, 240);
+        };
+
+        // stop typing if the user navigates away
+        window.addEventListener('beforeunload', () => {
+          if (timer) window.clearTimeout(timer);
+        });
+
+        step();
+      }
+
+      initCharts();
+      initWorkflow();
+      initAiTerminal();
     })();
   </script>
   <!-- WhatsApp Floating Widget (Updated with In-Site Chat) -->

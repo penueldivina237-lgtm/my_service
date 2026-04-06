@@ -1510,7 +1510,7 @@
 
           <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:6px;">
             <button type="submit" class="btn btn-primary">Submit Project Request</button>
-            <button type="button" id="payButton" class="btn btn-primary">Deposit & Start</button>
+            <button type="button" id="payButton" class="btn btn-primary">Book Consultation</button>
           </div>
         </form>
       </div>
@@ -1539,8 +1539,8 @@
 
   <script>
     const hourlyRate = 120;
-    // Stripe Payment Link (created in your Stripe Dashboard)
-    const PAYMENT_LINK_URL = 'https://buy.stripe.com/5kQ9ASgRB19370v7O96c000';
+    // Consultation contact
+    const CONSULTATION_EMAIL = 'divineemmanuel214@gmail.com';
 
     const hoursInput = document.getElementById("hours");
     const totalCost = document.getElementById("totalCost");
@@ -1590,8 +1590,22 @@
         // ignore storage errors
       }
 
-      // Open the Stripe Payment Link in a new tab
-      window.open(PAYMENT_LINK_URL, '_blank');
+      const subject = `Consultation Request — ${data.serviceType || 'Software Engineering'}`;
+      const bodyLines = [
+        `Name: ${data.name}`,
+        `Email: ${data.email}`,
+        `Organization/Project: ${data.organization}`,
+        `Desired start date: ${data.date}`,
+        `Service type: ${data.serviceType}`,
+        `Estimated initial hours: ${data.hours}`,
+        `Estimated initial budget: $${data.total}`,
+        '',
+        'Project details:',
+        data.message || '(no message provided)'
+      ];
+
+      const mailtoUrl = `mailto:${CONSULTATION_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+      window.open(mailtoUrl, '_blank');
     });
 
     updateTotal();

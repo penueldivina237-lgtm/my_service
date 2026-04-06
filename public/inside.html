@@ -1411,7 +1411,7 @@
   <script>
     const hourlyRate = 120;
     // Stripe Payment Link (created in your Stripe Dashboard)
-    const PAYMENT_LINK_URL = 'https://buy.stripe.com/5kQ9ASgRB19370v7O96c000';
+    const PAYMENT_LINK_URL = 'https://buy.stripe.com/6oU00i0SD1933Oj4BX6c002';
 
     const hoursInput = document.getElementById("hours");
     const estimateBox = document.getElementById("estimateBox");
@@ -1462,8 +1462,8 @@
         // ignore storage errors
       }
 
-      // Open the Stripe Payment Link in a new tab
-      window.open(PAYMENT_LINK_URL, '_blank');
+      // Open the Stripe Payment Link in the same tab
+      window.location.assign(PAYMENT_LINK_URL);
     });
 
     updateEstimate();

@@ -127,6 +127,7 @@
     /* Side Drawer Styles */
     .menu-toggle {
       display: none;
+      position: relative;
       flex-direction: column;
       gap: 5px;
       cursor: pointer;
@@ -1509,41 +1510,6 @@
     });
 
     updateTotal();
-
-    // Drawer Logic
-    const menuToggle = document.getElementById('menuToggle');
-    const drawerOverlay = document.getElementById('drawerOverlay');
-    const drawer = document.getElementById('drawer');
-    const moreToggle = document.getElementById('moreToggle');
-    const drawerLinks = document.querySelectorAll('.drawer-link');
-
-    function toggleDrawer() {
-      const isActive = drawer.classList.contains('active');
-      if (isActive) {
-        drawer.classList.remove('active');
-        drawerOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-      } else {
-        drawer.classList.add('active');
-        drawerOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-    }
-
-    if (menuToggle) menuToggle.addEventListener('click', toggleDrawer);
-    if (drawerOverlay) drawerOverlay.addEventListener('click', toggleDrawer);
-    if (moreToggle) moreToggle.addEventListener('click', (e) => {
-      e.preventDefault();
-      toggleDrawer();
-    });
-
-    drawerLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        drawer.classList.remove('active');
-        drawerOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-      });
-    });
   </script>
   <script>
     // Hero carousel + gallery fade-in for smoother mobile experience
@@ -1591,6 +1557,9 @@
       const drawer = document.getElementById('drawer');
       const drawerOverlay = document.getElementById('drawerOverlay');
       const drawerLinks = document.querySelectorAll('.drawer-link');
+      const moreToggle = document.getElementById('moreToggle');
+
+      if (!menuToggle || !drawer || !drawerOverlay) return;
 
       const toggleDrawer = () => {
         const isActive = drawer.classList.contains('active');
@@ -1616,6 +1585,13 @@
 
       if (drawerOverlay) {
         drawerOverlay.addEventListener('click', toggleDrawer);
+      }
+
+      if (moreToggle) {
+        moreToggle.addEventListener('click', (e) => {
+          e.preventDefault();
+          toggleDrawer();
+        });
       }
 
       // Close drawer when a link is clicked

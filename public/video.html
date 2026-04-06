@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Videos | Divine Emmanuel</title>
+  <style>
+    body { background:#070707; color:#eee; font-family: Georgia, 'Times New Roman', serif; }
+    /* Reduce horizontal drift on touch devices and fully prevent horizontal scrolling */
+    html, body { overflow-x: hidden !important; max-width:100vw !important; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; touch-action: pan-y; position:relative; }
+    .container { width:100%; max-width:1100px; margin:36px auto; padding-inline:16px; }
+    header { margin-bottom:18px; }
+    a.back { color:#d4af37; text-decoration:none; display:inline-block; margin-bottom:12px; }
+    .player { background:#0b0b0b; border:1px solid rgba(255,255,255,0.04); padding:18px; border-radius:10px; }
+    .player iframe, .player video { width:100%; height:62vh; border:0; border-radius:8px; }
+    .fallback { margin-top:14px; color:#cfcfcf; }
+    .video-list { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:16px; }
+    .video-card { background:#0f0f0f; padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.03); }
+    .video-card a { color:#fff; text-decoration:none; }
+      header { animation: slideDown 0.8s ease forwards; } @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } } .hero-text { animation: fadeInRight 1s ease 0.2s both; } .hero-card { animation: fadeInLeft 1s ease 0.4s both; } @keyframes fadeInRight { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } } @keyframes fadeInLeft { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }</style>
+  <style>
+    /* Mobile horizontal containment: ensure no side-to-side panning */
+    html, body { overflow-x: hidden !important; max-width:100vw !important; touch-action: pan-y !important; overscroll-behavior-x: none !important; }
+    img, iframe, video { max-width: 100vw !important; height: auto !important; }
+    .video-modal-content, .player, .video-list { max-width: 100vw !important; }
+      header { animation: slideDown 0.8s ease forwards; } @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } } .hero-text { animation: fadeInRight 1s ease 0.2s both; } .hero-card { animation: fadeInLeft 1s ease 0.4s both; } @keyframes fadeInRight { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } } @keyframes fadeInLeft { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }</style>
+  <meta name="description" content="Watch technical walkthroughs and performance demos by Divine Emmanuel — professional Software Engineer based in Hamilton, ON.">
+  <meta property="og:title" content="Engineering Demos | Divine Emmanuel">
+  <meta property="og:description" content="Watch technical architecture and project demos.">
+  <meta property="og:image" content="../assets/images/image1.jpeg">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+  <a class="skip-link" href="#playerArea">Skip to main content</a>
+  <div class="container">
+    <header>
+      <a class="back" href="../index.html">← Back to Portfolio</a>
+      <h1>Project Demos</h1>
+      <p class="fallback">Technical walkthroughs and architectural overviews.</p>
+    </header>
+
+    <div id="playerArea" class="player" aria-live="polite">
+      <!-- Player will be injected here -->
+    </div>
+
+    <div id="videoList" class="video-list" style="display:none;">
+      <!-- Fallback list of videos -->
+    </div>
+  </div>
+
+  <script>
+    // Map hash keys to video sources. Replace with real YouTube IDs or local file paths.
+    const videos = {
+      video1: { type: 'youtube', src: 'https://www.youtube.com/embed/VIDEO_ID_1' },
+      video2: { type: 'youtube', src: 'https://www.youtube.com/embed/VIDEO_ID_2' },
+      video3: { type: 'youtube', src: 'https://www.youtube.com/embed/VIDEO_ID_3' },
+      video4: { type: 'youtube', src: 'https://www.youtube.com/embed/VIDEO_ID_4' },
+      video5: { type: 'youtube', src: 'https://www.youtube.com/embed/VIDEO_ID_5' },
+      video6: { type: 'youtube', src: 'https://www.youtube.com/embed/VIDEO_ID_6' }
+    };
+
+    function showFallbackList() {
+      const list = document.getElementById('videoList');
+      list.style.display = '';
+      list.innerHTML = Object.keys(videos).map(key => {
+        return `<div class="video-card"><a href="video.html#${key}">${key}</a></div>`;
+      }).join('');
+    }
+
+    function loadVideo(key) {
+      const player = document.getElementById('playerArea');
+      player.innerHTML = '';
+      const v = videos[key];
+      if (!v) { player.innerHTML = '<p>No video found for that id.</p>'; showFallbackList(); return; }
+
+      if (v.type === 'youtube') {
+        const iframe = document.createElement('iframe');
+        iframe.src = v.src + '?rel=0&autoplay=1';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        player.appendChild(iframe);
+      } else if (v.type === 'mp4') {
+        const vid = document.createElement('video');
+        vid.src = v.src;
+        vid.controls = true;
+        vid.autoplay = true;
+        player.appendChild(vid);
+      }
+    }
+
+    // Choose video from hash (#video1) or query param (?v=video1)
+    const hashKey = (location.hash || '').replace('#','');
+    const params = new URLSearchParams(location.search);
+    const qKey = params.get('v');
+    const key = hashKey || qKey;
+
+    if (key) {
+      loadVideo(key);
+    } else {
+      document.getElementById('playerArea').innerHTML = '<p>Select a video from the gallery or choose one below.</p>';
+      showFallbackList();
+    }
+  </script>
+  <!-- WhatsApp floating chat (original logo, no animation) -->
+  <a id="whatsappFloat" class="whatsapp-float" href="https://wa.me/13653845983?text=Hi%20Divine%2C%20I%27d%20like%20to%20discuss%20a%20software%20project.%20Please%20confirm%20availability." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M17.4 14.6c-.4-.2-2.36-1.16-2.72-1.28-.36-.12-.62-.18-.88.18-.24.36-.92 1.28-1.12 1.54-.2.24-.4.27-.76.09-.36-.18-1.52-.56-2.9-1.78-1.08-.96-1.8-2.14-2.02-2.5-.2-.36-.02-.56.16-.74.16-.16.36-.42.54-.63.18-.2.24-.36.36-.6.12-.24.06-.44-.02-.62-.08-.18-.88-2.12-1.2-2.9-.32-.78-.64-.67-.88-.68l-.76-.02c-.24 0-.62.09-.94.42-.3.3-1.16 1.14-1.16 2.76s1.19 3.22 1.36 3.44c.18.24 2.36 3.54 5.72 4.96 3.36 1.42 3.36.94 3.96.88.6-.06 1.92-.78 2.2-1.54.28-.76.28-1.4.2-1.54-.08-.12-.28-.18-.68-.36z" fill="#ffffff"/>
+    </svg>
+  </a>
+  <style>
+    .whatsapp-float { position:fixed; right:18px; bottom:18px; width:96px; height:96px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:#25D366; box-shadow:0 12px 30px rgba(0,0,0,0.18); z-index:4000; text-decoration:none; }
+    .whatsapp-float svg { width:64px; height:64px; display:block; }
+    @media (prefers-reduced-motion: reduce){ .whatsapp-float { transition: none; } }
+      header { animation: slideDown 0.8s ease forwards; } @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } } .hero-text { animation: fadeInRight 1s ease 0.2s both; } .hero-card { animation: fadeInLeft 1s ease 0.4s both; } @keyframes fadeInRight { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } } @keyframes fadeInLeft { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }</style>
+  <!-- Cookie consent + analytics loader -->
+  <div id="cookieConsent" class="cookie-consent" aria-live="polite" style="display:none;">
+    <div class="cookie-text">We use analytics to improve the site. Accept tracking?</div>
+    <div class="cookie-actions">
+      <button id="acceptAnalytics" class="btn">Accept</button>
+      <button id="declineAnalytics" class="btn">Decline</button>
+    </div>
+  </div>
+  <style>
+    .cookie-consent { position:fixed; right:12px; bottom:12px; background:#111; color:#fff; padding:12px 14px; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.4); z-index:3000; display:flex; gap:10px; align-items:center; }
+    .cookie-text { margin-right:8px; }
+    .skip-link{position:absolute;left:8px;top:8px;background:#111;color:#fff;padding:8px 12px;border-radius:6px;z-index:1500;transform:translateY(-120%);transition:transform .18s}
+    .skip-link:focus{transform:translateY(0);}
+      header { animation: slideDown 0.8s ease forwards; } @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } } .hero-text { animation: fadeInRight 1s ease 0.2s both; } .hero-card { animation: fadeInLeft 1s ease 0.4s both; } @keyframes fadeInRight { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } } @keyframes fadeInLeft { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }</style>
+  <script>
+    (function(){
+      function loadAnalytics() {
+        if (window._analyticsLoaded) return;
+        window._analyticsLoaded = true;
+        const id = 'G-XXXXXXXXXX';
+        const s = document.createElement('script');
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+        s.async = true; document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);} window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', id, { anonymize_ip: true });
+      }
+
+      const consent = localStorage.getItem('analyticsConsent');
+      const banner = document.getElementById('cookieConsent');
+      if (consent === 'granted') { loadAnalytics(); }
+      else if (consent === 'declined') { /* do nothing */ }
+      else { banner.style.display = 'flex'; }
+
+      document.getElementById('acceptAnalytics')?.addEventListener('click', function(){
+        localStorage.setItem('analyticsConsent','granted'); loadAnalytics(); banner.style.display = 'none';
+      });
+
+      document.getElementById('declineAnalytics')?.addEventListener('click', function(){
+        localStorage.setItem('analyticsConsent','declined'); banner.style.display = 'none';
+      });
+    })();
+  </script>
+</body>
+</html>

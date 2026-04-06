@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deep Dive | Divine Emmanuel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Georgia, 'Times New Roman', serif;
+      background: #0b0b0b;
+      color: #f5f5f5;
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1180px;
+      margin: auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(10, 10, 10, 0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+    }
+
+    .brand {
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #d4af37;
+      letter-spacing: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 22px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      font-size: 0.95rem;
+      color: #f5f5f5;
+      transition: color 0.3s ease;
+      position: relative;
+      padding: 5px 0;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #d4af37;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+    }
+
+    .nav-links a:hover {
+      color: #d4af37;
+      transform: translateY(-2px);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-links a {
+      display: inline-block;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    /* Professional App Flow Visualization Styles */
+    .app-flow-visualization {
+      margin-top: 60px;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .flow-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      gap: 20px;
+      min-height: 400px;
+      flex-wrap: wrap;
+    }
+    .flow-screen {
+      flex: 1;
+      min-width: 200px;
+      max-width: 280px;
+      background: #1a1a1a;
+      border: 2px solid #333;
+      border-radius: 15px;
+      padding: 10px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      position: relative;
+      z-index: 2;
+      transition: transform 0.3s ease;
+    }
+    .flow-screen:hover {
+      transform: translateY(-10px);
+      border-color: #d4af37;
+    }
+    .screen-header {
+      height: 20px;
+      background: #222;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      display: flex;
+      gap: 5px;
+      align-items: center;
+      padding-left: 8px;
+    }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: #444; }
+    .screen-content {
+      height: 320px;
+      background: #0d0d0d;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      padding: 15px;
+    }
+    .skeleton-line { height: 8px; background: #222; border-radius: 4px; }
+    .skeleton-box { height: 120px; background: #1a1a1a; border-radius: 8px; border: 1px dashed #333; }
+    
+    /* Live Dashboard Styles */
+    .dashboard-split {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 30px;
+      margin-bottom: 50px;
+      align-items: stretch;
+    }
+    .img-highlight {
+      border-radius: 15px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      overflow: hidden;
+      height: 100%;
+    }
+    .img-highlight img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.5s ease;
+    }
+    .img-highlight:hover img { transform: scale(1.05); }
+
+    .live-dashboard {
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 15px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+      position: relative;
+    }
+    .dash-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #222;
+    }
+    .dash-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+    .stat-card {
+      background: #1a1a1a;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 3px solid #d4af37;
+    }
+    .stat-value {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+      display: block;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: #777;
+      text-transform: uppercase;
+    }
+    .dash-chart-area {
+      flex-grow: 1;
+      background: #0d0d0d;
+      border-radius: 10px;
+      padding: 15px;
+      min-height: 200px;
+      position: relative;
+    }
+    .bar-group {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      height: 120px;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+    .animated-bar {
+      width: 25px;
+      background: linear-gradient(to top, #d4af37, #f0cb57);
+      border-radius: 4px 4px 0 0;
+      height: var(--h);
+      opacity: 0.8;
+    }
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: #2ecc71;
+    }
+    .pulse-ring {
+      width: 8px;
+      height: 8px;
+      background: #2ecc71;
+      border-radius: 50%;
+      position: relative;
+    }
+    .pulse-ring::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: 2px solid #2ecc71;
+      border-radius: 50%;
+      
+    }
+    @keyframes ripple {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(3); opacity: 0; }
+    }
+
+    /* AI Robot & Echo Text Styles */
+    .ai-robot-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 0;
+      min-height: 500px;
+      position: relative;
+      background: radial-gradient(circle at center, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+    }
+    
+    /* Humanoid AI Robot Styles */
+    .humanoid-robot {
+      width: 120px;
+      height: 180px;
+      position: relative;
+      margin-bottom: 20px;
+      
+    }
+    .robot-head {
+      width: 50px;
+      height: 60px;
+      background: linear-gradient(135deg, #222, #000);
+      border: 2px solid #d4af37;
+      border-radius: 20px 20px 10px 10px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .robot-visor {
+      width: 35px;
+      height: 8px;
+      background: #d4af37;
+      margin: 15px auto 0;
+      box-shadow: 0 0 10px #d4af37;
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+    .robot-visor::after {
+      content: '';
+      position: absolute;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+      
+    }
+    .robot-body {
+      width: 70px;
+      height: 90px;
+      background: #111;
+      border: 2px solid rgba(212, 175, 55, 0.4);
+      margin: 5px auto 0;
+      border-radius: 10px 10px 5px 5px;
+      position: relative;
+    }
+    .robot-arm {
+      width: 15px;
+      height: 70px;
+      background: #0d0d0d;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      position: absolute;
+      top: 5px;
+      border-radius: 8px;
+    }
+    .robot-arm.left { left: -20px; transform: rotate(10deg); }
+    .robot-arm.right { right: -20px; transform: rotate(-10deg); }
+    
+    @keyframes float-bot {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    @keyframes eye-scan {
+      to { left: 100%; }
+    }
+
+    .echo-container {
+      height: 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      perspective: 1000px;
+    }
+    
+    .echo-text {
+      font-family: 'Courier New', monospace;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #d4af37;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      position: relative;
+      opacity: 0;
+      
+    }
+    
+    .echo-text::before, .echo-text::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      opacity: 0.3;
+    }
+    
+    .echo-text::before {
+      
+      color: #fff;
+    }
+    .echo-text::after {
+      
+      color: #d4af37;
+    }
+
+    @keyframes echo-fade {
+      0%, 100% { opacity: 0; transform: scale(0.8) translateZ(-100px); }
+      20%, 80% { opacity: 1; transform: scale(1) translateZ(0); }
+    }
+    
+    @keyframes echo-layer-1 {
+      0%, 20% { transform: scale(1); opacity: 0; }
+      50% { transform: scale(1.5) translateZ(50px); opacity: 0.2; }
+      100% { transform: scale(2) translateZ(100px); opacity: 0; }
+    }
+    
+    @keyframes echo-layer-2 {
+      0%, 30% { transform: scale(1); opacity: 0; }
+      60% { transform: scale(1.8) translateZ(80px); opacity: 0.1; }
+      100% { transform: scale(2.5) translateZ(150px); opacity: 0; }
+    }
+
+    /* Internal Feature Badges */
+    .feature-tag {
+      font-size: 0.6rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(212, 175, 55, 0.1);
+      color: #d4af37;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      display: inline-block;
+      margin-bottom: 5px;
+    }
+    .pulse-dot {
+      width: 4px;
+      height: 4px;
+      background: #d4af37;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+      box-shadow: 0 0 5px #d4af37;
+      
+    }
+    @keyframes point-pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: 0.5; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Flow Lines SVG */
+    .flow-lines-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .connector-line {
+      fill: none;
+      stroke: rgba(212, 175, 55, 0.2);
+      stroke-width: 2;
+      stroke-dasharray: 5, 5;
+      
+    }
+    @keyframes dash {
+      to { stroke-dashoffset: -1000; }
+    }
+
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.80)),
+        url('../assets/images/image2.jpeg') center/cover no-repeat;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(7px);
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+      width: 100%;
+      padding: 70px 0;
+    }
+
+    .hero-text .sub {
+      color: #d4af37;
+      font-size: 0.95rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .hero-text h1 {
+      font-size: 3.2rem;
+      line-height: 1.1;
+      margin-bottom: 18px;
+      color: #fff;
+    }
+
+    .hero-text p {
+      max-width: 620px;
+      color: #e6e6e6;
+      font-size: 1.05rem;
+      margin-bottom: 26px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 13px 22px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 0.95rem;
+      transition: 0.3s ease;
+    }
+
+    .btn-primary {
+      background: #d4af37;
+      color: #111;
+    }
+
+    .btn-primary:hover {
+      background: #f0cb57;
+    }
+
+    .btn-outline {
+      border: 1px solid #d4af37;
+      color: #d4af37;
+      background: transparent;
+    }
+
+    .btn-outline:hover {
+      background: #d4af37;
+      color: #111;
+    }
+
+    .hero-card {
+      position: relative;
+      z-index: 2;
+      background: rgba(17,17,17,0.85);
+      border: 1px solid rgba(212,175,55,0.3);
+      padding: 18px;
+      border-radius: 14px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.34);
+    }
+
+    .hero-card img {
+      width: 100%;
+      border-radius: 10px;
+      max-height: 650px;
+      object-fit: cover;
+    }
+
+    section {
+      padding: 85px 0;
+    }
+
+    .section-dark {
+      background: #121212;
+    }
+
+    .section-title {
+      text-align: center;
+      color: #d4af37;
+      font-size: 2.2rem;
+      margin-bottom: 14px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 48px;
+      color: #d8d8d8;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .story-box {
+      background: #181818;
+      border-left: 4px solid #d4af37;
+      padding: 30px;
+      border-radius: 10px;
+    }
+
+    .story-box p {
+      color: #e4e4e4;
+      margin-bottom: 16px;
+    }
+
+    .story-image img {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 32px;
+    }
+
+    .stat-card {
+      background: #191919;
+      text-align: center;
+      padding: 24px 18px;
+      border-radius: 10px;
+      border-top: 3px solid #d4af37;
+    }
+
+    .stat-card h3 {
+      font-size: 1.9rem;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .stat-card p {
+      color: #d7d7d7;
+      font-size: 0.95rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .feature-card {
+      background: #191919;
+      padding: 28px 22px;
+      border-radius: 10px;
+      border-top: 3px solid #d4af37;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    }
+
+    .feature-card h3 {
+      margin-bottom: 10px;
+      color: #fff;
+    }
+
+    .feature-card p {
+      color: #d8d8d8;
+      font-size: 0.97rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      border-radius: 12px;
+      transition: transform 0.35s ease, opacity 0.35s ease;
+    }
+
+    .gallery-grid img:hover {
+      transform: scale(1.02);
+      opacity: 0.9;
+    }
+
+    .booking-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .booking-box,
+    .side-box {
+      background: #181818;
+      padding: 32px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .booking-form {
+      display: grid;
+      gap: 16px;
+    }
+
+    .booking-form input,
+    .booking-form select,
+    .booking-form textarea {
+      width: 100%;
+      padding: 14px;
+      background: #101010;
+      border: 1px solid #2d2d2d;
+      color: #fff;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .booking-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .estimate-box {
+      padding: 14px;
+      background: #0f0f0f;
+      border-left: 4px solid #d4af37;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    .rate-highlight {
+      margin-top: 22px;
+      padding: 20px;
+      border-radius: 10px;
+      background: rgba(212,175,55,0.08);
+      border: 1px solid rgba(212,175,55,0.25);
+    }
+
+    .rate-highlight h3 {
+      color: #d4af37;
+      margin-bottom: 10px;
+    }
+
+    .rate-highlight p {
+      color: #ececec;
+      margin-bottom: 8px;
+    }
+
+    .side-box h3 {
+      color: #d4af37;
+      margin-bottom: 14px;
+    }
+
+    .side-box p {
+      color: #e2e2e2;
+      margin-bottom: 10px;
+    }
+
+    .side-box img {
+      margin-top: 18px;
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .quote-box {
+      max-width: 900px;
+      margin: auto;
+      text-align: center;
+      background: linear-gradient(135deg, #151515, #0d0d0d);
+      border: 1px solid rgba(212,175,55,0.22);
+      border-radius: 14px;
+      padding: 34px;
+    }
+
+    .quote-box p {
+      font-size: 1.2rem;
+      color: #f3f3f3;
+      margin-bottom: 12px;
+    }
+
+    .quote-box span {
+      color: #d4af37;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    footer {
+      background: #080808;
+      padding: 24px 0;
+      text-align: center;
+      color: #aaa;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero-content,
+      .story-grid,
+      .feature-grid,
+      .gallery-grid,
+      .booking-layout,
+      .stats-grid {
+        grid-template-columns: 1fr;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      .hero-text {
+        text-align: center;
+        order: 2;
+      }
+
+      .hero-card {
+        order: 1;
+        margin-bottom: 25px;
+      }
+
+      .hero-card img {
+        max-width: 280px;
+        margin: 0 auto;
+        border-radius: 15px;
+      }
+
+      .nav {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 15px 15px;
+      }
+
+      .nav-links {
+        justify-content: flex-end;
+        gap: 15px;
+      }
+
+      .hero-text h1 {
+        font-size: 2.1rem;
+      }
+
+      .story-image img,
+      .gallery-grid img {
+        height: auto;
+        max-height: 350px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .hero-text h1 {
+        font-size: 1.8rem;
+      }
+
+      .section-title {
+        font-size: 1.6rem;
+      }
+
+      .btn-group {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+      }
+      
+      .hero-text .hero-full { display: none; }
+      .hero-text .hero-brief { display: block; font-size: 0.95rem; color: #e6e6e6; margin-bottom: 18px; }
+    }
+
+    /* Additional responsive tweaks for tablet and small phones */
+    @media (max-width: 900px) {
+      .hero-content,
+      .story-grid,
+      .feature-grid,
+      .gallery-grid,
+      .booking-layout,
+      .stats-grid,
+      .about-grid,
+      .flyer-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 40px 0;
+      }
+
+      .hero-card img,
+      .story-image img,
+      .gallery-grid img,
+      .flyer-image img {
+        max-height: 420px;
+        height: auto;
+        object-fit: cover;
+      }
+
+      .booking-box,
+      .side-box,
+      .card,
+      .flyer-text {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-text h1 { font-size: 1.6rem; }
+      .hero-text p, .section-subtitle, .about-box p { font-size: 0.95rem; }
+      .btn { width: 100%; }
+      .booking-box { padding: 16px; }
+      .gallery-grid img { height: auto; }
+      .booking-form input, .booking-form textarea, .booking-form select { padding: 12px; font-size: 0.95rem; }
+      .rate-price { font-size: 1.8rem; }
+    }
+
+    /* Animation helpers */
+    .fade-img {
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      opacity: 1;
+      will-change: opacity, transform;
+    }
+
+    .fade-img.hidden {
+      opacity: 0;
+      transform: scale(0.98);
+    }
+
+    .gallery-grid img {
+      opacity: 0.92;
+      transition: opacity 0.45s ease, transform 0.45s ease;
+      transform: translateY(6px);
+    }
+
+    .gallery-grid img.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .btn {
+      transition: transform 0.14s ease, box-shadow 0.14s ease;
+    }
+
+    .btn:active { transform: translateY(1px) scale(0.995); }
+      header { animation: slideDown 0.8s ease forwards; } @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } } .hero-text { animation: fadeInRight 1s ease 0.2s both; } .hero-card { animation: fadeInLeft 1s ease 0.4s both; } @keyframes fadeInRight { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } } @keyframes fadeInLeft { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }</style>
+
+  <!-- Cookie consent + analytics loader -->
+  <div id="cookieConsent" class="cookie-consent" aria-live="polite" style="display:none;">
+    <div class="cookie-text">We use analytics to improve the site. Accept tracking?</div>
+    <div class="cookie-actions">
+      <button id="acceptAnalytics" class="btn btn-primary">Accept</button>
+      <button id="declineAnalytics" class="btn btn-outline">Decline</button>
+    </div>
+  </div>
+  <style>
+    .cookie-consent { position:fixed; right:12px; bottom:12px; background:#111; color:#fff; padding:12px 14px; border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,0.4); z-index:3000; display:flex; gap:10px; align-items:center; }
+    .cookie-text { margin-right:8px; }
+    .skip-link{position:absolute;left:8px;top:8px;background:#111;color:#fff;padding:8px 12px;border-radius:6px;z-index:1500;transform:translateY(-120%);transition:transform .18s}
+    .skip-link:focus{transform:translateY(0);}
+      header { animation: slideDown 0.8s ease forwards; } @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } } .hero-text { animation: fadeInRight 1s ease 0.2s both; } .hero-card { animation: fadeInLeft 1s ease 0.4s both; } @keyframes fadeInRight { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } } @keyframes fadeInLeft { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }</style>
+  <script>
+    (function(){
+      function loadAnalytics() {
+        if (window._analyticsLoaded) return;
+        window._analyticsLoaded = true;
+        const id = 'G-XXXXXXXXXX';
+        const s = document.createElement('script');
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+        s.async = true; document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);} window.gtag = gtag;
+        gtag('js', new Date());
+        gtag('config', id, { anonymize_ip: true });
+      }
+
+      const consent = localStorage.getItem('analyticsConsent');
+      const banner = document.getElementById('cookieConsent');
+      if (consent === 'granted') { loadAnalytics(); }
+      else if (consent === 'declined') { /* do nothing */ }
+      else { banner.style.display = 'flex'; }
+
+      document.getElementById('acceptAnalytics')?.addEventListener('click', function(){
+        localStorage.setItem('analyticsConsent','granted'); loadAnalytics(); banner.style.display = 'none';
+      });
+
+      document.getElementById('declineAnalytics')?.addEventListener('click', function(){
+        localStorage.setItem('analyticsConsent','declined'); banner.style.display = 'none';
+      });
+    })();
+  </script>
+  <!-- AOS (Animate On Scroll) -->
+  
+  <!-- SEO & Social -->
+  <meta name="description" content="Inside — Divine Emmanuel. A closer look at professional software engineering services and project insights.">
+  <link rel="canonical" href="https://yourdomain.example.com/inside.html">
+  <meta property="og:title" content="Inside | Divine Emmanuel">
+  <meta property="og:description" content="A deeper look into my engineering journey, expertise, and software solutions.">
+  <meta property="og:image" content="image1.jpeg">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+  <a class="skip-link" href="#story">Skip to main content</a>
+
+  <header>
+    <div class="container nav">
+      <div class="brand">DIVINE EMMANUEL</div>
+      <nav class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../index.html#about">About</a>
+        <a href="inside.html">Deep Dive</a>
+        <a href="estimator.html">Estimator</a>
+        <a href="../index.html#booking">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="hero-text">
+        <div class="sub">Engineering Excellence</div>
+        <h1>A deeper look into my software development philosophy and process.</h1>
+        <p class="hero-full">
+          Welcome to the deep dive — a technical overview of my approach to 
+          building modern software. From mobile architecture in React Native 
+          to scalable web systems with Next.js, explore the craftsmanship 
+          behind the code.
+        </p>
+        <p class="hero-brief" style="display:none;">A technical look at my engineering journey and expertise.</p>
+        <div class="btn-group">
+          <a href="#booking" class="btn btn-primary">Start a Project</a>
+          <a href="#gallery" class="btn btn-outline">View Projects</a>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <img src="../assets/images/image1.jpeg" alt="Divine Emmanuel portrait" />
+      </div>
+    </div>
+  </section>
+
+  <section id="story" class="section-dark">
+    <div class="container">
+      <h2 class="section-title">Professional Journey</h2>
+      <p class="section-subtitle">
+        Building high-performance digital products for the global market.
+      </p>
+
+      <div class="story-grid">
+        <div class="story-box">
+          <p>
+            I am Divine Emmanuel, a Full-Stack Software Engineer based in Hamilton, Ontario. 
+            With a focus on the JavaScript ecosystem, I specialize in building complex, 
+            high-performance web and mobile applications.
+          </p>
+          <p>
+            My engineering philosophy centers on clean code, scalable architecture, and 
+            user-centric design. I believe that software should not just function, but 
+            provide a seamless, accessible experience for every user, regardless of their 
+            device or network conditions.
+          </p>
+          <p>
+            Whether it's a dynamic real-time dashboard or a cross-platform mobile app, I 
+            bring a disciplined approach to development, testing, and deployment.
+          </p>
+        </div>
+
+        <div class="story-image">
+          <img src="../assets/images/image3.jpeg" alt="Divine Emmanuel - Software Engineer" />
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>5+</h3>
+          <p>Years of Expertise</p>
+        </div>
+        <div class="stat-card">
+          <h3>$120</h3>
+          <p>Consulting Rate</p>
+        </div>
+        <div class="stat-card">
+          <h3>48h</h3>
+          <p>Response Time</p>
+        </div>
+        <div class="stat-card">
+          <h3>ON</h3>
+          <p>Hamilton, Canada</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features">
+    <div class="container">
+      <h2 class="section-title">Technical Expertise</h2>
+      <p class="section-subtitle">
+        Specializing in modern technologies that power the future.
+      </p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>Frontend Development</h3>
+          <p>
+            Building rich, performant, and responsive web applications with 
+            Next.js, React, and TypeScript.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h3>Mobile Engineering</h3>
+          <p>
+            Native-quality cross-platform applications for iOS and Android built 
+            with React Native.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h3>Cloud Management</h3>
+          <p>
+            Efficiently managing deployments, CI/CD pipelines, and cloud backend 
+            services for 99.9% uptime.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h3>System Architecture</h3>
+          <p>
+            Designing scalable, secure, and maintainable systems from 
+            concept to production.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h3>API Integration</h3>
+          <p>
+            Seamlessly integrating payment gateways (Stripe), third-party APIs, and 
+            robust backend services.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h3>Software Mentorship</h3>
+          <p>
+            Guidance for engineering teams and individuals to master modern 
+            JavaScript, React, and DevOps.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="section-dark">
+    <div class="container">
+      <h2 class="section-title">Project Deep Dives</h2>
+      <p class="section-subtitle">
+        Visual case studies of technical architecture and UI design.
+      </p>
+
+      <div class="dashboard-split">
+        <!-- One specific image highlight -->
+        <div class="img-highlight">
+           <img src="../assets/images/image2.jpeg" alt="Technical Architecture Highlight" />
+        </div>
+
+        <!-- Live Adaptive Dashboard Logic (CSS-based animation) -->
+        <div class="live-dashboard">
+          <div class="dash-header">
+             <div style="font-size: 1.1rem; font-weight: bold; color: #d4af37;">SaaS Cloud Analytics <span style="font-size: 0.7rem; color: #555;">(Live Demo)</span></div>
+             <div class="status-indicator">
+                <div class="pulse-ring"></div>
+                 Real-time Sync
+             </div>
+          </div>
+          
+          <div class="dash-stats">
+            <div class="stat-card">
+              <span class="stat-value">$142.4k</span>
+              <span class="stat-label">Total Volume</span>
+            </div>
+            <div class="stat-card" style="border-left-color: #2ecc71;">
+              <span class="stat-value">98.2%</span>
+              <span class="stat-label">Cache Hit</span>
+            </div>
+            <div class="stat-card" style="border-left-color: #3498db;">
+              <span class="stat-value">12ms</span>
+              <span class="stat-label">Latency</span>
+            </div>
+          </div>
+
+          <div class="dash-chart-area">
+             <div style="font-size: 0.75rem; color: #666; margin-bottom: 10px;">Load Distribution (%)</div>
+             <div class="bar-group">
+                <div class="animated-bar" style="--h: 60%;"></div>
+                <div class="animated-bar" style="--h: 85%; transition-delay: 0.2s;"></div>
+                <div class="animated-bar" style="--h: 45%; transition-delay: 0.4s;"></div>
+                <div class="animated-bar" style="--h: 70%; transition-delay: 0.6s;"></div>
+                <div class="animated-bar" style="--h: 92%; transition-delay: 0.8s;"></div>
+                <div class="animated-bar" style="--h: 30%; transition-delay: 1s;"></div>
+             </div>
+             <div style="display:flex; justify-content:space-between; margin-top:20px;">
+                <div class="skeleton-line" style="width: 25%; height:4px; background:#222;"></div>
+                <div class="skeleton-line" style="width: 25%; height:4px; background:#d4af3733;"></div>
+                <div class="skeleton-line" style="width: 25%; height:4px; background:#222;"></div>
+             </div>
+          </div>
+
+          <div style="background: rgba(255,255,255,0.03); border-radius: 8px; padding: 12px; font-size: 0.7rem; color: #888; border: 1px dashed #333;">
+             <span style="color:#d4af37;">System Event:</span> POST /api/v1/inventory_sync — Status 200 OK
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Technical Oracle (Humanoid Format) -->
+      <div class="ai-robot-container" style="margin-top:20px;">
+        <div class="humanoid-robot">
+           <div class="robot-head">
+              <div class="robot-visor"></div>
+           </div>
+           <div class="robot-body">
+              <div class="robot-arm left"></div>
+              <div class="robot-arm right"></div>
+              <div style="position:absolute; bottom:10px; left:15px; right:15px; height:2px; background:#d4af37; opacity:0.3;"></div>
+           </div>
+           <div style="width:100%; height:10px; background:radial-gradient(rgba(212,175,55,0.2), transparent); border-radius:50%; margin-top:10px;"></div>
+        </div>
+        
+        <div class="echo-container">
+           <div id="echoText" class="echo-text" data-text="INITIALIZING SYSTEM">INITIALIZING SYSTEM</div>
+        </div>
+        
+        <p style="color: #444; font-size: 0.75rem; letter-spacing: 2px; margin-top: 20px; text-transform:uppercase;">Technical Intelligence Nexus</p>
+      </div>
+
+      <script>
+        (function(){
+          const phrases = [
+            "OPTIMIZING CLOUD NODES",
+            "REFACTORING CORE API",
+            "SYNCING REAL-TIME DATA",
+            "DEPLOYING SAAS ENGINE",
+            "EXECUTING SECURE AUTH",
+            "LATENCY OPTIMIZATION"
+          ];
+          let index = 0;
+          const el = document.getElementById('echoText');
+          if(el) {
+            setInterval(() => {
+              index = (index + 1) % phrases.length;
+              el.setAttribute('data-text', phrases[index]);
+              el.innerHTML = phrases[index];
+            }, 4000);
+          }
+        })();
+      </script>
+
+      <!-- Professional App Flow Visualizer -->
+      <div class="app-flow-visualization">
+        <h3 style="color:#d4af37; text-align:center; margin-bottom: 2rem; text-transform:uppercase; letter-spacing:2px; font-size:1rem;">Multi-Screen Architecture Mapping</h3>
+        <div class="flow-container">
+          <!-- SVG for animating connector lines -->
+          <svg class="flow-lines-svg">
+            <path class="connector-line" d="M100 150 Q 250 50, 450 150 T 850 150" />
+            <path class="connector-line" d="M100 250 Q 250 350, 450 250 T 850 250" />
+          </svg>
+
+          <!-- Screen 1: Inventory Management -->
+          <div class="flow-screen">
+            <div class="screen-header">
+              <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="screen-content">
+              <div class="feature-tag"><span class="pulse-dot"></span>Cloud Sync 1.0</div>
+              <div class="skeleton-line" style="width: 80%; background:#d4af37; opacity:0.3;"></div>
+              <div class="skeleton-box" style="display:flex; flex-direction:column; gap:5px; padding:10px;">
+                <div style="height:4px; width:40%; background:#333;"></div>
+                <div style="height:4px; width:90%; background:#222;"></div>
+                <div style="height:40px; background:#111; border-radius:4px; margin-top:5px; border:1px solid #333;"></div>
+              </div>
+              <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
+                 <div style="height:15px; background:#111; border-radius:3px;"></div>
+                 <div style="height:15px; background:#111; border-radius:3px;"></div>
+              </div>
+              <div class="skeleton-line" style="width: 60%;"></div>
+              <div style="font-size: 0.7rem; color: #555; text-align: center; margin-top: 10px;">Inventory Module</div>
+            </div>
+          </div>
+
+          <!-- Screen 2: Real-time Filtering Engine -->
+          <div class="flow-screen" style="transform: scale(1.1); border-color: rgba(212, 175, 55, 0.4);">
+            <div class="screen-header">
+              <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="screen-content">
+              <div class="feature-tag" style="background:rgba(0,255,100,0.05); color:#2ecc71; border-color:#2ecc7133;"><span class="pulse-dot" style="background:#2ecc71; box-shadow:0 0 5px #2ecc71;"></span>Live Websockets</div>
+              <div class="skeleton-line" style="width: 90%; background:#d4af37;"></div>
+              <div style="display:flex; gap:10px;">
+                <div class="skeleton-box" style="flex:1; height:60px; border-color:#d4af3733;">
+                  <div style="height:100%; border-right:1px solid #222; width:20%;"></div>
+                </div>
+                <div class="skeleton-box" style="flex:1; height:60px; background:rgba(212,175,55,0.05);"></div>
+              </div>
+              <div class="skeleton-box" style="height:80px; position:relative; overflow:hidden;">
+                <div style="position:absolute; bottom:0; left:0; right:0; height:30%; background:linear-gradient(transparent, #d4af3711);"></div>
+                <div style="height:10px; width:10px; background:#d4af37; border-radius:50%; position:absolute; top:20%; left:30%; opacity:0.3;"></div>
+              </div>
+              <div class="skeleton-line" style="width: 40%;"></div>
+              <div style="font-size: 0.7rem; color: #d4af37; text-align: center; margin-top: 10px;">Filtering Engine (Live)</div>
+            </div>
+          </div>
+
+          <!-- Screen 3: Transactional Gateway -->
+          <div class="flow-screen">
+            <div class="screen-header">
+              <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="screen-content">
+              <div class="feature-tag"><span class="pulse-dot"></span>Stripe v3 API</div>
+              <div class="skeleton-line" style="width: 70%; background:#d4af37; opacity:0.3;"></div>
+              <div class="skeleton-box" style="height:100px; border-style:solid; display:flex; align-items:center; justify-content:center;">
+                <div style="width:40px; height:40px; border:2px solid #333; border-radius:50%; border-top-color:#d4af37;"></div>
+              </div>
+              <div class="skeleton-line" style="width: 100%; height:20px; background:#111; border:1px solid #222;"></div>
+              <div class="skeleton-line" style="width: 100%;"></div>
+              <div style="font-size: 0.7rem; color: #555; text-align: center; margin-top: 20px;">Secure Checkout</div>
+            </div>
+          </div>
+        </div>
+        <p style="text-align:center; color:#777; font-size: 0.85rem; margin-top:20px; font-style:italic;">
+          *Interactive architectural mapping of the SaaS ecosystem, demonstrating cross-module data flow and UI state synchronization.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="booking">
+    <div class="container">
+      <h2 class="section-title">Enquire & Start Project</h2>
+      <p class="section-subtitle">
+        Submit your project requirements below for a detailed estimate and timeline.
+      </p>
+
+      <div class="booking-layout">
+        <div class="booking-box">
+          <form class="booking-form" id="bookingForm">
+              <label class="sr-only" for="name">Full name</label>
+              <input type="text" id="name" placeholder="Full Name" aria-label="Full name" required />
+              <label class="sr-only" for="email">Email address</label>
+              <input type="email" id="email" placeholder="Email Address" aria-label="Email address" required />
+              <label class="sr-only" for="organization">Company or project name</label>
+              <input type="text" id="organization" placeholder="Company / Project / Startup Name" aria-label="Organization or event name" />
+              <label class="sr-only" for="date">Estimated start date</label>
+              <input type="date" id="date" aria-label="Booking date" required />
+
+            <label class="sr-only" for="serviceType">Service type</label>
+            <select id="serviceType" aria-label="Service type">
+              <option value="SaaS Development">SaaS Development</option>
+              <option value="Mobile App (React Native)">Mobile App (React Native)</option>
+              <option value="Next.js Web App">Next.js Web App</option>
+              <option value="Technical Strategy">Technical Strategy</option>
+              <option value="Code Architecture">Code Architecture</option>
+              <option value="Dev Tutoring">Dev Tutoring</option>
+              <option value="Special Tech Project">Special Tech Project</option>
+            </select>
+
+            <label class="sr-only" for="hours">Initial hours (Estimate)</label>
+            <input type="number" id="hours" min="2" value="2" aria-label="Number of hours" required />
+            <label class="sr-only" for="message">Project details</label>
+            <textarea id="message" placeholder="Tell me about your technical requirements, goals, or current stack..." aria-label="Booking message"></textarea>
+
+            <div class="estimate-box" id="estimateBox">Estimated Initial: $240</div>
+
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:6px;">
+              <button type="submit" class="btn btn-primary">Submit Project Intent</button>
+              <button type="button" id="payButton" class="btn btn-primary">Book & Pay</button>
+            </div>
+          </form>
+
+          <div class="rate-highlight">
+            <h3>Investment Information</h3>
+            <p><strong>Consulting Rate:</strong> $120/hour</p>
+            <p><strong>Initial Engagement:</strong> 2 hours</p>
+            <p>Fixed-price project options available after technical review.</p>
+          </div>
+        </div>
+
+        <div class="side-box" id="contact">
+          <h3>Contact Details</h3>
+          <p><strong>Name:</strong> Divine Emmanuel</p>
+          <p><strong>Email:</strong> divineemmanuel214@gmail.com</p>
+          <p><strong>Phone / WhatsApp:</strong> +1 (365) 384-5983</p>
+          <p><strong>Location:</strong> Hamilton, ON, Canada</p>
+          <p>
+            Available for full-time contracts, technical consulting, and 
+            high-impact project collaborations.
+          </p>
+          <img src="../assets/images/Image_06.png" alt="Divine Emmanuel technical showcase" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-dark">
+    <div class="container">
+      <div class="quote-box">
+        <p>
+          “Software engineering is not just writing code — it is building systems with 
+          the discipline of architecture and the creativity of design.”
+        </p>
+        <span>DIVINE EMMANUEL</span>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      © 2026 Divine Emmanuel. All rights reserved.
+    </div>
+  </footer>
+
+  <script>
+    const hourlyRate = 120;
+    // Stripe Payment Link (created in your Stripe Dashboard)
+    const PAYMENT_LINK_URL = 'https://buy.stripe.com/5kQ9ASgRB19370v7O96c000';
+
+    const hoursInput = document.getElementById("hours");
+    const estimateBox = document.getElementById("estimateBox");
+    const bookingForm = document.getElementById("bookingForm");
+    const payButton = document.getElementById('payButton');
+
+    function updateEstimate() {
+      const hours = parseInt(hoursInput.value) || 2;
+      const total = hours * hourlyRate;
+      estimateBox.textContent = `Estimated Initial: $${total}`;
+    }
+
+    function gatherBookingData() {
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const organization = document.getElementById("organization").value.trim();
+      const date = document.getElementById("date").value;
+      const serviceType = document.getElementById("serviceType").value;
+      const hours = parseInt(document.getElementById("hours").value) || 2;
+      const message = document.getElementById("message").value.trim();
+      const total = hours * hourlyRate;
+
+      return { name, email, organization, date, serviceType, hours, message, total };
+    }
+
+    hoursInput.addEventListener("input", updateEstimate);
+
+    bookingForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const data = gatherBookingData();
+
+      alert(
+        `Booking Request Submitted\n\nName: ${data.name}\nEmail: ${data.email}\nOrganization: ${data.organization}\nDate: ${data.date}\nService: ${data.serviceType}\nHours: ${data.hours}\nEstimated Total: $${data.total}\n\nMessage: ${data.message}`
+      );
+
+      bookingForm.reset();
+      document.getElementById("hours").value = 2;
+      updateEstimate();
+    });
+
+    payButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      const data = gatherBookingData();
+
+      try {
+        localStorage.setItem('pendingBooking', JSON.stringify(data));
+      } catch (err) {
+        // ignore storage errors
+      }
+
+      // Open the Stripe Payment Link in a new tab
+      window.open(PAYMENT_LINK_URL, '_blank');
+    });
+
+    updateEstimate();
+  </script>
+  <script>
+    // Hero carousel + gallery fade-in for smoother mobile experience
+    (function() {
+      const heroImg = document.querySelector('.hero-card img');
+      const heroImages = ['../assets/images/image1.jpeg','../assets/images/image2.jpeg','../assets/images/image3.jpeg','../assets/images/image7.jpeg'];
+      let hi = 0;
+      if (heroImg) {
+        heroImg.classList.add('fade-img');
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      document.querySelectorAll('.gallery-grid img').forEach(img => {
+        img.classList.add('fade-img');
+        io.observe(img);
+      });
+    })();
+  </script>
+  
+  <script>
+    
+  </script>
+  <!-- Video modal -->
+  <div id="videoModal" class="video-modal" aria-hidden="true">
+    <div class="video-modal-backdrop" data-action="close"></div>
+    <div class="video-modal-content" role="dialog" aria-modal="true" tabindex="-1">
+      <button class="video-modal-close" aria-label="Close video">✕</button>
+      <div id="videoModalPlayer" class="video-modal-player"></div>
+    </div>
+  </div>
+  <style>
+    .video-modal { position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:2000; }
+    .video-modal.show { display:flex; }
+    .video-modal-backdrop { position:absolute; inset:0; background:rgba(0,0,0,0.75); }
+    .video-modal-content { position:relative; width:92%; max-width:980px; background:transparent; border-radius:8px; z-index:2; }
+    .video-modal-player iframe, .video-modal-player video { width:100%; height:60vh; border-radius:6px; }
+    .video-modal-close { position:absolute; right:-6px; top:-28px; background:#111; color:#fff; border:0; padding:8px 10px; border-radius:20px; cursor:pointer; font-size:14px; z-index:3; }
+    @media (max-width:600px){ .video-modal-player iframe, .video-modal-player video { height:52vh; } }
+      header { animation: slideDown 0.8s ease forwards; } @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } } .hero-text { animation: fadeInRight 1s ease 0.2s both; } .hero-card { animation: fadeInLeft 1s ease 0.4s both; } @keyframes fadeInRight { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } } @keyframes fadeInLeft { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }</style>
+
+  <script>
+    (function(){
+      const videoMap = {
+        video1: 'https://www.youtube.com/embed/VIDEO_ID_1',
+        video2: 'https://www.youtube.com/embed/VIDEO_ID_2',
+        video3: 'https://www.youtube.com/embed/VIDEO_ID_3',
+        video4: 'https://www.youtube.com/embed/VIDEO_ID_4',
+        video5: 'https://www.youtube.com/embed/VIDEO_ID_5',
+        video6: 'https://www.youtube.com/embed/VIDEO_ID_6'
+      };
+
+      const modal = document.getElementById('videoModal');
+      const player = document.getElementById('videoModalPlayer');
+      const closeBtn = modal.querySelector('.video-modal-close');
+
+      let _lastFocus = null;
+      function openModal(key) {
+        const src = videoMap[key];
+        if (!src) return;
+        _lastFocus = document.activeElement;
+        player.innerHTML = '';
+        const iframe = document.createElement('iframe');
+        iframe.src = src + '?rel=0&autoplay=1';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        player.appendChild(iframe);
+        modal.classList.add('show');
+        modal.setAttribute('aria-hidden','false');
+        document.body.style.overflow = 'hidden';
+        const closeBtn = modal.querySelector('.video-modal-close');
+        if (closeBtn) closeBtn.focus();
+      }
+
+      function closeModal(){
+        modal.classList.remove('show');
+        modal.setAttribute('aria-hidden','true');
+        player.innerHTML = '';
+        document.body.style.overflow = '';
+        if (_lastFocus && typeof _lastFocus.focus === 'function') _lastFocus.focus();
+        _lastFocus = null;
+      }
+
+      document.addEventListener('click', function(e){
+        const a = e.target.closest('.gallery-link');
+        if (!a) return;
+        e.preventDefault();
+        const href = a.getAttribute('href') || '';
+        const hash = href.includes('#') ? href.split('#')[1] : a.dataset.video;
+        if (hash) openModal(hash);
+      });
+
+      modal.addEventListener('click', function(e){
+        if (e.target.dataset.action === 'close' || e.target === closeBtn) closeModal();
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+      document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeModal(); });
+    })();
+  </script>
+  <!-- WhatsApp floating chat (click to open WhatsApp Web / app) -->
+  <a id="whatsappFloat" class="whatsapp-float" href="https://wa.me/13653845983?text=Hi%20Divine%2C%20I%27m%20interested%20in%20booking" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M20.52 3.48A11.92 11.92 0 0012 0C5.373 0 .5 4.873.5 11.5c0 2.02.53 3.93 1.53 5.62L0 24l6.07-1.6A11.9 11.9 0 0012 23.5c6.627 0 11.5-4.873 11.5-11.5 0-3.07-1.2-5.88-3.98-8.52z" fill="#25D366"/>
+      <path d="M17.4 14.6c-.4-.2-2.36-1.16-2.72-1.28-.36-.12-.62-.18-.88.18-.24.36-.92 1.28-1.12 1.54-.2.24-.4.27-.76.09-.36-.18-1.52-.56-2.9-1.78-1.08-.96-1.8-2.14-2.02-2.5-.2-.36-.02-.56.16-.74.16-.16.36-.42.54-.63.18-.2.24-.36.36-.6.12-.24.06-.44-.02-.62-.08-.18-.88-2.12-1.2-2.9-.32-.78-.64-.67-.88-.68l-.76-.02c-.24 0-.62.09-.94.42-.3.3-1.16 1.14-1.16 2.76s1.19 3.22 1.36 3.44c.18.24 2.36 3.54 5.72 4.96 3.36 1.42 3.36.94 3.96.88.6-.06 1.92-.78 2.2-1.54.28-.76.28-1.4.2-1.54-.08-.12-.28-.18-.68-.36z" fill="#fff"/>
+    </svg>
+  </a>
+  <style>
+    .whatsapp-float { position:fixed; right:16px; bottom:16px; background:#25D366; width:60px; height:60px; display:flex; align-items:center; justify-content:center; border-radius:50%; box-shadow:0 10px 30px rgba(37,211,102,0.22); z-index:4000; text-decoration:none; border:4px solid rgba(255,255,255,0.06); }
+    .whatsapp-float svg { display:block; width:28px; height:28px; }
+    .whatsapp-float svg * { fill: #fff !important; }
+    .whatsapp-float::before{ content:''; position:absolute; right:10px; bottom:10px; width:76px; height:76px; border-radius:50%; background:rgba(37,211,102,0.14); z-index:3998;  }
+    @keyframes wa-pulse{ 0%{transform:scale(0.9);opacity:0.6}50%{transform:scale(1.18);opacity:0.18}100%{transform:scale(0.9);opacity:0.6}}
+    @keyframes wa-vibrate{ 0%{transform:translateX(0)}20%{transform:translateX(-1.8px)}40%{transform:translateX(1.8px)}60%{transform:translateX(-1.2px)}80%{transform:translateX(1.2px)}100%{transform:translateX(0)} }
+    .whatsapp-float > svg {  }
+    @media (prefers-reduced-motion: reduce){ .whatsapp-float::before, .whatsapp-float > svg { animation:none; } }
+      header { animation: slideDown 0.8s ease forwards; } @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } } .hero-text { animation: fadeInRight 1s ease 0.2s both; } .hero-card { animation: fadeInLeft 1s ease 0.4s both; } @keyframes fadeInRight { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } } @keyframes fadeInLeft { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }</style>
+
+  <script>
+    (function() {
+      const originalTitle = document.title;
+      const techMessages = [
+        "Need a Developer?",
+        "Engineering Excellence",
+        "View Technical Dives",
+        "Cloud & Web Expertise"
+      ];
+      let techIndex = 0;
+
+      window.addEventListener('blur', () => {
+        document.title = techMessages[techIndex];
+        techIndex = (techIndex + 1) % techMessages.length;
+      });
+
+      window.addEventListener('focus', () => {
+        document.title = originalTitle;
+      });
+    })();
+  </script>
+</body>
+</html>

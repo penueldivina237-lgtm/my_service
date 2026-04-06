@@ -1571,13 +1571,13 @@
       e.preventDefault();
       const data = gatherBookingData();
 
-      alert(
-        `Booking Request Submitted\n\nName: ${data.name}\nEmail: ${data.email}\nOrganization: ${data.organization}\nDate: ${data.date}\nService: ${data.serviceType}\nHours: ${data.hours}\nEstimated Total: $${data.total}\n\nMessage: ${data.message}`
-      );
+      try {
+        localStorage.setItem('pendingBooking', JSON.stringify(data));
+      } catch (err) {
+        // ignore storage errors
+      }
 
-      bookingForm.reset();
-      document.getElementById("hours").value = 2;
-      updateTotal();
+      window.location.href = 'public/booking-success.html';
     });
 
     payButton.addEventListener('click', function(e) {
@@ -1606,6 +1606,11 @@
 
       const mailtoUrl = `mailto:${CONSULTATION_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
       window.open(mailtoUrl, '_blank');
+
+      // Take the user to the on-site confirmation page as well.
+      setTimeout(() => {
+        window.location.href = 'public/booking-success.html';
+      }, 300);
     });
 
     updateTotal();

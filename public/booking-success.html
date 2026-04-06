@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Project Confirmed — Divine Emmanuel</title>
+  <title>Consultation Request Received — Divine Emmanuel</title>
   <style>
     body { font-family: Georgia, 'Times New Roman', serif; background:#0d0d0d; color:#f5f5f5; padding:40px; }
     /* Limit horizontal panning on mobile so the page drifts only slightly */
@@ -26,19 +26,19 @@
 <body>
   <div class="card">
     <h1>Thank you — Request Received</h1>
-    <p>Project initial deposit was successful. Below is the technical request information you provided.</p>
+    <p>Your consultation request was received. Below is the project discussion information you provided.</p>
 
     <div class="summary" id="summaryBox">
       <p id="noData">No local project data found. If you completed payment from a different device, please contact Divine to confirm your project.</p>
     </div>
 
-    <p class="note">What happens next: Divine will review your technical requirements and reach out by email within 48 hours to discuss the timeline and next steps.</p>
+    <p class="note">What happens next: Divine will review your request and reach out by email within 48 hours to schedule a consultation and confirm next steps.</p>
 
     <a class="btn" href="../index.html">Return home</a>
   </div>
 
   <script>
-    // Read the pending booking saved before redirecting to Stripe
+    // Read the pending booking saved from the consultation request
     try {
       const raw = localStorage.getItem('pendingBooking');
       if (raw) {
@@ -51,7 +51,7 @@
           <strong>Target Date:</strong> ${data.date || '-'}<br>
           <strong>Service:</strong> ${data.serviceType || '-'}<br>
           <strong>Est. Hours:</strong> ${data.hours || '-'}<br>
-          <strong>Initial Deposit:</strong> $${data.total || '-'}
+          <strong>Est. Initial Budget:</strong> $${data.total || '-'}
           </p>
           <p style="margin-top:8px"><strong>Technical Details:</strong><br><pre>${data.message || '-'}</pre></p>
         `;
@@ -64,7 +64,7 @@
     }
   </script>
     <!-- WhatsApp floating chat (original logo, no animation) -->
-    <a id="whatsappFloat" class="whatsapp-float" href="https://wa.me/13653845983?text=Hi%20Divine%2C%20I%20just%20completed%20a%20project%20deposit.%20Please%20confirm." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <a id="whatsappFloat" class="whatsapp-float" href="https://wa.me/13653845983?text=Hi%20Divine%2C%20I%20just%20submitted%20a%20consultation%20request.%20Please%20confirm%20you%20received%20it." target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
       <svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <path d="M17.4 14.6c-.4-.2-2.36-1.16-2.72-1.28-.36-.12-.62-.18-.88.18-.24.36-.92 1.28-1.12 1.54-.2.24-.4.27-.76.09-.36-.18-1.52-.56-2.9-1.78-1.08-.96-1.8-2.14-2.02-2.5-.2-.36-.02-.56.16-.74.16-.16.36-.42.54-.63.18-.2.24-.36.36-.6.12-.24.06-.44-.02-.62-.08-.18-.88-2.12-1.2-2.9-.32-.78-.64-.67-.88-.68l-.76-.02c-.24 0-.62.09-.94.42-.3.3-1.16 1.14-1.16 2.76s1.19 3.22 1.36 3.44c.18.24 2.36 3.54 5.72 4.96 3.36 1.42 3.36.94 3.96.88.6-.06 1.92-.78 2.2-1.54.28-.76.28-1.4.2-1.54-.08-.12-.28-.18-.68-.36z" fill="#ffffff"/>
       </svg>

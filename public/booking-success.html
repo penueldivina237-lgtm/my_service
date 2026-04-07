@@ -4,6 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Consultation Request Received — Divine Emmanuel</title>
+  <meta name="theme-color" content="#0d0d0d" />
+  <link rel="manifest" href="../manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="../assets/images/image_04.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <style>
     body { font-family: Georgia, 'Times New Roman', serif; background:#0d0d0d; color:#f5f5f5; padding:40px; }
     /* Limit horizontal panning on mobile so the page drifts only slightly */
@@ -57,6 +62,15 @@
         `;
 
         // Optionally clear the stored booking now that the payment succeeded
+
+  <script>
+    // PWA: register service worker for install/offline support
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('../sw.js').catch(() => {});
+      });
+    }
+  </script>
         localStorage.removeItem('pendingBooking');
       }
     } catch (err) {

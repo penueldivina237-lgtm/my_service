@@ -1,0 +1,18 @@
+{
+  "name": "Divine Emmanuel — Software Engineer",
+  "short_name": "Divine",
+  "description": "Portfolio and booking for Divine Emmanuel.",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d0d0d",
+  "theme_color": "#0d0d0d",
+  "icons": [
+    {
+      "src": "assets/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

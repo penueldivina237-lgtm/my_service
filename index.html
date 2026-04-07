@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Divine Emmanuel | Full-Stack Software Engineer</title>
+  <meta name="theme-color" content="#0d0d0d" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/images/image_04.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="description" content="Divine Emmanuel is a premium Full-Stack Software Engineer specializing in high-performance SaaS platforms for Real Estate and Automotive sales. Expert in React, Next.js, and scalable cloud architecture.">
   <meta name="keywords" content="Full-Stack Engineer, React Developer, Next.js, SaaS Development, Real Estate Software, Car Sales SaaS, Software Architect, Hamilton Ontario Developer">
   <style>
@@ -1614,6 +1619,14 @@
     });
 
     updateTotal();
+  </script>
+  <script>
+    // PWA: register service worker for install/offline support
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+      });
+    }
   </script>
   <script>
     // Hero carousel + gallery fade-in for smoother mobile experience

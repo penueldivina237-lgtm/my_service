@@ -236,6 +236,11 @@
 <body>
   <div class="container">
     <header>
+  <meta name="theme-color" content="#0d0d0d" />
+  <link rel="manifest" href="../manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="../assets/images/image_04.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       <h1>DevQuote Estimator</h1>
       <p class="subtitle">Personalized technical scoping for your next high-performance SaaS project.</p>
     </header>
@@ -423,4 +428,13 @@
     init();
   </script>
 </body>
+
+<script>
+  // PWA: register service worker for install/offline support
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('../sw.js').catch(() => {});
+    });
+  }
+</script>
 </html>

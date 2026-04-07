@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Deep Dive | Divine Emmanuel</title>
+  <meta name="theme-color" content="#0d0d0d" />
+  <link rel="manifest" href="../manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="../assets/images/image_04.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <style>
     * {
       margin: 0;
@@ -1468,6 +1473,14 @@
     });
 
     updateEstimate();
+  </script>
+  <script>
+    // PWA: register service worker for install/offline support
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('../sw.js').catch(() => {});
+      });
+    }
   </script>
   <script>
     // Hero carousel + gallery fade-in for smoother mobile experience

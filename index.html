@@ -87,6 +87,7 @@
       font-weight: bold;
       color: #d4af37;
       letter-spacing: 1px;
+      transition: opacity 0.2s ease;
     }
 
     .nav-links {
@@ -285,6 +286,15 @@
       }
       .menu-toggle {
         display: flex;
+      }
+
+      body.drawer-open header .brand {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      body.drawer-open header .nav {
+        justify-content: flex-end;
       }
     }
 

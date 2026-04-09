@@ -303,6 +303,46 @@
       #about .about-box { padding: 22px; }
       .pro-summary-text { display: none; }
       .pro-summary-mobile { display: block; }
+
+      .pj-desktop { display: none; }
+      .pj-mobile { display: block; }
+    }
+
+    .pj-mobile { display: none; }
+
+    .pj-accordion {
+      margin-top: 6px;
+    }
+
+    .pj-accordion .acc-panel {
+      padding-bottom: 14px;
+    }
+
+    .pj-subtitle {
+      margin-top: 10px;
+      color: #d8d8d8;
+      font-size: 0.96rem;
+      line-height: 1.55;
+    }
+
+    .pj-body {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .pj-body img {
+      width: 100%;
+      height: auto;
+      max-height: 360px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+    }
+
+    .pj-body p {
+      margin-bottom: 14px;
+      color: #e2e2e2;
     }
 
     .hero {
@@ -1522,37 +1562,74 @@
 
   <section id="about" class="section-dark">
     <div class="container">
-      <h2 class="section-title">Professional Journey</h2>
-      <p class="section-subtitle">
-        <span class="desktop-only">Professional engineering services for modern businesses.</span>
-        <span class="mobile-only">Professional engineering for modern teams.</span>
-      </p>
+      <div class="pj-desktop">
+        <h2 class="section-title">Professional Journey</h2>
+        <p class="section-subtitle">
+          <span class="desktop-only">Professional engineering services for modern businesses.</span>
+          <span class="mobile-only">Professional engineering for modern teams.</span>
+        </p>
 
-      <div class="about-grid">
-        <div class="about-box">
-          <div class="pro-summary-text">
-            <p>
-              I’m Divine Emmanuel, a Hamilton, Ontario–based tech professional delivering AI-enabled full-stack DevSecOps services.
-              I help teams design, build, and operate secure systems — improving delivery speed, reliability, and security posture using practical automation and AI-assisted workflows.
-            </p>
-            <p>
-              My approach is practical and outcomes-driven: clean code, scalable architecture, and security-by-design.
-              I use AI responsibly to accelerate delivery (documentation, code review support, test scaffolding, and operational runbooks) while keeping quality, privacy, and maintainability first.
-            </p>
-            <p>
-              Whether it’s a new product build, a security assessment, or a CI/CD + cloud upgrade,
-              I bring a disciplined process across architecture, implementation, observability, and documentation — with clear handoff notes your team can maintain.
-            </p>
+        <div class="about-grid">
+          <div class="about-box">
+            <div class="pro-summary-text">
+              <p>
+                I’m Divine Emmanuel, a Hamilton, Ontario–based tech professional delivering AI-enabled full-stack DevSecOps services.
+                I help teams design, build, and operate secure systems — improving delivery speed, reliability, and security posture using practical automation and AI-assisted workflows.
+              </p>
+              <p>
+                My approach is practical and outcomes-driven: clean code, scalable architecture, and security-by-design.
+                I use AI responsibly to accelerate delivery (documentation, code review support, test scaffolding, and operational runbooks) while keeping quality, privacy, and maintainability first.
+              </p>
+              <p>
+                Whether it’s a new product build, a security assessment, or a CI/CD + cloud upgrade,
+                I bring a disciplined process across architecture, implementation, observability, and documentation — with clear handoff notes your team can maintain.
+              </p>
+            </div>
+
+            <div class="pro-summary-mobile">
+              <div class="pro-summary-accordion" id="proSummaryAccordion">
+                <div class="acc-item">
+                  <button type="button" class="acc-trigger" aria-expanded="false">
+                    <span class="acc-title">Professional Summary</span>
+                    <span class="acc-icon" aria-hidden="true"></span>
+                  </button>
+                  <div class="acc-panel" hidden>
+                    <p>
+                      I’m Divine Emmanuel, a Hamilton, Ontario–based tech professional delivering AI-enabled full-stack DevSecOps services.
+                      I help teams design, build, and operate secure systems — improving delivery speed, reliability, and security posture using practical automation and AI-assisted workflows.
+                    </p>
+                    <p>
+                      My approach is practical and outcomes-driven: clean code, scalable architecture, and security-by-design.
+                      I use AI responsibly to accelerate delivery (documentation, code review support, test scaffolding, and operational runbooks) while keeping quality, privacy, and maintainability first.
+                    </p>
+                    <p>
+                      Whether it’s a new product build, a security assessment, or a CI/CD + cloud upgrade,
+                      I bring a disciplined process across architecture, implementation, observability, and documentation — with clear handoff notes your team can maintain.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div class="pro-summary-mobile">
-            <div class="pro-summary-accordion" id="proSummaryAccordion">
-              <div class="acc-item">
-                <button type="button" class="acc-trigger" aria-expanded="false">
-                  <span class="acc-title">Professional Summary</span>
-                  <span class="acc-icon" aria-hidden="true"></span>
-                </button>
-                <div class="acc-panel" hidden>
+          <div class="about-image">
+            <img src="assets/images/image_04.png" alt="Divine Emmanuel - Software Engineer" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+      <div class="pj-mobile">
+        <div class="pro-summary-accordion pj-accordion" id="pjAccordion">
+          <div class="acc-item">
+            <button type="button" class="acc-trigger" aria-expanded="false">
+              <span class="acc-title">Professional Journey</span>
+              <span class="acc-icon" aria-hidden="true"></span>
+            </button>
+            <div class="acc-panel" hidden>
+              <p class="pj-subtitle">Professional engineering for modern teams.</p>
+              <div class="pj-body">
+                <img src="assets/images/image_04.png" alt="Divine Emmanuel - Software Engineer" loading="lazy" />
+                <div>
                   <p>
                     I’m Divine Emmanuel, a Hamilton, Ontario–based tech professional delivering AI-enabled full-stack DevSecOps services.
                     I help teams design, build, and operate secure systems — improving delivery speed, reliability, and security posture using practical automation and AI-assisted workflows.
@@ -1561,7 +1638,7 @@
                     My approach is practical and outcomes-driven: clean code, scalable architecture, and security-by-design.
                     I use AI responsibly to accelerate delivery (documentation, code review support, test scaffolding, and operational runbooks) while keeping quality, privacy, and maintainability first.
                   </p>
-                  <p>
+                  <p style="margin-bottom:0;">
                     Whether it’s a new product build, a security assessment, or a CI/CD + cloud upgrade,
                     I bring a disciplined process across architecture, implementation, observability, and documentation — with clear handoff notes your team can maintain.
                   </p>
@@ -1569,10 +1646,6 @@
               </div>
             </div>
           </div>
-        </div>
-
-        <div class="about-image">
-          <img src="assets/images/image_04.png" alt="Divine Emmanuel - Software Engineer" loading="lazy" />
         </div>
       </div>
     </div>
@@ -2030,6 +2103,7 @@
       const moreSolutionsLinks = moreSolutionsModal?.querySelectorAll('a');
 
       const proSummaryAccordion = document.getElementById('proSummaryAccordion');
+      const pjAccordion = document.getElementById('pjAccordion');
 
       const hasDrawer = !!(menuToggle && drawer && drawerOverlay);
 
@@ -2095,14 +2169,15 @@
         });
       }
 
-      if (proSummaryAccordion) {
+      const wireAccordion = (root) => {
+        if (!root) return;
         const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const item = proSummaryAccordion.querySelector('.acc-item');
-        const trigger = proSummaryAccordion.querySelector('.acc-trigger');
-        const panel = proSummaryAccordion.querySelector('.acc-panel');
+        const item = root.querySelector('.acc-item');
+        const trigger = root.querySelector('.acc-trigger');
+        const panel = root.querySelector('.acc-panel');
+        if (!item || !trigger || !panel) return;
 
         const open = () => {
-          if (!item || !trigger || !panel) return;
           item.classList.add('is-open');
           trigger.setAttribute('aria-expanded', 'true');
           panel.hidden = false;
@@ -2126,7 +2201,6 @@
         };
 
         const close = () => {
-          if (!item || !trigger || !panel) return;
           item.classList.remove('is-open');
           trigger.setAttribute('aria-expanded', 'false');
 
@@ -2149,12 +2223,15 @@
           panel.addEventListener('transitionend', onEnd);
         };
 
-        trigger?.addEventListener('click', () => {
-          const isOpen = item?.classList.contains('is-open');
+        trigger.addEventListener('click', () => {
+          const isOpen = item.classList.contains('is-open');
           if (isOpen) close();
           else open();
         });
-      }
+      };
+
+      wireAccordion(proSummaryAccordion);
+      wireAccordion(pjAccordion);
 
       // Close drawer when a link is clicked
       if (hasDrawer) {

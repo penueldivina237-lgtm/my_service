@@ -397,6 +397,34 @@
       margin-bottom: 24px;
     }
 
+    .hero-offers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0 18px;
+      max-width: 640px;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.30);
+      background: rgba(212, 175, 55, 0.08);
+      color: #eaeaea;
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      line-height: 1;
+      font-size: 0.92rem;
+    }
+
+    .hero-chip span {
+      color: #d4af37;
+      font-weight: 900;
+    }
+
     .hero-text .hero-brief { display: none; }
 
     .btn-group {
@@ -1338,6 +1366,12 @@
         order: 2;
       }
 
+      .hero-offers {
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
       .hero-card {
         order: 1;
         margin-bottom: 30px;
@@ -1591,8 +1625,16 @@
   <section class="hero" id="home">
     <div class="container hero-content">
       <div class="hero-text">
-        <h2>AI-Enabled Full-Stack DevSecOps Engineering</h2>
+        <h2>Full‑Stack • DevSecOps • Cybersecurity</h2>
         <h1>Divine Tech Solutions</h1>
+
+        <div class="hero-offers" aria-label="Services offered">
+          <div class="hero-chip"><span>•</span> Full‑Stack Web &amp; APIs</div>
+          <div class="hero-chip"><span>•</span> CI/CD &amp; Cloud Automation</div>
+          <div class="hero-chip"><span>•</span> Security Reviews &amp; Hardening</div>
+          <div class="hero-chip"><span>•</span> AI‑Accelerated Delivery</div>
+        </div>
+
         <p class="hero-full">
           Secure Systems. Reliable Delivery. Measurable Outcomes.
         </p>

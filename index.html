@@ -1506,6 +1506,14 @@
             <option value="Advisory / Training">Advisory / Training</option>
           </select>
 
+            <label class="sr-only" for="projectSize">Project size</label>
+            <select id="projectSize" aria-label="Project size">
+              <option value="Small / Quick Fix" selected>Small / Quick Fix</option>
+              <option value="Medium / Standard">Medium / Standard</option>
+              <option value="Large / Complex">Large / Complex</option>
+              <option value="Ongoing / Retainer">Ongoing / Retainer</option>
+            </select>
+
             <label class="sr-only" for="consultationLength">Consultation length</label>
             <select id="consultationLength" aria-label="Consultation length">
               <option value="2" selected>Standard Consultation (2 hours)</option>
@@ -1555,6 +1563,7 @@
     const CONSULTATION_EMAIL = 'Emmanuel@globalix-inc.com';
 
     const consultationLengthInput = document.getElementById("consultationLength");
+    const projectSizeInput = document.getElementById("projectSize");
     const totalCost = document.getElementById("totalCost");
     const bookingForm = document.getElementById("bookingForm");
 
@@ -1570,13 +1579,22 @@
       const organization = document.getElementById("organization").value.trim();
       const date = document.getElementById("date").value;
       const serviceType = document.getElementById("serviceType").value;
+      const projectSize = document.getElementById("projectSize").value;
       const hours = parseFloat(document.getElementById("consultationLength").value) || 2;
       const message = document.getElementById("message").value.trim();
       const total = Math.round(hours * hourlyRate);
-      return { name, email, organization, date, serviceType, hours, message, total };
+      return { name, email, organization, date, serviceType, projectSize, hours, message, total };
     }
 
     consultationLengthInput.addEventListener("change", updateTotal);
+
+    projectSizeInput.addEventListener('change', function() {
+      const size = (projectSizeInput.value || '').toLowerCase();
+      const isSmall = size.includes('small');
+      // Suggest 30-min quick assessment for small requests.
+      consultationLengthInput.value = isSmall ? '0.5' : '2';
+      updateTotal();
+    });
 
     bookingForm.addEventListener("submit", function(e) {
       e.preventDefault();
@@ -1595,6 +1613,7 @@
         `Organization/Project: ${data.organization}`,
         `Preferred consultation date: ${data.date}`,
         `Service type: ${data.serviceType}`,
+        `Project size: ${data.projectSize}`,
         `Consultation length: ${data.hours} hour(s)` ,
         `Estimated consultation fee: $${data.total}`,
         '',

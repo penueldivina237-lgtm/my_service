@@ -105,6 +105,27 @@
       transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
+    .nav-links a.nav-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(212, 175, 55, 0.14);
+      border: 1px solid rgba(212, 175, 55, 0.55);
+      color: #d4af37;
+      line-height: 1;
+    }
+
+    .nav-links a.nav-cta::after { display: none; }
+
+    .nav-links a.nav-cta:hover {
+      color: #0a0a0a;
+      background: rgba(212, 175, 55, 0.95);
+      transform: translateY(-1px);
+    }
+
     /* Professional App Flow Visualization Styles */
     .app-flow-visualization {
       margin-top: 60px;
@@ -518,31 +539,43 @@
     }
 
     .btn {
-      display: inline-block;
-      padding: 13px 22px;
-      border-radius: 5px;
-      font-weight: bold;
+      padding: 14px 26px;
+      border-radius: 999px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: 0.3s;
       font-size: 0.95rem;
-      transition: 0.3s ease;
+      line-height: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 44px;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .btn-primary {
-      background: #d4af37;
+      background: linear-gradient(135deg, #d4af37, #f0cb57);
       color: #111;
+      border-color: rgba(255, 255, 255, 0.10);
     }
 
     .btn-primary:hover {
-      background: #f0cb57;
+      background: linear-gradient(135deg, #f0cb57, #d4af37);
     }
 
     .btn-outline {
-      border: 1px solid #d4af37;
       color: #d4af37;
-      background: transparent;
+      border: 1px solid transparent;
+      background:
+        linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)) padding-box,
+        linear-gradient(135deg, rgba(212, 175, 55, 0.90), rgba(212, 175, 55, 0.25)) border-box;
     }
 
     .btn-outline:hover {
-      background: #d4af37;
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.95), rgba(240, 203, 87, 0.95));
       color: #111;
     }
 
@@ -989,10 +1022,10 @@
   <!-- AOS (Animate On Scroll) -->
   
   <!-- SEO & Social -->
-  <meta name="description" content="Inside — Divine Emmanuel. A closer look at professional software engineering services and project insights.">
+  <meta name="description" content="Inside — Divine Emmanuel. A deeper look at AI-enabled full-stack DevSecOps delivery: process, security-by-design, and reliable execution.">
   
   <meta property="og:title" content="Inside | Divine Emmanuel">
-  <meta property="og:description" content="A deeper look into my engineering journey, expertise, and software solutions.">
+  <meta property="og:description" content="A deeper look at how I deliver secure, scalable software: full-stack engineering, DevSecOps automation, and practical AI-enabled workflows.">
   <meta property="og:image" content="image1.jpeg">
   <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -1007,7 +1040,7 @@
         <a href="../index.html#about">About</a>
         <a href="inside.html">Deep Dive</a>
         <a href="estimator.html">Estimator</a>
-        <a href="../index.html#booking">Contact</a>
+        <a href="#booking" class="nav-cta">Request Consultation</a>
       </nav>
     </div>
   </header>
@@ -1018,10 +1051,9 @@
         <div class="sub">Engineering Excellence</div>
         <h1>A deeper look into my software development philosophy and process.</h1>
         <p class="hero-full">
-          Welcome to the deep dive — a technical overview of my approach to 
-          building modern software. From mobile architecture in React Native 
-          to scalable web systems with Next.js, explore the craftsmanship 
-          behind the code.
+          Welcome to the deep dive — a technical overview of my approach to building modern software.
+          From mobile architecture in React Native to scalable web systems with Next.js,
+          explore the craftsmanship behind the code — with security and reliable delivery built in.
         </p>
         <p class="hero-brief" style="display:none;">A technical look at my engineering journey and expertise.</p>
         <div class="btn-group">
@@ -1040,25 +1072,22 @@
     <div class="container">
       <h2 class="section-title">Professional Journey</h2>
       <p class="section-subtitle">
-        Building high-performance digital products for the global market.
+        Delivery-focused engineering: clean architecture, security-by-design, and reliable operations.
       </p>
 
       <div class="story-grid">
         <div class="story-box">
           <p>
-            I am Divine Emmanuel, a Software Engineer based in Hamilton, Ontario, Canada, focused on full-stack delivery, cybersecurity, and DevOps engineering.
-            With a focus on the JavaScript ecosystem, I specialize in building complex, 
-            high-performance web and mobile applications.
+            I’m Divine Emmanuel, a Hamilton, Ontario–based engineer focused on full-stack delivery, DevSecOps automation, and cybersecurity.
+            I help teams design, build, and operate secure systems — improving delivery speed, reliability, and security posture.
           </p>
           <p>
-            My engineering philosophy centers on clean code, scalable architecture, and 
-            user-centric design. I believe that software should not just function, but 
-            provide a seamless, accessible experience for every user, regardless of their 
-            device or network conditions.
+            My process is structured and transparent: discovery and scoping, architecture, implementation, testing, CI/CD, observability,
+            and documentation for maintainable handoff.
           </p>
           <p>
-            Whether it's a dynamic real-time dashboard or a cross-platform mobile app, I 
-            bring a disciplined approach to development, testing, and deployment.
+            I use AI responsibly to accelerate delivery (documentation, code review support, test scaffolding, and operational runbooks)
+            while keeping quality, privacy, and maintainability first.
           </p>
         </div>
 
@@ -1092,55 +1121,49 @@
     <div class="container">
       <h2 class="section-title">Technical Expertise</h2>
       <p class="section-subtitle">
-        Specializing in modern technologies that power the future.
+        Full-stack delivery, DevSecOps automation, and cybersecurity hardening — built for production.
       </p>
 
       <div class="feature-grid">
         <div class="feature-card">
-          <h3>Frontend Development</h3>
+          <h3>Full-Stack Engineering</h3>
           <p>
-            Building rich, performant, and responsive web applications with 
-            Next.js, React, and TypeScript.
+            Product-grade web apps and APIs: architecture, implementation, and maintainable handoff.
           </p>
         </div>
 
         <div class="feature-card">
-          <h3>Mobile Engineering</h3>
+          <h3>DevSecOps & CI/CD</h3>
           <p>
-            Native-quality cross-platform applications for iOS and Android built 
-            with React Native.
+            Build pipelines, release automation, environment promotion, and security checks baked into delivery.
           </p>
         </div>
 
         <div class="feature-card">
-          <h3>Cloud Management</h3>
+          <h3>Cybersecurity (AppSec)</h3>
           <p>
-            Efficiently managing deployments, CI/CD pipelines, and cloud backend 
-            services for 99.9% uptime.
+            Threat modeling, secure architecture reviews, and practical hardening for web/app/API systems.
           </p>
         </div>
 
         <div class="feature-card">
-          <h3>System Architecture</h3>
+          <h3>Cloud & IaC</h3>
           <p>
-            Designing scalable, secure, and maintainable systems from 
-            concept to production.
+            Infrastructure-as-Code, secure cloud foundations, and repeatable environments for reliable deployments.
           </p>
         </div>
 
         <div class="feature-card">
-          <h3>API Integration</h3>
+          <h3>Observability & Reliability</h3>
           <p>
-            Seamlessly integrating payment gateways (Stripe), third-party APIs, and 
-            robust backend services.
+            Monitoring, logging, alerting, and incident readiness so production stays stable and measurable.
           </p>
         </div>
 
         <div class="feature-card">
-          <h3>Software Mentorship</h3>
+          <h3>Architecture & Delivery</h3>
           <p>
-            Guidance for engineering teams and individuals to master modern 
-            JavaScript, React, and DevOps.
+            Scoping, tradeoffs, documentation, and clean interfaces to keep systems scalable and teams unblocked.
           </p>
         </div>
       </div>
@@ -1332,9 +1355,9 @@
 
   <section id="booking">
     <div class="container">
-      <h2 class="section-title">Enquire & Start Project</h2>
+      <h2 class="section-title">Request a Consultation</h2>
       <p class="section-subtitle">
-        Submit your project requirements below for a detailed estimate and timeline.
+        This opens your email app with a prefilled message to Emmanuel. Please hit <strong>Send</strong> to complete your request.
       </p>
 
       <div class="booking-layout">
@@ -1346,38 +1369,54 @@
               <input type="email" id="email" placeholder="Email Address" aria-label="Email address" required />
               <label class="sr-only" for="organization">Company or project name</label>
               <input type="text" id="organization" placeholder="Company / Project / Startup Name" aria-label="Organization or event name" />
-              <label class="sr-only" for="date">Estimated start date</label>
-              <input type="date" id="date" aria-label="Booking date" required />
+              <label class="sr-only" for="date">Preferred consultation date</label>
+              <input type="date" id="date" aria-label="Preferred consultation date" required />
 
             <label class="sr-only" for="serviceType">Service type</label>
             <select id="serviceType" aria-label="Service type">
-              <option value="SaaS Development">SaaS Development</option>
-              <option value="Mobile App (React Native)">Mobile App (React Native)</option>
-              <option value="Next.js Web App">Next.js Web App</option>
-              <option value="Technical Strategy">Technical Strategy</option>
-              <option value="Code Architecture">Code Architecture</option>
-              <option value="Dev Tutoring">Dev Tutoring</option>
-              <option value="Special Tech Project">Special Tech Project</option>
+              <option value="Not sure (help me choose)" selected>Not sure (help me choose)</option>
+              <option value="Full-Stack Web App (Build/Enhancement)">Full-Stack Web App (Build/Enhancement)</option>
+              <option value="Backend / API Engineering">Backend / API Engineering</option>
+              <option value="Mobile App Engineering (React Native)">Mobile App Engineering (React Native)</option>
+              <option value="DevSecOps: CI/CD & Release Automation">DevSecOps: CI/CD & Release Automation</option>
+              <option value="Cloud Infrastructure & IaC (AWS/Azure/GCP)">Cloud Infrastructure & IaC (AWS/Azure/GCP)</option>
+              <option value="Observability & Reliability (Monitoring/On-call readiness)">Observability & Reliability (Monitoring/On-call readiness)</option>
+              <option value="Security Assessment (Web/App/API)">Security Assessment (Web/App/API)</option>
+              <option value="Secure Architecture Review">Secure Architecture Review</option>
+              <option value="Security & Code Audit (Quality + Risk)">Security & Code Audit (Quality + Risk)</option>
+              <option value="Threat Modeling & Risk Review">Threat Modeling & Risk Review</option>
+              <option value="Advisory / Training">Advisory / Training</option>
             </select>
 
-            <label class="sr-only" for="hours">Initial hours (Estimate)</label>
-            <input type="number" id="hours" min="2" value="2" aria-label="Number of hours" required />
+            <label class="sr-only" for="projectSize">Project size</label>
+            <select id="projectSize" aria-label="Project size">
+              <option value="Small / Quick Fix" selected>Small / Quick Fix</option>
+              <option value="Medium / Standard">Medium / Standard</option>
+              <option value="Large / Complex">Large / Complex</option>
+              <option value="Ongoing / Retainer">Ongoing / Retainer</option>
+            </select>
+
+            <label class="sr-only" for="consultationLength">Consultation length</label>
+            <select id="consultationLength" aria-label="Consultation length">
+              <option value="2" selected>Standard Consultation (2 hours)</option>
+              <option value="0.5">Quick Assessment (30 minutes) — for small requests</option>
+            </select>
+
             <label class="sr-only" for="message">Project details</label>
             <textarea id="message" placeholder="Tell me about your technical requirements, goals, or current stack..." aria-label="Booking message"></textarea>
 
-            <div class="estimate-box" id="estimateBox">Estimated Initial: $240</div>
+            <div class="estimate-box" id="totalCost">Estimated Consultation: $240</div>
 
             <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:6px;">
-              <button type="submit" class="btn btn-primary">Submit Project Intent</button>
-              <button type="button" id="payButton" class="btn btn-primary">Book & Pay</button>
+              <button type="submit" class="btn btn-primary">Request Consultation via Email</button>
             </div>
           </form>
 
           <div class="rate-highlight">
             <h3>Investment Information</h3>
             <p><strong>Consulting Rate:</strong> $120/hour</p>
-            <p><strong>Initial Engagement:</strong> 2 hours</p>
-            <p>Fixed-price project options available after technical review.</p>
+            <p><strong>Consultation:</strong> Standard is 2 hours. Quick 30-minute assessments are available for smaller, well-scoped requests.</p>
+            <p>Scope and any applicable fees are confirmed by email before any paid work begins.</p>
           </div>
         </div>
 
@@ -1401,10 +1440,10 @@
     <div class="container">
       <div class="quote-box">
         <p>
-          “Software engineering is not just writing code — it is building systems with 
-          the discipline of architecture and the creativity of design.”
+          “Software engineering isn’t just writing code — it’s delivering secure, reliable systems through disciplined architecture,
+          automated DevSecOps, and thoughtful design.”
         </p>
-        <span>DIVINE EMMANUEL</span>
+        <span>Divine Emmanuel</span>
       </div>
     </div>
   </section>
@@ -1416,64 +1455,72 @@
   </footer>
 
   <script>
-    const hourlyRate = 120;
-    // Stripe Payment Link (created in your Stripe Dashboard)
-    const PAYMENT_LINK_URL = 'https://buy.stripe.com/6oU00i0SD1933Oj4BX6c002';
+    const HOURLY_RATE = 120;
+    const CONSULTATION_EMAIL = 'Emmanuel@globalix-inc.com';
 
-    const hoursInput = document.getElementById("hours");
-    const estimateBox = document.getElementById("estimateBox");
-    const bookingForm = document.getElementById("bookingForm");
-    const payButton = document.getElementById('payButton');
+    const bookingForm = document.getElementById('bookingForm');
+    const totalCost = document.getElementById('totalCost');
+    const projectSizeInput = document.getElementById('projectSize');
+    const consultationLengthInput = document.getElementById('consultationLength');
 
-    function updateEstimate() {
-      const hours = parseInt(hoursInput.value) || 2;
-      const total = hours * hourlyRate;
-      estimateBox.textContent = `Estimated Initial: $${total}`;
+    function updateTotal() {
+      const hours = parseFloat(consultationLengthInput.value) || 2;
+      const total = Math.round(hours * HOURLY_RATE);
+      totalCost.textContent = `Estimated Consultation: $${total}`;
+    }
+
+    function autoSetConsultLengthFromSize() {
+      const size = (projectSizeInput.value || '').toLowerCase();
+      const isSmall = size.includes('small');
+      consultationLengthInput.value = isSmall ? '0.5' : '2';
+      updateTotal();
     }
 
     function gatherBookingData() {
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const organization = document.getElementById("organization").value.trim();
-      const date = document.getElementById("date").value;
-      const serviceType = document.getElementById("serviceType").value;
-      const hours = parseInt(document.getElementById("hours").value) || 2;
-      const message = document.getElementById("message").value.trim();
-      const total = hours * hourlyRate;
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const organization = document.getElementById('organization').value.trim();
+      const date = document.getElementById('date').value;
+      const serviceType = document.getElementById('serviceType').value;
+      const projectSize = document.getElementById('projectSize').value;
+      const hours = parseFloat(document.getElementById('consultationLength').value) || 2;
+      const message = document.getElementById('message').value.trim();
+      const total = Math.round(hours * HOURLY_RATE);
 
-      return { name, email, organization, date, serviceType, hours, message, total };
+      return { name, email, organization, date, serviceType, projectSize, hours, message, total };
     }
 
-    hoursInput.addEventListener("input", updateEstimate);
+    projectSizeInput?.addEventListener('change', autoSetConsultLengthFromSize);
+    consultationLengthInput?.addEventListener('change', updateTotal);
 
-    bookingForm.addEventListener("submit", function(e) {
-      e.preventDefault();
-      const data = gatherBookingData();
-
-      alert(
-        `Booking Request Submitted\n\nName: ${data.name}\nEmail: ${data.email}\nOrganization: ${data.organization}\nDate: ${data.date}\nService: ${data.serviceType}\nHours: ${data.hours}\nEstimated Total: $${data.total}\n\nMessage: ${data.message}`
-      );
-
-      bookingForm.reset();
-      document.getElementById("hours").value = 2;
-      updateEstimate();
-    });
-
-    payButton.addEventListener('click', function(e) {
+    bookingForm?.addEventListener('submit', function(e) {
       e.preventDefault();
       const data = gatherBookingData();
 
       try {
         localStorage.setItem('pendingBooking', JSON.stringify(data));
-      } catch (err) {
-        // ignore storage errors
-      }
+      } catch (_) {}
 
-      // Open the Stripe Payment Link in the same tab
-      window.location.assign(PAYMENT_LINK_URL);
+      const subject = `Consultation Request — ${data.serviceType || 'Engineering Services'}`;
+      const bodyLines = [
+        `Name: ${data.name}`,
+        `Email: ${data.email}`,
+        `Organization/Project: ${data.organization || '-'}`,
+        `Preferred consultation date: ${data.date}`,
+        `Service type: ${data.serviceType}`,
+        `Project size: ${data.projectSize}`,
+        `Consultation length: ${data.hours} hour(s)`,
+        `Estimated consultation fee: $${data.total}`,
+        '',
+        'Notes / requirements:',
+        data.message || '-'
+      ];
+
+      const mailtoUrl = `mailto:${CONSULTATION_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+      window.location.href = mailtoUrl;
     });
 
-    updateEstimate();
+    updateTotal();
   </script>
   <script>
     // PWA: register service worker for install/offline support
@@ -1611,10 +1658,10 @@
     (function() {
       const originalTitle = document.title;
       const techMessages = [
-        "Need a Developer?",
-        "Engineering Excellence",
-        "View Technical Dives",
-        "Cloud & Web Expertise"
+        "Request a Consultation",
+        "Inside Services",
+        "AI-Enabled DevSecOps",
+        "Secure Delivery, Reliable Ops"
       ];
       let techIndex = 0;
 

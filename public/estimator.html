@@ -191,27 +191,55 @@
       letter-spacing: -1px;
     }
 
-    .export-btn {
+    /* Buttons (aligned with main site: rounder + unique) */
+    .btn {
       width: 100%;
-      background-color: var(--gold);
-      color: var(--dark);
-      border: none;
-      border-radius: 8px;
-      padding: 16px;
+      border-radius: 999px;
+      padding: 14px 20px;
       font-weight: 900;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      letter-spacing: 0.6px;
       text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.15s ease, filter 0.15s ease, background 0.25s ease;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 46px;
+      text-decoration: none;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    .export-btn:hover {
-      background-color: #f0cb57;
-      transform: translateY(-2px);
+    .btn-primary {
+      background: linear-gradient(135deg, #d4af37, #f0cb57);
+      color: var(--dark);
+      border-color: rgba(255, 255, 255, 0.10);
     }
 
-    .export-btn:active {
-      transform: translateY(0);
+    .btn-primary:hover {
+      filter: brightness(1.05);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline {
+      color: var(--gold);
+      background:
+        linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)) padding-box,
+        linear-gradient(135deg, rgba(212, 175, 55, 0.90), rgba(212, 175, 55, 0.25)) border-box;
+    }
+
+    .btn-outline:hover {
+      filter: brightness(1.07);
+      transform: translateY(-1px);
+    }
+
+    .btn:active { transform: translateY(0); }
+
+    .quote-actions {
+      display: grid;
+      gap: 12px;
+      margin-top: 10px;
     }
 
     .disclaimer {
@@ -275,7 +303,10 @@
             <div class="price-value" id="totalCost">$0</div>
           </div>
 
-          <button class="export-btn" onclick="exportPDF()">Export Technical Proposal</button>
+            <div class="quote-actions">
+              <a class="btn btn-primary" href="../index.html#booking">Request Consultation</a>
+              <button class="btn btn-outline" type="button" onclick="exportPDF()">Export Technical Proposal (PDF)</button>
+            </div>
           <p class="disclaimer">*Final roadmap subject to architectural audit.</p>
         </div>
       </aside>

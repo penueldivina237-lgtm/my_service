@@ -263,6 +263,16 @@
       background: rgba(255,255,255,0.03);
     }
 
+    .drawer-dd-title {
+      margin-top: 4px;
+      padding-top: 6px;
+      font-size: 0.78rem;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
     .drawer-dd-menu .drawer-link { font-size: 1.02rem; }
 
     .drawer-links a {
@@ -1888,6 +1898,12 @@
             <a href="#tech" class="drawer-link">Delivery & DevOps</a>
             <a href="#gallery" class="drawer-link">Capabilities</a>
             <a href="#booking" class="drawer-link drawer-cta">Request Consultation</a>
+
+            <div class="drawer-dd-title" aria-hidden="true">Deep Dive</div>
+            <a href="public/inside.html" class="drawer-link">Inside Services</a>
+            <a href="public/video.html" class="drawer-link">Service Demos</a>
+            <a href="public/estimator.html" class="drawer-link">Project Estimator</a>
+
             <a href="#faq" class="drawer-link">FAQ</a>
             <a href="#contact" class="drawer-link">Contact</a>
           </div>
@@ -1897,13 +1913,6 @@
         <a href="public/core-expertise.html" class="drawer-link">Core Expertise</a>
         <a href="#" id="moreToggleDrawer" class="drawer-link">More +</a>
       </div>
-
-      <div class="drawer-section-title">Deep Dive</div>
-      <nav class="drawer-links">
-        <a href="public/inside.html">Inside Services</a>
-        <a href="public/video.html">Service Demos</a>
-        <a href="public/estimator.html">Project Estimator</a>
-      </nav>
     </div>
   </header>
 
@@ -2460,7 +2469,7 @@
       const menuToggle = document.getElementById('menuToggle');
       const drawer = document.getElementById('drawer');
       const drawerOverlay = document.getElementById('drawerOverlay');
-      const drawerLinks = document.querySelectorAll('.drawer-link');
+      const drawerLinks = drawer ? drawer.querySelectorAll('a.drawer-link') : document.querySelectorAll('a.drawer-link');
       const moreToggle = document.getElementById('moreToggle');
       const moreToggleDrawer = document.getElementById('moreToggleDrawer');
       const moreSolutionsModal = document.getElementById('moreSolutionsModal');
@@ -2965,12 +2974,16 @@
               },
               options: {
                 responsive: true,
-                animation: prefersReducedMotion ? false : undefined,
+                animation: prefersReducedMotion ? false : { duration: 650, easing: 'easeOutQuart' },
                 scales: {
                   y: {
                     beginAtZero: true,
+                    suggestedMax: 100,
                     grid: { color: 'rgba(255, 255, 255, 0.05)' },
-                    ticks: { color: '#e6e6e6' }
+                    ticks: {
+                      color: '#e6e6e6',
+                      callback: (v) => v + '%'
+                    }
                   },
                   x: {
                     grid: { display: false },
@@ -3007,7 +3020,7 @@
               },
               options: {
                 responsive: true,
-                animation: prefersReducedMotion ? false : undefined,
+                animation: prefersReducedMotion ? false : { duration: 650, easing: 'easeOutQuart' },
                 plugins: {
                   legend: {
                     position: 'bottom',
@@ -3034,23 +3047,24 @@
 
           if (barChart) {
             const values = barChart.data.datasets[0].data;
-            const next = values.map((v) => clamp(v + (Math.random() * 6 - 3), 2, 45));
+            const next = values.map((v) => clamp(v + (Math.random() * 10 - 5), 2, 60));
             const sum = next.reduce((a, b) => a + b, 0) || 1;
             barChart.data.datasets[0].data = next.map((v) => Math.round((v / sum) * 100));
-            barChart.update('none');
+            barChart.update();
           }
 
           if (donutChart) {
             const values = donutChart.data.datasets[0].data;
-            const next = values.map((v) => clamp(v + (Math.random() * 4 - 1), 30, 100));
+            const next = values.map((v) => clamp(v + (Math.random() * 6 - 2), 25, 100));
             donutChart.data.datasets[0].data = next.map((v) => Math.round(v));
-            donutChart.update('none');
+            donutChart.update();
           }
         }
 
         function start() {
           if (updateTimer) return;
-          updateTimer = window.setInterval(tick, 2500);
+          tick();
+          updateTimer = window.setInterval(tick, 1400);
         }
 
         function stop() {

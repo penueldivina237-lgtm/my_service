@@ -396,6 +396,8 @@
       margin-bottom: 24px;
     }
 
+    .hero-text .hero-brief { display: none; }
+
     .btn-group {
       display: flex;
       gap: 15px;
@@ -458,6 +460,39 @@
       border-radius: 10px;
       object-fit: cover;
       max-height: 620px;
+    }
+
+    .hero-botline {
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(0,0,0,0.35);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .hero-botlabel {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.30);
+      background: rgba(212, 175, 55, 0.10);
+      color: #d4af37;
+      font-weight: 900;
+      letter-spacing: 0.2px;
+      line-height: 1;
+      font-size: 0.82rem;
+    }
+
+    .hero-bottext {
+      color: #e8e8e8;
+      font-size: 0.95rem;
+      line-height: 1.35;
+      min-height: 1.35em;
     }
 
     section {
@@ -604,6 +639,14 @@
       margin-top: 4px;
     }
 
+    .section-accordion .section-subtitle {
+      margin: 4px auto 22px;
+    }
+
+    .faq-accordion {
+      margin-top: 14px;
+    }
+
     .pro-summary-accordion .acc-item {
       background: #191919;
       border-radius: 12px;
@@ -686,6 +729,15 @@
 
     .pro-summary-accordion .acc-item.is-open .acc-panel {
       padding-top: 2px;
+      padding-bottom: 14px;
+    }
+
+    .faq-accordion .acc-trigger {
+      align-items: flex-start;
+    }
+
+    .faq-accordion .acc-icon {
+      margin-top: 2px;
     }
 
     .about-image img {
@@ -1330,6 +1382,21 @@
         padding: 13px 22px;
         min-height: 42px;
       }
+
+      .pro-summary-accordion .acc-trigger {
+        padding: 16px 14px;
+        gap: 12px;
+      }
+
+      .pro-summary-accordion .acc-title {
+        font-size: 0.98rem;
+        line-height: 1.25;
+      }
+
+      .pro-summary-accordion .acc-icon {
+        width: 32px;
+        height: 32px;
+      }
       
       .hero-text .hero-full { display: none; }
       .hero-text .hero-brief { display: block; font-size: 0.95rem; color: #e6e6e6; margin-bottom: 20px; }
@@ -1505,11 +1572,9 @@
         <h2>AI-Enabled Full-Stack DevSecOps Engineering</h2>
         <h1>Divine Tech Solutions</h1>
         <p class="hero-full">
-          I provide professional engineering services from Hamilton, Ontario, Canada.
-          Full-stack delivery with DevOps automation, cybersecurity analytics, and AI-accelerated workflows baked in —
-          helping teams ship faster, reduce risk, and keep production stable.
+          Secure Systems. Reliable Delivery. Measurable Outcomes.
         </p>
-        <p class="hero-brief" style="display:none;">Secure Systems. Reliable Delivery. Measurable Outcomes.</p>
+        <p class="hero-brief">Secure Systems. Reliable Delivery. Measurable Outcomes.</p>
         <div class="btn-group">
           <a href="#booking" class="btn btn-primary">Request Consultation</a>
           <a href="#flyer" class="btn btn-outline">Service Summary</a>
@@ -1555,7 +1620,7 @@
             </svg>
           </div>
           <div class="avatar" aria-hidden="true">
-            <img src="assets/images/Image_06.png" alt="" loading="lazy" decoding="async" onerror="this.hidden=true;" />
+            <img src="assets/images/image_00.png" alt="" loading="lazy" decoding="async" onerror="this.hidden=true;" />
             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
                 <radialGradient id="aiG3" cx="40%" cy="40%" r="80%">
@@ -1577,6 +1642,11 @@
 
       <div class="hero-card">
         <img src="assets/images/image1.jpeg" alt="Divine Emmanuel professional portrait" loading="lazy" />
+        <div class="hero-botline" aria-label="My AI bot updates">
+          <span class="hero-botlabel">My AI bot</span>
+          <span id="heroBotText" class="hero-bottext" data-phrases="Serving Canadian clients|Mapping requirements and scope|Generating secure architecture notes|Drafting CI/CD steps and checklists|Summarizing risks and mitigations">Serving Canadian clients</span>
+          <span class="ai-cursor" aria-hidden="true">▍</span>
+        </div>
       </div>
     </div>
   </section>
@@ -1584,57 +1654,60 @@
   <section id="about" class="section-dark">
     <div class="container">
       <div class="pj-desktop">
-        <h2 class="section-title">Professional Journey</h2>
-        <p class="section-subtitle">
-          <span class="desktop-only">Professional engineering services for modern businesses.</span>
-          <span class="mobile-only">Professional engineering for modern teams.</span>
-        </p>
+        <div class="pro-summary-accordion section-accordion" id="pjDesktopAccordion">
+          <div class="acc-item">
+            <button type="button" class="acc-trigger" aria-expanded="false">
+              <span class="acc-title">Professional Journey</span>
+              <span class="acc-icon" aria-hidden="true"></span>
+            </button>
+            <div class="acc-panel" hidden>
+              <p class="section-subtitle">
+                <span class="desktop-only">Professional engineering services for modern businesses.</span>
+                <span class="mobile-only">Professional engineering for modern teams.</span>
+              </p>
 
-        <div class="about-grid">
-          <div class="about-box">
-            <div class="pro-summary-text">
-              <p>
-                I’m Divine Emmanuel, a Hamilton, Ontario–based tech professional delivering AI-enabled full-stack DevSecOps services.
-                I help teams design, build, and operate secure systems — improving delivery speed, reliability, and security posture using practical automation and AI-assisted workflows.
-              </p>
-              <p>
-                My approach is practical and outcomes-driven: clean code, scalable architecture, and security-by-design.
-                I use AI responsibly to accelerate delivery (documentation, code review support, test scaffolding, and operational runbooks) while keeping quality, privacy, and maintainability first.
-              </p>
-              <p>
-                Whether it’s a new product build, a security assessment, or a CI/CD + cloud upgrade,
-                I bring a disciplined process across architecture, implementation, observability, and documentation — with clear handoff notes your team can maintain.
-              </p>
-            </div>
-
-            <div class="pro-summary-mobile">
-              <div class="pro-summary-accordion" id="proSummaryAccordion">
-                <div class="acc-item">
-                  <button type="button" class="acc-trigger" aria-expanded="false">
-                    <span class="acc-title">Professional Summary</span>
-                    <span class="acc-icon" aria-hidden="true"></span>
-                  </button>
-                  <div class="acc-panel" hidden>
+              <div class="about-grid">
+                <div class="about-box">
+                  <div class="pro-summary-text">
                     <p>
-                      I’m Divine Emmanuel, a Hamilton, Ontario–based tech professional delivering AI-enabled full-stack DevSecOps services.
-                      I help teams design, build, and operate secure systems — improving delivery speed, reliability, and security posture using practical automation and AI-assisted workflows.
+                      I’m Divine Emmanuel, based in Hamilton, Ontario. I deliver AI-enabled full-stack DevSecOps — designing, building, and operating secure systems that ship faster and stay reliable.
                     </p>
                     <p>
-                      My approach is practical and outcomes-driven: clean code, scalable architecture, and security-by-design.
-                      I use AI responsibly to accelerate delivery (documentation, code review support, test scaffolding, and operational runbooks) while keeping quality, privacy, and maintainability first.
+                      I focus on secure-by-design architecture, clean code, and automated delivery. I use AI responsibly for documentation, reviews, test scaffolding, and runbooks — without compromising privacy or maintainability.
                     </p>
                     <p>
-                      Whether it’s a new product build, a security assessment, or a CI/CD + cloud upgrade,
-                      I bring a disciplined process across architecture, implementation, observability, and documentation — with clear handoff notes your team can maintain.
+                      From new product builds to security assessments and CI/CD + cloud upgrades, I deliver clear implementation notes and handoff documentation your team can maintain.
                     </p>
                   </div>
+
+                  <div class="pro-summary-mobile">
+                    <div class="pro-summary-accordion" id="proSummaryAccordion">
+                      <div class="acc-item">
+                        <button type="button" class="acc-trigger" aria-expanded="false">
+                          <span class="acc-title">Professional Summary</span>
+                          <span class="acc-icon" aria-hidden="true"></span>
+                        </button>
+                        <div class="acc-panel" hidden>
+                          <p>
+                            I’m Divine Emmanuel, based in Hamilton, Ontario. I deliver AI-enabled full-stack DevSecOps — designing, building, and operating secure systems that ship faster and stay reliable.
+                          </p>
+                          <p>
+                            I focus on secure-by-design architecture, clean code, and automated delivery. I use AI responsibly for documentation, reviews, test scaffolding, and runbooks — without compromising privacy or maintainability.
+                          </p>
+                          <p>
+                            From new product builds to security assessments and CI/CD + cloud upgrades, I deliver clear implementation notes and handoff documentation your team can maintain.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="about-image">
+                  <img src="assets/images/image_04.png" alt="Divine Emmanuel - Software Engineer" loading="lazy" />
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="about-image">
-            <img src="assets/images/image_04.png" alt="Divine Emmanuel - Software Engineer" loading="lazy" />
           </div>
         </div>
       </div>
@@ -1652,16 +1725,13 @@
                 <img src="assets/images/image_04.png" alt="Divine Emmanuel - Software Engineer" loading="lazy" />
                 <div>
                   <p>
-                    I’m Divine Emmanuel, a Hamilton, Ontario–based tech professional delivering AI-enabled full-stack DevSecOps services.
-                    I help teams design, build, and operate secure systems — improving delivery speed, reliability, and security posture using practical automation and AI-assisted workflows.
+                    I’m Divine Emmanuel, based in Hamilton, Ontario. I deliver AI-enabled full-stack DevSecOps — designing, building, and operating secure systems that ship faster and stay reliable.
                   </p>
                   <p>
-                    My approach is practical and outcomes-driven: clean code, scalable architecture, and security-by-design.
-                    I use AI responsibly to accelerate delivery (documentation, code review support, test scaffolding, and operational runbooks) while keeping quality, privacy, and maintainability first.
+                    I focus on secure-by-design architecture, clean code, and automated delivery. I use AI responsibly for documentation, reviews, test scaffolding, and runbooks — without compromising privacy or maintainability.
                   </p>
                   <p style="margin-bottom:0;">
-                    Whether it’s a new product build, a security assessment, or a CI/CD + cloud upgrade,
-                    I bring a disciplined process across architecture, implementation, observability, and documentation — with clear handoff notes your team can maintain.
+                    From new product builds to security assessments and CI/CD + cloud upgrades, I deliver clear implementation notes and handoff documentation your team can maintain.
                   </p>
                 </div>
               </div>
@@ -1674,10 +1744,42 @@
 
   <section id="services">
     <div class="container">
-      <h2 class="section-title">Core Expertise</h2>
-      <p class="section-subtitle">
-        Full-stack delivery + DevOps automation + cybersecurity analytics.
-      </p>
+      <div class="pro-summary-accordion section-accordion" id="coreExpertiseAccordion">
+        <div class="acc-item">
+          <button type="button" class="acc-trigger" aria-expanded="false">
+            <span class="acc-title">Core Expertise</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-panel" hidden>
+            <p class="section-subtitle">
+              Full-stack delivery + DevOps automation + cybersecurity analytics.
+            </p>
+
+            <div class="services-grid">
+              <div class="service-card">
+                <h3>SaaS Development</h3>
+                <p>
+                  Building full-stack platforms from the ground up with secure authentication and real-time features.
+                </p>
+              </div>
+
+              <div class="service-card">
+                <h3>E-Commerce</h3>
+                <p>
+                  Scalable commerce solutions with headless architecture, Stripe integration, and high conversion design.
+                </p>
+              </div>
+
+              <div class="service-card">
+                <h3>DevOps & Cloud</h3>
+                <p>
+                  Deployment automation, CI/CD pipelines, and cloud hosting on Vercel, AWS, or DigitalOcean for 99.9% uptime.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1715,29 +1817,6 @@
             <span>CI/CD & Monitoring</span>
             <div style="width:20px; height:20px; background:#ffbd2e; border-radius:50%; margin:10px auto 0; box-shadow: 0 0 10px #ffbd2e;"></div>
           </div>
-        </div>
-      </div>
-
-      <div class="services-grid">
-        <div class="service-card">
-          <h3>SaaS Development</h3>
-          <p>
-            Building full-stack platforms from the ground up with secure authentication and real-time features.
-          </p>
-        </div>
-
-        <div class="service-card">
-          <h3>E-Commerce</h3>
-          <p>
-            Scalable commerce solutions with headless architecture, Stripe integration, and high conversion design.
-          </p>
-        </div>
-
-        <div class="service-card">
-          <h3>DevOps & Cloud</h3>
-          <p>
-            Deployment automation, CI/CD pipelines, and cloud hosting on Vercel, AWS, or DigitalOcean for 99.9% uptime.
-          </p>
         </div>
       </div>
     </div>
@@ -1949,6 +2028,63 @@
     </div>
   </section>
 
+  <section id="faq" class="section-dark">
+    <div class="container">
+      <h2 class="section-title">FAQ</h2>
+      <p class="section-subtitle">Quick answers before you reach out.</p>
+
+      <div class="pro-summary-accordion section-accordion faq-accordion" id="faqAccordion">
+        <div class="acc-item">
+          <button type="button" class="acc-trigger" aria-expanded="false">
+            <span class="acc-title">How does the consultation work?</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-panel" hidden>
+            <p>
+              Use the consultation form to generate a prefilled email request. We confirm scope and any fees by email before any paid work begins.
+            </p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button type="button" class="acc-trigger" aria-expanded="false">
+            <span class="acc-title">What do I get after a consultation?</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-panel" hidden>
+            <p>
+              A clear summary of requirements, recommended architecture, risks/mitigations, and prioritized next steps. If needed, you’ll also get implementation notes your team can follow.
+            </p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button type="button" class="acc-trigger" aria-expanded="false">
+            <span class="acc-title">Can you work with an existing codebase/team?</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-panel" hidden>
+            <p>
+              Yes. I can start with an audit, targeted fixes, or a small scoped milestone, then expand into CI/CD, reliability improvements, or security hardening.
+            </p>
+          </div>
+        </div>
+
+        <div class="acc-item">
+          <button type="button" class="acc-trigger" aria-expanded="false">
+            <span class="acc-title">How do you use AI in your workflow?</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-panel" hidden>
+            <p>
+              I use AI to speed up documentation, reviews, test scaffolding, and runbooks — while keeping quality, privacy, and maintainability first.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section id="contact" class="section-dark">
     <div class="container contact-center">
       <img src="assets/images/Image_06.png" alt="Divine Emmanuel" class="contact-image" />
@@ -2076,7 +2212,7 @@
     (function() {
       // Hero carousel
       const heroImg = document.querySelector('.hero-card img');
-      const heroImages = ['assets/images/image1.jpeg','assets/images/image2.jpeg','assets/images/services-main.png','assets/images/Image_06.png'];
+      const heroImages = ['assets/images/image1.jpeg','assets/images/image2.jpeg','assets/images/services-main.png','assets/images/image_00.png'];
       let hi = 0;
       if (heroImg) {
         heroImg.classList.add('fade-img');
@@ -2125,6 +2261,9 @@
 
       const proSummaryAccordion = document.getElementById('proSummaryAccordion');
       const pjAccordion = document.getElementById('pjAccordion');
+      const pjDesktopAccordion = document.getElementById('pjDesktopAccordion');
+      const coreExpertiseAccordion = document.getElementById('coreExpertiseAccordion');
+      const faqAccordion = document.getElementById('faqAccordion');
 
       const hasDrawer = !!(menuToggle && drawer && drawerOverlay);
 
@@ -2193,66 +2332,73 @@
       const wireAccordion = (root) => {
         if (!root) return;
         const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const item = root.querySelector('.acc-item');
-        const trigger = root.querySelector('.acc-trigger');
-        const panel = root.querySelector('.acc-panel');
-        if (!item || !trigger || !panel) return;
+        const items = Array.from(root.querySelectorAll('.acc-item'));
+        if (!items.length) return;
 
-        const open = () => {
-          item.classList.add('is-open');
-          trigger.setAttribute('aria-expanded', 'true');
-          panel.hidden = false;
+        items.forEach((item) => {
+          const trigger = item.querySelector('.acc-trigger');
+          const panel = item.querySelector('.acc-panel');
+          if (!trigger || !panel) return;
 
-          if (prefersReduced) {
-            panel.style.height = 'auto';
-            return;
-          }
+          const open = () => {
+            item.classList.add('is-open');
+            trigger.setAttribute('aria-expanded', 'true');
+            panel.hidden = false;
 
-          panel.style.height = '0px';
-          const target = panel.scrollHeight;
-          requestAnimationFrame(() => {
-            panel.style.height = target + 'px';
-          });
-          const onEnd = (e) => {
-            if (e.propertyName !== 'height') return;
-            panel.removeEventListener('transitionend', onEnd);
-            if (item.classList.contains('is-open')) panel.style.height = 'auto';
-          };
-          panel.addEventListener('transitionend', onEnd);
-        };
+            if (prefersReduced) {
+              panel.style.height = 'auto';
+              return;
+            }
 
-        const close = () => {
-          item.classList.remove('is-open');
-          trigger.setAttribute('aria-expanded', 'false');
-
-          if (prefersReduced) {
             panel.style.height = '0px';
-            panel.hidden = true;
-            return;
-          }
-
-          const current = panel.scrollHeight;
-          panel.style.height = current + 'px';
-          requestAnimationFrame(() => {
-            panel.style.height = '0px';
-          });
-          const onEnd = (e) => {
-            if (e.propertyName !== 'height') return;
-            panel.removeEventListener('transitionend', onEnd);
-            if (!item.classList.contains('is-open')) panel.hidden = true;
+            const target = panel.scrollHeight;
+            requestAnimationFrame(() => {
+              panel.style.height = target + 'px';
+            });
+            const onEnd = (e) => {
+              if (e.propertyName !== 'height') return;
+              panel.removeEventListener('transitionend', onEnd);
+              if (item.classList.contains('is-open')) panel.style.height = 'auto';
+            };
+            panel.addEventListener('transitionend', onEnd);
           };
-          panel.addEventListener('transitionend', onEnd);
-        };
 
-        trigger.addEventListener('click', () => {
-          const isOpen = item.classList.contains('is-open');
-          if (isOpen) close();
-          else open();
+          const close = () => {
+            item.classList.remove('is-open');
+            trigger.setAttribute('aria-expanded', 'false');
+
+            if (prefersReduced) {
+              panel.style.height = '0px';
+              panel.hidden = true;
+              return;
+            }
+
+            const current = panel.scrollHeight;
+            panel.style.height = current + 'px';
+            requestAnimationFrame(() => {
+              panel.style.height = '0px';
+            });
+            const onEnd = (e) => {
+              if (e.propertyName !== 'height') return;
+              panel.removeEventListener('transitionend', onEnd);
+              if (!item.classList.contains('is-open')) panel.hidden = true;
+            };
+            panel.addEventListener('transitionend', onEnd);
+          };
+
+          trigger.addEventListener('click', () => {
+            const isOpen = item.classList.contains('is-open');
+            if (isOpen) close();
+            else open();
+          });
         });
       };
 
       wireAccordion(proSummaryAccordion);
       wireAccordion(pjAccordion);
+      wireAccordion(pjDesktopAccordion);
+      wireAccordion(coreExpertiseAccordion);
+      wireAccordion(faqAccordion);
 
       // Close drawer when a link is clicked
       if (hasDrawer) {
@@ -2786,9 +2932,87 @@
         step();
       }
 
+      function initHeroBotline() {
+        const el = document.getElementById('heroBotText');
+        if (!el) return;
+
+        const raw = (el.dataset.phrases || '').trim();
+        const phrases = raw
+          ? raw.split('|').map((s) => s.trim()).filter(Boolean)
+          : [];
+
+        if (!phrases.length) {
+          const fallback = (el.textContent || '').trim();
+          phrases.push(fallback || 'Serving Canadian clients');
+        }
+
+        if (prefersReducedMotion) {
+          el.textContent = phrases[0];
+          return;
+        }
+
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let direction = 1; // 1 typing, -1 deleting
+        let timer = null;
+        let stopped = false;
+
+        const typeSpeed = 30;
+        const deleteSpeed = 18;
+        const pauseAfterType = 900;
+        const pauseAfterDelete = 260;
+
+        const stop = () => {
+          stopped = true;
+          if (timer) window.clearTimeout(timer);
+          timer = null;
+        };
+
+        const tick = () => {
+          if (stopped) return;
+
+          if (document.visibilityState === 'hidden') {
+            timer = window.setTimeout(tick, 400);
+            return;
+          }
+
+          const current = phrases[phraseIndex] || '';
+
+          if (direction === 1) {
+            el.textContent = current.slice(0, charIndex);
+            if (charIndex < current.length) {
+              charIndex += 1;
+              timer = window.setTimeout(tick, typeSpeed);
+              return;
+            }
+
+            direction = -1;
+            timer = window.setTimeout(tick, pauseAfterType);
+            return;
+          }
+
+          el.textContent = current.slice(0, charIndex);
+          if (charIndex > 0) {
+            charIndex -= 1;
+            timer = window.setTimeout(tick, deleteSpeed);
+            return;
+          }
+
+          direction = 1;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          timer = window.setTimeout(tick, pauseAfterDelete);
+        };
+
+        el.textContent = '';
+        timer = window.setTimeout(tick, 250);
+
+        window.addEventListener('beforeunload', stop);
+      }
+
       initCharts();
       initWorkflow();
       initAiTerminal();
+      initHeroBotline();
     })();
   </script>
   <!-- WhatsApp Floating Widget (Updated with In-Site Chat) -->

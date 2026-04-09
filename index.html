@@ -533,9 +533,19 @@
       justify-content: center;
       background: #111;
       box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+      position: relative;
     }
 
-    .people-plus .avatar svg { width: 100%; height: 100%; display: block; }
+    .people-plus .avatar img,
+    .people-plus .avatar svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .people-plus .avatar img { object-fit: cover; }
 
     .people-plus .avatar + .avatar { margin-left: -14px; }
 
@@ -1499,6 +1509,7 @@
 
         <div class="people-plus" aria-label="Team and collaboration">
           <div class="avatar" aria-hidden="true">
+            <img src="assets/images/ai-face-1.jpg" alt="" loading="lazy" decoding="async" onerror="this.hidden=true;" />
             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
                 <radialGradient id="aiG1" cx="35%" cy="30%" r="75%">
@@ -1516,6 +1527,7 @@
             </svg>
           </div>
           <div class="avatar" aria-hidden="true">
+            <img src="assets/images/ai-face-2.jpg" alt="" loading="lazy" decoding="async" onerror="this.hidden=true;" />
             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
                 <radialGradient id="aiG2" cx="60%" cy="35%" r="75%">
@@ -1535,6 +1547,7 @@
             </svg>
           </div>
           <div class="avatar" aria-hidden="true">
+            <img src="assets/images/ai-face-3.jpg" alt="" loading="lazy" decoding="async" onerror="this.hidden=true;" />
             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
                 <radialGradient id="aiG3" cx="40%" cy="40%" r="80%">

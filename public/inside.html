@@ -194,6 +194,220 @@
       margin-bottom: 50px;
       align-items: stretch;
     }
+
+    .deepdive-chat-wrap {
+      display: none;
+      margin-top: 22px;
+    }
+
+    .deepdive-chat {
+      background: #0a0a0a;
+      border: 1px solid rgba(212,175,55,0.16);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.45);
+    }
+
+    .dd-chat-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 14px;
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .dd-chat-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      object-fit: cover;
+      border: 2px solid rgba(212,175,55,0.6);
+      box-shadow: 0 0 18px rgba(212,175,55,0.12);
+      flex: 0 0 auto;
+      background: #101010;
+    }
+
+    .dd-chat-title {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .dd-chat-name {
+      color: #d4af37;
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      line-height: 1.1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dd-chat-sub {
+      color: #bdbdbd;
+      font-size: 0.82rem;
+      line-height: 1.25;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .dd-chat-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      border: 1px solid rgba(212,175,55,0.28);
+      background: rgba(212,175,55,0.08);
+      color: #d4af37;
+      line-height: 1;
+    }
+
+    .dd-chat-live {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      color: #9a9a9a;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .dd-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(212,175,55,0.95);
+      box-shadow: 0 0 10px rgba(212,175,55,0.35);
+    }
+
+    .dd-workflow-steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      padding: 10px 14px 12px;
+      background: rgba(255,255,255,0.01);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .dd-step {
+      text-align: center;
+      font-size: 0.72rem;
+      color: #7a7a7a;
+      padding: 7px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.01);
+      white-space: nowrap;
+    }
+
+    .dd-step.is-active {
+      color: #0a0a0a;
+      background: rgba(212,175,55,0.95);
+      border-color: rgba(212,175,55,0.75);
+      font-weight: 900;
+    }
+
+    .dd-chat-body {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 250px;
+      max-height: 360px;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      background: radial-gradient(60% 60% at 20% 0%, rgba(212,175,55,0.06), transparent 60%);
+    }
+
+    .dd-bubble {
+      max-width: 92%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      line-height: 1.42;
+      color: #eee;
+      background: #171717;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .dd-bubble.system {
+      background: #111;
+      border-style: dashed;
+      color: #d4d4d4;
+      font-size: 0.88rem;
+    }
+
+    .dd-bubble.divine {
+      border-left: 3px solid rgba(212,175,55,0.85);
+    }
+
+    .dd-bubble.client {
+      margin-left: auto;
+      background: #1a1a1a;
+      border-right: 3px solid rgba(212,175,55,0.55);
+    }
+
+    .dd-chat-footer {
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: #8b8b8b;
+      font-size: 0.78rem;
+    }
+
+    .dd-typing {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #bcbcbc;
+    }
+
+    .dd-typing-dots {
+      display: inline-flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .dd-typing-dots span {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(212,175,55,0.75);
+      opacity: 0.35;
+      animation: ddBlink 900ms infinite;
+    }
+
+    .dd-typing-dots span:nth-child(2) { animation-delay: 150ms; }
+    .dd-typing-dots span:nth-child(3) { animation-delay: 300ms; }
+
+    @keyframes ddBlink {
+      0%, 70%, 100% { opacity: 0.25; transform: translateY(0); }
+      35% { opacity: 0.9; transform: translateY(-1px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dd-typing-dots span { animation: none; }
+    }
+
+    @media (max-width: 900px) {
+      #gallery .dashboard-split,
+      #gallery .ai-robot-container,
+      #gallery .app-flow-visualization {
+        display: none !important;
+      }
+      .deepdive-chat-wrap { display: block; }
+    }
     .img-highlight {
       border-radius: 15px;
       border: 1px solid rgba(212, 175, 55, 0.2);
@@ -1560,6 +1774,45 @@
           *Interactive architectural mapping of the SaaS ecosystem, demonstrating cross-module data flow and UI state synchronization.
         </p>
       </div>
+
+      <!-- Mobile-only: Live workflow chat (replaces visuals on small screens) -->
+      <div class="deepdive-chat-wrap" aria-label="Live workflow chat demo">
+        <div class="deepdive-chat">
+          <div class="dd-chat-header">
+            <img class="dd-chat-avatar" src="../assets/images/Image_06.png" alt="Divine Emmanuel" loading="lazy" decoding="async" />
+            <div class="dd-chat-title">
+              <div class="dd-chat-name">Divine Emmanuel</div>
+              <div class="dd-chat-sub">
+                Workflow executing
+                <span class="dd-chat-pill" id="ddChatStep">Planning</span>
+              </div>
+            </div>
+            <div class="dd-chat-live"><span class="dd-dot" aria-hidden="true"></span>Live</div>
+          </div>
+
+          <div class="dd-workflow-steps" aria-label="Workflow steps">
+            <div class="dd-step is-active" data-step="Planning">Plan</div>
+            <div class="dd-step" data-step="Build">Build</div>
+            <div class="dd-step" data-step="Test">Test</div>
+            <div class="dd-step" data-step="Secure">Secure</div>
+            <div class="dd-step" data-step="Deploy">Deploy</div>
+          </div>
+
+          <div class="dd-chat-body" id="ddChatBody" aria-live="polite" aria-relevant="additions">
+            <div class="dd-bubble system">Opening project context…</div>
+            <div class="dd-bubble divine">I’m mapping architecture + key risks. Updates will appear here.</div>
+            <div class="dd-bubble client">Sounds good — show me what’s happening step-by-step.</div>
+          </div>
+
+          <div class="dd-chat-footer">
+            <div class="dd-typing" id="ddTyping" hidden>
+              <span>Typing</span>
+              <span class="dd-typing-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+            </div>
+            <div>Live updates</div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -1788,7 +2041,127 @@
   </script>
   
   <script>
-    
+    (function() {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const mobileMq = window.matchMedia('(max-width: 900px)');
+
+      const chatBody = document.getElementById('ddChatBody');
+      const typing = document.getElementById('ddTyping');
+      const stepPill = document.getElementById('ddChatStep');
+      const stepEls = Array.from(document.querySelectorAll('.dd-step'));
+
+      if (!chatBody || !typing || !stepPill || !stepEls.length) return;
+
+      const steps = ['Planning', 'Build', 'Test', 'Secure', 'Deploy'];
+      const script = [
+        { step: 'Planning', from: 'system', text: 'Collecting requirements + mapping user flows…' },
+        { step: 'Planning', from: 'divine', text: 'I’ve identified the critical path and data boundaries. Next: build plan.' },
+        { step: 'Build', from: 'system', text: 'Implementing API contracts + UI states…' },
+        { step: 'Build', from: 'divine', text: 'Shipping core endpoints, validation, and clean interfaces for maintainability.' },
+        { step: 'Test', from: 'system', text: 'Running test suite + smoke checks…' },
+        { step: 'Test', from: 'divine', text: 'Adding edge-case tests and tightening error handling to keep failures predictable.' },
+        { step: 'Secure', from: 'system', text: 'Executing security review: auth, input validation, and dependency risk…' },
+        { step: 'Secure', from: 'divine', text: 'Hardening completed — documenting fixes and recommended controls.' },
+        { step: 'Deploy', from: 'system', text: 'Deploying to staging with CI/CD checks…' },
+        { step: 'Deploy', from: 'divine', text: 'Deployment verified. Monitoring hooks added; ready for production approval.' }
+      ];
+
+      function setStep(step) {
+        const s = steps.includes(step) ? step : 'Planning';
+        stepPill.textContent = s;
+        stepEls.forEach((el) => {
+          const isActive = (el.getAttribute('data-step') || '') === s;
+          el.classList.toggle('is-active', isActive);
+        });
+      }
+
+      function addBubble(from, text) {
+        const bubble = document.createElement('div');
+        bubble.className = `dd-bubble ${from}`;
+        bubble.textContent = text;
+        chatBody.appendChild(bubble);
+
+        // keep it concise
+        const bubbles = chatBody.querySelectorAll('.dd-bubble');
+        if (bubbles.length > 10) {
+          for (let i = 0; i < bubbles.length - 10; i += 1) {
+            bubbles[i].remove();
+          }
+        }
+
+        chatBody.scrollTop = chatBody.scrollHeight;
+      }
+
+      let index = 0;
+      let intervalId = null;
+      let typingTimer = null;
+      let observer = null;
+      let running = false;
+
+      function stop() {
+        running = false;
+        if (intervalId) window.clearInterval(intervalId);
+        if (typingTimer) window.clearTimeout(typingTimer);
+        intervalId = null;
+        typingTimer = null;
+        typing.hidden = true;
+      }
+
+      function tick() {
+        if (document.visibilityState === 'hidden') return;
+        const item = script[index % script.length];
+        index += 1;
+
+        setStep(item.step);
+
+        if (prefersReducedMotion) {
+          addBubble(item.from, item.text);
+          return;
+        }
+
+        typing.hidden = false;
+        typingTimer = window.setTimeout(() => {
+          typing.hidden = true;
+          addBubble(item.from, item.text);
+        }, 650);
+      }
+
+      function start() {
+        if (running) return;
+        if (!mobileMq.matches) return;
+        running = true;
+        tick();
+        intervalId = window.setInterval(tick, 2400);
+      }
+
+      function initVisibilityControl() {
+        if (!('IntersectionObserver' in window)) {
+          start();
+          return;
+        }
+
+        observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) start();
+            else stop();
+          });
+        }, { threshold: 0.25 });
+
+        observer.observe(chatBody);
+      }
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') stop();
+        else start();
+      });
+
+      mobileMq.addEventListener?.('change', () => {
+        if (!mobileMq.matches) stop();
+        else start();
+      });
+
+      initVisibilityControl();
+    })();
   </script>
   <!-- Video modal -->
   <div id="videoModal" class="video-modal" aria-hidden="true">

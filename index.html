@@ -425,6 +425,9 @@
       color: #d8d8d8;
     }
 
+    .mobile-only { display: none; }
+    .desktop-only { display: inline; }
+
     .about-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -1095,6 +1098,13 @@
       .btn { width: 100%; }
       .booking-box { padding: 16px; }
       .booking-form input, .booking-form textarea, .booking-form select { padding: 12px; font-size: 0.95rem; }
+      .booking-form { gap: 12px; }
+      .booking-form textarea { min-height: 96px; }
+      #booking { padding: 56px 0; }
+      #booking .section-subtitle { margin: 0 auto 22px; }
+      #booking .total { padding: 12px; font-size: 0.95rem; }
+      .mobile-only { display: inline; }
+      .desktop-only { display: none; }
       .gallery-grid img { height: auto; }
       .rate-price { font-size: 1.8rem; }
     }
@@ -1492,7 +1502,8 @@
     <div class="container">
       <h2 class="section-title">Request a Consultation</h2>
       <p class="section-subtitle">
-        Submit your request or use the <a href="public/estimator.html" style="color:#d4af37;text-decoration:underline;font-weight:bold;">Project Estimator</a> to outline scope and priorities.
+        <span class="desktop-only">Submit your request or use the <a href="public/estimator.html" style="color:#d4af37;text-decoration:underline;font-weight:bold;">Project Estimator</a> to outline scope and priorities.</span>
+        <span class="mobile-only">Submit your request — or use the <a href="public/estimator.html" style="color:#d4af37;text-decoration:underline;font-weight:bold;">Project Estimator</a>.</span>
       </p>
 
       <div class="booking-box">
@@ -1541,8 +1552,9 @@
           <div class="total" id="totalCost">Estimated Consultation: $240</div>
 
           <p style="margin-top:10px; color:#cfcfcf; font-size:0.95rem; line-height:1.5;">
-            This opens your email app with a prefilled message to Emmanuel. Please hit <strong>Send</strong> to complete your request.
-            Scope and any applicable fees are confirmed by email before any paid work begins.
+            This opens your email app with a prefilled message to Emmanuel.
+            <span class="mobile-only"> Tap <strong>Send</strong> to finish.</span>
+            <span class="desktop-only"> Please hit <strong>Send</strong> to complete your request. Scope and any applicable fees are confirmed by email before any paid work begins.</span>
           </p>
 
           <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:6px;">

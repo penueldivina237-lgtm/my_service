@@ -298,6 +298,13 @@
       }
     }
 
+    @media (max-width: 768px) {
+      #about .section-subtitle { margin-bottom: 26px; }
+      #about .about-box { padding: 22px; }
+      .pro-summary-text { display: none; }
+      .pro-summary-mobile { display: block; }
+    }
+
     .hero {
       min-height: 92vh;
       display: flex;
@@ -455,6 +462,77 @@
     .about-box p {
       margin-bottom: 16px;
       color: #e2e2e2;
+    }
+
+    .pro-summary-text { display: block; }
+    .pro-summary-mobile { display: none; }
+
+    .pro-summary-mini {
+      color: #e2e2e2;
+      margin-bottom: 14px;
+      text-align: center;
+      font-size: 0.98rem;
+      line-height: 1.5;
+    }
+
+    .pro-summary-ball {
+      width: 132px;
+      height: 132px;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.55);
+      background: rgba(212, 175, 55, 0.12);
+      color: #d4af37;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      margin: 0 auto;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.35);
+    }
+
+    .pro-summary-ball:active { transform: scale(0.98); }
+
+    .pro-summary-modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 6500; }
+    .pro-summary-modal.active { display: flex; }
+    .pro-summary-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.76); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+    .pro-summary-panel {
+      position: relative;
+      z-index: 1;
+      width: min(720px, 92vw);
+      max-height: calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      background: rgba(0, 0, 0, 0.62);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      border-radius: 16px;
+      padding: 18px;
+      padding-top: 54px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .pro-summary-panel h3 { color: #d4af37; margin-bottom: 10px; }
+    .pro-summary-panel p { color: #e2e2e2; margin-bottom: 14px; }
+
+    .pro-summary-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.35);
+      color: #fff;
+      cursor: pointer;
     }
 
     .about-image img {
@@ -1276,18 +1354,25 @@
 
       <div class="about-grid">
         <div class="about-box">
-          <p>
-            I’m Divine Emmanuel, a Hamilton, Ontario–based tech professional delivering AI-enabled full-stack DevSecOps services.
-            I help teams design, build, and operate secure systems — improving delivery speed, reliability, and security posture using practical automation and AI-assisted workflows.
-          </p>
-          <p>
-            My approach is practical and outcomes-driven: clean code, scalable architecture, and security-by-design.
-            I use AI responsibly to accelerate delivery (documentation, code review support, test scaffolding, and operational runbooks) while keeping quality, privacy, and maintainability first.
-          </p>
-          <p>
-            Whether it’s a new product build, a security assessment, or a CI/CD + cloud upgrade,
-            I bring a disciplined process across architecture, implementation, observability, and documentation — with clear handoff notes your team can maintain.
-          </p>
+          <div class="pro-summary-text">
+            <p>
+              I’m Divine Emmanuel, a Hamilton, Ontario–based tech professional delivering AI-enabled full-stack DevSecOps services.
+              I help teams design, build, and operate secure systems — improving delivery speed, reliability, and security posture using practical automation and AI-assisted workflows.
+            </p>
+            <p>
+              My approach is practical and outcomes-driven: clean code, scalable architecture, and security-by-design.
+              I use AI responsibly to accelerate delivery (documentation, code review support, test scaffolding, and operational runbooks) while keeping quality, privacy, and maintainability first.
+            </p>
+            <p>
+              Whether it’s a new product build, a security assessment, or a CI/CD + cloud upgrade,
+              I bring a disciplined process across architecture, implementation, observability, and documentation — with clear handoff notes your team can maintain.
+            </p>
+          </div>
+
+          <div class="pro-summary-mobile">
+            <p class="pro-summary-mini">Professional Summary</p>
+            <button type="button" class="pro-summary-ball" id="proSummaryOpen" aria-haspopup="dialog" aria-controls="proSummaryModal" aria-label="Open professional summary">Open</button>
+          </div>
         </div>
 
         <div class="about-image">
@@ -1731,6 +1816,12 @@
       const moreSolutionsBackdrop = moreSolutionsModal?.querySelector('.more-modal-backdrop');
       const moreSolutionsLinks = moreSolutionsModal?.querySelectorAll('a');
 
+      const proSummaryOpen = document.getElementById('proSummaryOpen');
+      const proSummaryModal = document.getElementById('proSummaryModal');
+      const proSummaryBackdrop = proSummaryModal?.querySelector('.pro-summary-backdrop');
+      const proSummaryPanel = proSummaryModal?.querySelector('.pro-summary-panel');
+      const proSummaryClose = document.getElementById('proSummaryClose');
+
       const hasDrawer = !!(menuToggle && drawer && drawerOverlay);
 
       const closeDrawer = () => {
@@ -1754,6 +1845,21 @@
         if (!moreSolutionsModal) return;
         moreSolutionsModal.classList.remove('active');
         moreSolutionsModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      };
+
+      const openProSummary = () => {
+        if (!proSummaryModal) return;
+        proSummaryModal.classList.add('active');
+        proSummaryModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        proSummaryPanel?.focus();
+      };
+
+      const closeProSummary = () => {
+        if (!proSummaryModal) return;
+        proSummaryModal.classList.remove('active');
+        proSummaryModal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
       };
 
@@ -1795,6 +1901,17 @@
         });
       }
 
+      if (proSummaryOpen) {
+        proSummaryOpen.addEventListener('click', () => {
+          closeDrawer();
+          closeMoreSolutions();
+          openProSummary();
+        });
+      }
+
+      proSummaryClose?.addEventListener('click', closeProSummary);
+      proSummaryBackdrop?.addEventListener('click', closeProSummary);
+
       // Close drawer when a link is clicked
       if (hasDrawer) {
         drawerLinks.forEach(link => {
@@ -1804,6 +1921,10 @@
 
       // Escape key to close drawer
       document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && proSummaryModal?.classList.contains('active')) {
+          closeProSummary();
+          return;
+        }
         if (e.key === 'Escape' && moreSolutionsModal?.classList.contains('active')) {
           closeMoreSolutions();
           return;
@@ -1838,6 +1959,27 @@
     <div class="video-modal-content" role="dialog" aria-modal="true" tabindex="-1">
       <button class="video-modal-close" aria-label="Close video">✕</button>
       <div id="videoModalPlayer" class="video-modal-player"></div>
+    </div>
+  </div>
+
+  <!-- Professional Summary modal (mobile) -->
+  <div id="proSummaryModal" class="pro-summary-modal" aria-hidden="true">
+    <div class="pro-summary-backdrop" aria-hidden="true"></div>
+    <div class="pro-summary-panel" role="dialog" aria-modal="true" tabindex="-1" aria-label="Professional summary">
+      <button type="button" class="pro-summary-close" id="proSummaryClose" aria-label="Close professional summary">✕</button>
+      <h3>Professional Summary</h3>
+      <p>
+        I’m Divine Emmanuel, a Hamilton, Ontario–based tech professional delivering AI-enabled full-stack DevSecOps services.
+        I help teams design, build, and operate secure systems — improving delivery speed, reliability, and security posture using practical automation and AI-assisted workflows.
+      </p>
+      <p>
+        My approach is practical and outcomes-driven: clean code, scalable architecture, and security-by-design.
+        I use AI responsibly to accelerate delivery (documentation, code review support, test scaffolding, and operational runbooks) while keeping quality, privacy, and maintainability first.
+      </p>
+      <p>
+        Whether it’s a new product build, a security assessment, or a CI/CD + cloud upgrade,
+        I bring a disciplined process across architecture, implementation, observability, and documentation — with clear handoff notes your team can maintain.
+      </p>
     </div>
   </div>
 

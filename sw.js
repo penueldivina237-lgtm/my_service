@@ -1,6 +1,6 @@
 /* Minimal PWA service worker for offline-friendly navigation */
 
-const CACHE_NAME = 'divine-pwa-v1';
+const CACHE_NAME = 'divine-pwa-v3';
 
 // Use relative URLs so this works on GitHub Pages subpaths.
 const CORE_ASSETS = [
@@ -13,6 +13,10 @@ const CORE_ASSETS = [
   './assets/images/image_04.png',
   './assets/images/Image_06.png',
   './assets/images/portfolio-main.png',
+  './public/service-summary.html',
+  './public/core-expertise.html',
+  './public/faq.html',
+  './public/request-consultation.html',
   './public/inside.html',
   './public/estimator.html',
   './public/video.html',

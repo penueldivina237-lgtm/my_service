@@ -417,18 +417,30 @@
       margin-top: 30px;
     }
 
-    .services-banner {
-      max-width: 920px;
-      margin: 0 auto 18px;
+    /* Watermark behind Core Expertise cards */
+    #services .container {
+      position: relative;
     }
 
-    .services-banner img {
-      width: 100%;
-      height: auto;
-      display: block;
-      border-radius: 12px;
-      border: 1px solid rgba(212, 175, 55, 0.18);
-      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+    #services .container::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url('assets/images/image_00.png');
+      background-repeat: no-repeat;
+      background-position: center 120px;
+      background-size: 520px auto;
+      opacity: 0.08;
+      pointer-events: none;
+      z-index: 0;
+      filter: grayscale(15%);
+    }
+
+    #services .section-title,
+    #services .section-subtitle,
+    #services .services-grid {
+      position: relative;
+      z-index: 1;
     }
 
     .service-card {
@@ -1200,10 +1212,6 @@
       <p class="section-subtitle">
         Full-stack delivery + DevOps automation + cybersecurity analytics.
       </p>
-
-      <div class="services-banner">
-        <img src="assets/images/image_00.png" alt="Solutions overview: AI integration, custom websites, mobile apps, and DevSecOps" loading="lazy" onerror="this.parentElement.style.display='none'" />
-      </div>
 
       <div class="services-grid">
         <div class="service-card">

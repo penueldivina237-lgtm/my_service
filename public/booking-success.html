@@ -32,37 +32,44 @@
 <body>
   <div class="card">
     <h1>Thank you — Request Received</h1>
-    <p>Your consultation request was received. Below is the project discussion information you provided.</p>
+    <p>Your consultation request is ready. Your email app should open with a prefilled message — please click <strong>Send</strong> to complete the request.</p>
 
     <div class="summary" id="summaryBox">
-      <p id="noData">No local request details found. If you submitted your request from a different device, please contact Divine to confirm it was received.</p>
+      <p id="noData">No local request details found. If your email app didn’t open, email <a href="mailto:Emmanuel@globalix-inc.com">Emmanuel@globalix-inc.com</a> and include your name + project details.</p>
     </div>
 
-    <p class="note">What happens next: Divine will review your request and reach out by email within 48 hours to schedule a consultation and confirm next steps.</p>
+    <p class="note">What happens next: Emmanuel will review your request and reply by email to confirm next steps and scheduling.</p>
 
     <a class="btn" href="../index.html">Return home</a>
   </div>
 
   <script>
     // Read the pending booking saved from the consultation request
-    try {
-      const raw = localStorage.getItem('pendingBooking');
-      if (raw) {
+    (function() {
+      try {
+        const raw = localStorage.getItem('pendingBooking');
+        if (!raw) return;
+
         const data = JSON.parse(raw);
         const box = document.getElementById('summaryBox');
         box.innerHTML = `
           <p><strong>Name:</strong> ${data.name || '-'}<br>
           <strong>Email:</strong> ${data.email || '-'}<br>
           <strong>Company/Project:</strong> ${data.organization || '-'}<br>
-          <strong>Target Date:</strong> ${data.date || '-'}<br>
+          <strong>Preferred Date:</strong> ${data.date || '-'}<br>
           <strong>Service:</strong> ${data.serviceType || '-'}<br>
-          <strong>Est. Hours:</strong> ${data.hours || '-'}<br>
-          <strong>Est. Initial Budget:</strong> $${data.total || '-'}
+          <strong>Consultation Length:</strong> ${data.hours || '-'} hour(s)<br>
+          <strong>Estimated Consultation Fee:</strong> $${data.total || '-'}
           </p>
           <p style="margin-top:8px"><strong>Technical Details:</strong><br><pre>${data.message || '-'}</pre></p>
         `;
 
-        // Optionally clear the stored booking now that the payment succeeded
+        localStorage.removeItem('pendingBooking');
+      } catch (err) {
+        // ignore
+      }
+    })();
+  </script>
 
   <script>
     // PWA: register service worker for install/offline support
@@ -70,12 +77,6 @@
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('../sw.js').catch(() => {});
       });
-    }
-  </script>
-        localStorage.removeItem('pendingBooking');
-      }
-    } catch (err) {
-      // ignore
     }
   </script>
     <!-- WhatsApp floating chat (original logo, no animation) -->

@@ -417,30 +417,104 @@
       margin-top: 30px;
     }
 
-    /* Watermark behind Core Expertise cards */
-    #services .container {
+    /* Solutions image + bubble overlay */
+    .solutions-showcase {
       position: relative;
+      max-width: 980px;
+      margin: 0 auto 18px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      box-shadow: 0 14px 34px rgba(0,0,0,0.28);
+      background: #0f0f0f;
     }
 
-    #services .container::before {
+    .solutions-showcase-img {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      filter: saturate(0.95) contrast(1.05);
+    }
+
+    @media (max-width: 720px) {
+      .solutions-showcase-img { height: 300px; }
+    }
+
+    .solutions-showcase::after {
       content: "";
       position: absolute;
       inset: 0;
-      background-image: url('assets/images/image_00.png');
-      background-repeat: no-repeat;
-      background-position: center 120px;
-      background-size: 520px auto;
-      opacity: 0.08;
+      background:
+        radial-gradient(650px 260px at 20% 0%, rgba(212,175,55,0.12), transparent 55%),
+        radial-gradient(700px 280px at 80% 100%, rgba(212,175,55,0.10), transparent 60%),
+        linear-gradient(to bottom, rgba(0,0,0,0.30), rgba(0,0,0,0.65));
       pointer-events: none;
-      z-index: 0;
-      filter: grayscale(15%);
     }
 
-    #services .section-title,
-    #services .section-subtitle,
-    #services .services-grid {
-      position: relative;
-      z-index: 1;
+    .solutions-overlay {
+      position: absolute;
+      inset: 0;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 12px;
+      z-index: 2;
+    }
+
+    .solutions-title {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      color: #fff;
+      font-size: 1.15rem;
+      margin: 0;
+    }
+
+    .solutions-title span {
+      color: #d4af37;
+    }
+
+    .solutions-bubbles {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .solutions-bubbles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    .solution-bubble {
+      background: rgba(10, 10, 10, 0.46);
+      border: 1px solid rgba(212,175,55,0.22);
+      border-radius: 999px;
+      padding: 10px 12px;
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.35);
+      min-height: 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: left;
+    }
+
+    .solution-bubble strong {
+      font-size: 0.98rem;
+      line-height: 1.15;
+      color: #ffffff;
+    }
+
+    .solution-bubble small {
+      margin-top: 2px;
+      color: #d7d7d7;
+      font-size: 0.78rem;
+      line-height: 1.15;
     }
 
     .service-card {
@@ -1212,6 +1286,31 @@
       <p class="section-subtitle">
         Full-stack delivery + DevOps automation + cybersecurity analytics.
       </p>
+
+      <div class="solutions-showcase" aria-label="Solutions overview">
+        <img class="solutions-showcase-img" src="assets/images/image_00.png" alt="Solutions showcase" loading="lazy" onerror="this.parentElement.style.display='none'" />
+        <div class="solutions-overlay">
+          <p class="solutions-title"><span>Our Powerful Solutions</span> built for real delivery</p>
+          <div class="solutions-bubbles" aria-label="Solutions list">
+            <div class="solution-bubble">
+              <strong>AI Integration</strong>
+              <small>Smart &amp; Innovative</small>
+            </div>
+            <div class="solution-bubble">
+              <strong>Custom Websites</strong>
+              <small>Modern &amp; Responsive</small>
+            </div>
+            <div class="solution-bubble">
+              <strong>Mobile Apps</strong>
+              <small>iOS &amp; Android</small>
+            </div>
+            <div class="solution-bubble">
+              <strong>DevSecOps</strong>
+              <small>Secure &amp; Efficient</small>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="services-grid">
         <div class="service-card">

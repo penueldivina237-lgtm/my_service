@@ -1900,7 +1900,11 @@
     }
 
     @media (max-width: 720px) {
-      .more-modal-watermark { inset: 5vh 5vw; }
+      .more-modal-watermark {
+        inset: 5vh 5vw;
+        object-position: 30% center;
+        transform: translateX(-6vw);
+      }
     }
 
     .more-modal-panel {

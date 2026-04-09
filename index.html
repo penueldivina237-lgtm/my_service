@@ -3883,8 +3883,12 @@
         deep60: '',
       };
 
+      // Optional: if you prefer a single general booking page, paste your Calendly profile link here.
+      // Example: 'https://calendly.com/your-handle'
+      const CALENDLY_PROFILE_URL = '';
+
       function openCalendly(sessionKey) {
-        const url = String(CALENDLY_EVENT_URLS[sessionKey] || '').trim();
+        const url = String(CALENDLY_EVENT_URLS[sessionKey] || CALENDLY_PROFILE_URL || '').trim();
         if (!url) return false;
         if (!window.Calendly || typeof window.Calendly.initPopupWidget !== 'function') return false;
         window.Calendly.initPopupWidget({ url });

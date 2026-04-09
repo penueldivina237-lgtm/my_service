@@ -446,6 +446,10 @@
         // deep60: 'https://buy.stripe.com/yyyy',
       };
 
+      // Optional: if you prefer a single general booking page, paste your Calendly profile link here.
+      // Example: 'https://calendly.com/your-handle'
+      const CALENDLY_PROFILE_URL = '';
+
       const CALENDLY_EVENT_URLS = {
         // Paste your Calendly event links here (one per session).
         // In Calendly, enable Stripe payments + Google Calendar integration for paid event types.
@@ -478,11 +482,28 @@
 
       function openCalendlyForSelectedSession() {
         const session = getSelectedSession();
-        const url = String(CALENDLY_EVENT_URLS[session.key] || '').trim();
+        const url = String(CALENDLY_EVENT_URLS[session.key] || CALENDLY_PROFILE_URL || '').trim();
         if (!url) return false;
         if (!window.Calendly || typeof window.Calendly.initPopupWidget !== 'function') return false;
         window.Calendly.initPopupWidget({ url });
         return true;
+      }
+
+      function fallbackToEmailRequest(sessionKey) {
+        try {
+          bookingForm?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } catch (e) {}
+
+        const msg = document.getElementById('message');
+        if (msg && typeof msg.focus === 'function') {
+          msg.focus({ preventScroll: true });
+          return;
+        }
+
+        const submitBtn = bookingForm?.querySelector('button[type="submit"]');
+        if (submitBtn && typeof submitBtn.focus === 'function') {
+          submitBtn.focus({ preventScroll: true });
+        }
       }
 
       function gatherBookingData() {
@@ -519,7 +540,7 @@
         instantBookingBtn.addEventListener('click', () => {
           const opened = openCalendlyForSelectedSession();
           if (!opened) {
-            alert('Instant booking is not configured yet. For now, use “Request Consultation via Email”.');
+            fallbackToEmailRequest(getSelectedSession().key);
           }
         });
       }

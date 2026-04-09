@@ -194,6 +194,22 @@
           </button>
         </div>
 
+        <div id="waPanel" class="wa-panel" aria-label="WhatsApp message" hidden>
+          <div class="ai-header">
+            <button type="button" class="ai-back" id="waBack" aria-label="Back to chat options">←</button>
+            <div class="ai-title">WhatsApp</div>
+          </div>
+
+          <div class="wa-body">
+            <div class="wa-note">Type a message here. When you press Send, WhatsApp opens in a new tab.</div>
+
+            <form class="wa-form" id="waForm" autocomplete="off">
+              <textarea id="waInput" class="wa-textarea" placeholder="Write your message…" aria-label="WhatsApp message"></textarea>
+              <button type="submit" class="ai-send" aria-label="Send on WhatsApp">Send</button>
+            </form>
+          </div>
+        </div>
+
         <div id="aiPanel" class="ai-panel" aria-label="AI assistant chat" hidden>
           <div class="ai-header">
             <button type="button" class="ai-back" id="aiBack" aria-label="Back to chat options">←</button>
@@ -362,6 +378,15 @@
       display: grid;
       grid-template-rows: auto 1fr auto auto;
       padding: 0;
+      min-height: 0;
+    }
+
+    .wa-panel {
+      height: 100%;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      padding: 0;
+      min-height: 0;
     }
 
     .ai-header {
@@ -390,6 +415,48 @@
       -webkit-overflow-scrolling: touch;
       display: grid;
       gap: 10px;
+      min-height: 0;
+      overscroll-behavior: contain;
+    }
+
+    .wa-body {
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+      min-height: 0;
+    }
+
+    .wa-note {
+      color: rgba(255,255,255,0.72);
+      font-size: 0.92rem;
+      line-height: 1.4;
+    }
+
+    .wa-form {
+      display: grid;
+      grid-template-rows: 1fr auto;
+      gap: 10px;
+      min-height: 0;
+    }
+
+    .wa-textarea {
+      width: 100%;
+      min-height: 140px;
+      max-height: 40vh;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.92);
+      outline: none;
+      resize: none;
+      overflow: auto;
+      font-family: inherit;
+    }
+
+    .wa-textarea:focus {
+      border-color: rgba(212,175,55,0.55);
+      box-shadow: 0 0 0 3px rgba(212,175,55,0.10);
     }
 
     .ai-msg {
@@ -480,6 +547,11 @@
       const aiForm = document.getElementById('aiForm');
       const aiInput = document.getElementById('aiInput');
 
+      const waPanel = document.getElementById('waPanel');
+      const waBack = document.getElementById('waBack');
+      const waForm = document.getElementById('waForm');
+      const waInput = document.getElementById('waInput');
+
       const WA_NUMBER = '13653845983';
       const EMAIL = 'Emmanuel@globalix-inc.com';
 
@@ -514,16 +586,31 @@
 
       function showPicker() {
         aiPanel.hidden = true;
+        waPanel.hidden = true;
         picker.hidden = false;
         try { appWhatsApp.focus({ preventScroll: true }); } catch (e) {}
       }
 
       function showAI() {
         picker.hidden = true;
+        waPanel.hidden = true;
         aiPanel.hidden = false;
         ensureAiBoot();
         setTimeout(() => {
           try { aiInput.focus({ preventScroll: true }); } catch (e) {}
+        }, 0);
+      }
+
+      function showWhatsApp() {
+        picker.hidden = true;
+        aiPanel.hidden = true;
+        waPanel.hidden = false;
+
+        const defaultMsg = "Hi Divine, I visited your website and would like to discuss software, cybersecurity, and/or DevSecOps services. Could we schedule a consultation?";
+        if (waInput && !String(waInput.value || '').trim()) waInput.value = defaultMsg;
+
+        setTimeout(() => {
+          try { waInput && waInput.focus({ preventScroll: true }); } catch (e) {}
         }, 0);
       }
 
@@ -547,8 +634,7 @@
       });
 
       appWhatsApp.addEventListener('click', () => {
-        openWhatsApp('');
-        closeOverlay();
+        showWhatsApp();
       });
 
       appAI.addEventListener('click', () => {
@@ -557,6 +643,16 @@
 
       aiBack.addEventListener('click', () => {
         showPicker();
+      });
+
+      waBack.addEventListener('click', () => {
+        showPicker();
+      });
+
+      waForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        openWhatsApp(waInput.value);
+        closeOverlay();
       });
 
       const STORAGE_KEY = 'ai_assistant_chat_v1';

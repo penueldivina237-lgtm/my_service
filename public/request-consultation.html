@@ -411,14 +411,19 @@
         <div class="total" id="totalCost">Session Price: $49.99 CAD</div>
 
         <div class="note">
-          This opens your email app with a prefilled request. Scope and any applicable fees are confirmed by email before any paid work begins.
+          Instant booking (time slots + payment + calendar invite) can be enabled via Calendly. If it’s not set up yet, you can still request by email.
         </div>
 
-        <button type="submit" class="btn btn-primary">Request Consultation via Email</button>
+        <div style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button type="button" class="btn btn-outline" id="instantBookingBtn">Book Instantly (Pick a Time)</button>
+          <button type="submit" class="btn btn-primary">Request Consultation via Email</button>
+        </div>
       </form>
     </div>
   </div>
 
+  <!-- Calendly (for instant time-slot booking + payment when enabled in Calendly) -->
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript"></script>
   <script>
     (() => {
       const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -430,6 +435,7 @@
       const projectSizeInput = document.getElementById('projectSize');
       const totalCost = document.getElementById('totalCost');
       const bookingForm = document.getElementById('bookingForm');
+      const instantBookingBtn = document.getElementById('instantBookingBtn');
 
       const serviceTypeSelect = document.getElementById('serviceType');
       const bookingChips = Array.from(document.querySelectorAll('.booking-chip'));
@@ -440,11 +446,25 @@
         // deep60: 'https://buy.stripe.com/yyyy',
       };
 
+      const CALENDLY_EVENT_URLS = {
+        // Paste your Calendly event links here (one per session).
+        // In Calendly, enable Stripe payments + Google Calendar integration for paid event types.
+        intro15: '',
+        strategy30: '',
+        deep60: '',
+      };
+
       const SESSIONS = {
         intro15: { key: 'intro15', productName: '15-Minute Intro Call', minutes: 15, priceCad: 0 },
         strategy30: { key: 'strategy30', productName: '30-Minute Technical Strategy Session', minutes: 30, priceCad: 49.99 },
         deep60: { key: 'deep60', productName: '1-Hour Deep Technical Consultation', minutes: 60, priceCad: 100 },
       };
+
+      // Allow preselect via URL: ?session=intro15|strategy30|deep60
+      try {
+        const key = new URLSearchParams(window.location.search).get('session');
+        if (key && SESSIONS[key]) sessionTypeInput.value = key;
+      } catch (e) {}
 
       function getSelectedSession() {
         const key = String(sessionTypeInput?.value || 'strategy30');
@@ -454,6 +474,15 @@
       function updateTotal() {
         const s = getSelectedSession();
         totalCost.textContent = `Session Price: $${s.priceCad} CAD`;
+      }
+
+      function openCalendlyForSelectedSession() {
+        const session = getSelectedSession();
+        const url = String(CALENDLY_EVENT_URLS[session.key] || '').trim();
+        if (!url) return false;
+        if (!window.Calendly || typeof window.Calendly.initPopupWidget !== 'function') return false;
+        window.Calendly.initPopupWidget({ url });
+        return true;
       }
 
       function gatherBookingData() {
@@ -483,6 +512,18 @@
         };
       }
 
+      sessionTypeInput.addEventListener('change', updateTotal);
+      updateTotal();
+
+      if (instantBookingBtn) {
+        instantBookingBtn.addEventListener('click', () => {
+          const opened = openCalendlyForSelectedSession();
+          if (!opened) {
+            alert('Instant booking is not configured yet. For now, use “Request Consultation via Email”.');
+          }
+        });
+      }
+
       // Chips preselect the service dropdown
       if (serviceTypeSelect && bookingChips.length) {
         const selectChip = (chip) => {
@@ -503,8 +544,6 @@
         const initial = bookingChips.find((c) => (c.getAttribute('data-service') || '') === String(serviceTypeSelect.value));
         if (initial) selectChip(initial);
       }
-
-      sessionTypeInput.addEventListener('change', updateTotal);
 
       bookingForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -544,7 +583,6 @@
         }, 500);
       });
 
-      updateTotal();
     })();
   </script>
 

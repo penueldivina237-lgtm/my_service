@@ -2063,6 +2063,9 @@
             <div class="rate-pill">Determine the best next steps</div>
           </div>
           <p class="rate-note" style="margin: 14px 0 0; color: #cfcfcf;">Perfect for first-time clients.</p>
+          <div style="margin-top: 14px;">
+            <button type="button" class="btn btn-outline js-book-calendly" data-session="intro15">Book Intro Call</button>
+          </div>
         </div>
 
         <div class="rate-box rate-box--tier">
@@ -2074,6 +2077,9 @@
             <div class="rate-pill">Actionable recommendations</div>
           </div>
           <p class="rate-note" style="margin: 14px 0 0; color: #cfcfcf;">Best for quick problem-solving and expert direction.</p>
+          <div style="margin-top: 14px;">
+            <button type="button" class="btn btn-primary js-book-calendly" data-session="strategy30">Book Strategy Session</button>
+          </div>
         </div>
 
         <div class="rate-box rate-box--tier">
@@ -2085,6 +2091,9 @@
             <div class="rate-pill">Clear roadmap for execution</div>
           </div>
           <p class="rate-note" style="margin: 14px 0 0; color: #cfcfcf;">Ideal for serious projects and business-critical decisions.</p>
+          <div style="margin-top: 14px;">
+            <button type="button" class="btn btn-primary js-book-calendly" data-session="deep60">Book Deep Dive</button>
+          </div>
         </div>
       </div>
 
@@ -3744,6 +3753,42 @@
 
       window.addEventListener('focus', () => {
         document.title = originalTitle;
+      });
+    })();
+  </script>
+
+  <!-- Calendly (for instant time-slot booking + payment when enabled in Calendly) -->
+  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript"></script>
+  <script>
+    (() => {
+      const CALENDLY_EVENT_URLS = {
+        // Paste your Calendly event links here (one per session).
+        // In Calendly, enable Stripe payments + Google Calendar integration for paid event types.
+        intro15: '',
+        strategy30: '',
+        deep60: '',
+      };
+
+      function openCalendly(sessionKey) {
+        const url = String(CALENDLY_EVENT_URLS[sessionKey] || '').trim();
+        if (!url) return false;
+        if (!window.Calendly || typeof window.Calendly.initPopupWidget !== 'function') return false;
+        window.Calendly.initPopupWidget({ url });
+        return true;
+      }
+
+      function fallbackToEmailBooking(sessionKey) {
+        const target = `public/request-consultation.html?session=${encodeURIComponent(sessionKey || 'strategy30')}`;
+        window.location.href = target;
+      }
+
+      document.querySelectorAll('.js-book-calendly').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const key = String(btn.getAttribute('data-session') || 'strategy30');
+          const opened = openCalendly(key);
+          if (!opened) fallbackToEmailBooking(key);
+        });
       });
     })();
   </script>

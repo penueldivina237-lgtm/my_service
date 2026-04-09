@@ -670,10 +670,134 @@
       font-size: 0.95rem;
     }
 
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+
+    .social-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      background: rgba(255, 255, 255, 0.03);
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+      text-decoration: none;
+    }
+
+    .social-icon svg { width: 20px; height: 20px; display:block; }
+
+    .social-icon:hover {
+      transform: translateY(-2px);
+      background: rgba(212, 175, 55, 0.08);
+      border-color: rgba(212, 175, 55, 0.55);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .social-icon { transition: none; }
+    }
+
     .feature-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 22px;
+    }
+
+    .expertise-accordion {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .acc-item {
+      background: #191919;
+      border-radius: 12px;
+      border-top: 3px solid #d4af37;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+
+    .acc-trigger {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px 18px;
+      cursor: pointer;
+      text-align: left;
+      font: inherit;
+    }
+
+    .acc-title {
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .acc-icon {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 auto;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      background: rgba(212, 175, 55, 0.08);
+      position: relative;
+      transition: transform 220ms ease, background 220ms ease, border-color 220ms ease;
+    }
+
+    .acc-icon::before,
+    .acc-icon::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 14px;
+      height: 2px;
+      background: rgba(212, 175, 55, 0.95);
+      transform: translate(-50%, -50%);
+      border-radius: 2px;
+    }
+
+    .acc-icon::after {
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+
+    .acc-item.is-open .acc-icon {
+      transform: rotate(180deg);
+      background: rgba(212, 175, 55, 0.14);
+      border-color: rgba(212, 175, 55, 0.55);
+    }
+
+    .acc-item.is-open .acc-icon::after {
+      transform: translate(-50%, -50%) rotate(0deg);
+      opacity: 0;
+    }
+
+    .acc-panel {
+      height: 0;
+      overflow: hidden;
+      padding: 0 18px;
+      transition: height 320ms cubic-bezier(0.2, 0.9, 0.2, 1);
+    }
+
+    .acc-panel p {
+      color: #d8d8d8;
+      font-size: 0.97rem;
+      margin-bottom: 18px;
+    }
+
+    .acc-item.is-open .acc-panel {
+      padding-top: 2px;
     }
 
     .feature-card {
@@ -692,6 +816,14 @@
     .feature-card p {
       color: #d8d8d8;
       font-size: 0.97rem;
+    }
+
+    @media (max-width: 900px) {
+      .expertise-accordion { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .acc-panel, .acc-icon { transition: none; }
     }
 
     .gallery-grid {
@@ -1124,47 +1256,65 @@
         Full-stack delivery, DevSecOps automation, and cybersecurity hardening — built for production.
       </p>
 
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h3>Full-Stack Engineering</h3>
-          <p>
-            Product-grade web apps and APIs: architecture, implementation, and maintainable handoff.
-          </p>
+      <div class="expertise-accordion" id="expertiseAccordion">
+        <div class="acc-item">
+          <button type="button" class="acc-trigger" aria-expanded="false">
+            <span class="acc-title">Full-Stack Engineering</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-panel" hidden>
+            <p>Product-grade web apps and APIs: architecture, implementation, and maintainable handoff.</p>
+          </div>
         </div>
 
-        <div class="feature-card">
-          <h3>DevSecOps & CI/CD</h3>
-          <p>
-            Build pipelines, release automation, environment promotion, and security checks baked into delivery.
-          </p>
+        <div class="acc-item">
+          <button type="button" class="acc-trigger" aria-expanded="false">
+            <span class="acc-title">DevSecOps &amp; CI/CD</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-panel" hidden>
+            <p>Build pipelines, release automation, environment promotion, and security checks baked into delivery.</p>
+          </div>
         </div>
 
-        <div class="feature-card">
-          <h3>Cybersecurity (AppSec)</h3>
-          <p>
-            Threat modeling, secure architecture reviews, and practical hardening for web/app/API systems.
-          </p>
+        <div class="acc-item">
+          <button type="button" class="acc-trigger" aria-expanded="false">
+            <span class="acc-title">Cybersecurity (AppSec)</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-panel" hidden>
+            <p>Threat modeling, secure architecture reviews, and practical hardening for web/app/API systems.</p>
+          </div>
         </div>
 
-        <div class="feature-card">
-          <h3>Cloud & IaC</h3>
-          <p>
-            Infrastructure-as-Code, secure cloud foundations, and repeatable environments for reliable deployments.
-          </p>
+        <div class="acc-item">
+          <button type="button" class="acc-trigger" aria-expanded="false">
+            <span class="acc-title">Cloud &amp; IaC</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-panel" hidden>
+            <p>Infrastructure-as-Code, secure cloud foundations, and repeatable environments for reliable deployments.</p>
+          </div>
         </div>
 
-        <div class="feature-card">
-          <h3>Observability & Reliability</h3>
-          <p>
-            Monitoring, logging, alerting, and incident readiness so production stays stable and measurable.
-          </p>
+        <div class="acc-item">
+          <button type="button" class="acc-trigger" aria-expanded="false">
+            <span class="acc-title">Observability &amp; Reliability</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-panel" hidden>
+            <p>Monitoring, logging, alerting, and incident readiness so production stays stable and measurable.</p>
+          </div>
         </div>
 
-        <div class="feature-card">
-          <h3>Architecture & Delivery</h3>
-          <p>
-            Scoping, tradeoffs, documentation, and clean interfaces to keep systems scalable and teams unblocked.
-          </p>
+        <div class="acc-item">
+          <button type="button" class="acc-trigger" aria-expanded="false">
+            <span class="acc-title">Architecture &amp; Delivery</span>
+            <span class="acc-icon" aria-hidden="true"></span>
+          </button>
+          <div class="acc-panel" hidden>
+            <p>Scoping, tradeoffs, documentation, and clean interfaces to keep systems scalable and teams unblocked.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -1430,6 +1580,21 @@
             Accepting new client projects, audits, and retainers.
             Typical response within 24 hours.
           </p>
+
+          <div class="social-icons" aria-label="Social links" style="justify-content:flex-start;">
+            <a class="social-icon" href="https://www.youtube.com/" target="_blank" rel="noopener" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M21.6 7.2a3 3 0 0 0-2.1-2.1C17.6 4.6 12 4.6 12 4.6s-5.6 0-7.5.5A3 3 0 0 0 2.4 7.2 31.8 31.8 0 0 0 2 12c0 1.6.1 3.2.4 4.8a3 3 0 0 0 2.1 2.1c1.9.5 7.5.5 7.5.5s5.6 0 7.5-.5a3 3 0 0 0 2.1-2.1c.3-1.6.4-3.2.4-4.8 0-1.6-.1-3.2-.4-4.8ZM10.3 15.3V8.7l5.7 3.3-5.7 3.3Z" fill="#d4af37"/></svg>
+            </a>
+            <a class="social-icon" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9ZM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm6.2-2.2a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4Z" fill="#d4af37"/></svg>
+            </a>
+            <a class="social-icon" href="https://x.com/" target="_blank" rel="noopener" aria-label="Twitter">
+              <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M18.9 2H22l-6.8 7.8L23 22h-6.8l-5.3-6.9L4.9 22H2l7.4-8.5L1 2h7l4.8 6.3L18.9 2Zm-1.2 18h1.9L6.2 3.9H4.2L17.7 20Z" fill="#d4af37"/></svg>
+            </a>
+            <a class="social-icon" href="https://www.facebook.com/" target="_blank" rel="noopener" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><path d="M13.7 22v-8h2.7l.4-3h-3.1V9.1c0-.9.3-1.6 1.7-1.6h1.6V4.8c-.3 0-1.3-.1-2.5-.1-2.4 0-4.1 1.5-4.1 4.3V11H8v3h2.3v8h3.4Z" fill="#d4af37"/></svg>
+            </a>
+          </div>
           <img src="../assets/images/Image_06.png" alt="Divine Emmanuel technical showcase" />
         </div>
       </div>
@@ -1672,6 +1837,92 @@
 
       window.addEventListener('focus', () => {
         document.title = originalTitle;
+      });
+    })();
+  </script>
+
+  <script>
+    (function(){
+      const root = document.getElementById('expertiseAccordion');
+      if (!root) return;
+
+      const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function setPanelHeight(panel, heightPx){
+        panel.style.height = heightPx;
+      }
+
+      function openItem(item){
+        const trigger = item.querySelector('.acc-trigger');
+        const panel = item.querySelector('.acc-panel');
+        if (!trigger || !panel) return;
+
+        item.classList.add('is-open');
+        trigger.setAttribute('aria-expanded','true');
+        panel.hidden = false;
+
+        if (prefersReduced) {
+          setPanelHeight(panel, 'auto');
+          return;
+        }
+
+        setPanelHeight(panel, '0px');
+        const target = panel.scrollHeight;
+        requestAnimationFrame(() => {
+          setPanelHeight(panel, target + 'px');
+        });
+
+        const onEnd = (e) => {
+          if (e.propertyName !== 'height') return;
+          panel.removeEventListener('transitionend', onEnd);
+          if (item.classList.contains('is-open')) setPanelHeight(panel, 'auto');
+        };
+        panel.addEventListener('transitionend', onEnd);
+      }
+
+      function closeItem(item){
+        const trigger = item.querySelector('.acc-trigger');
+        const panel = item.querySelector('.acc-panel');
+        if (!trigger || !panel) return;
+
+        item.classList.remove('is-open');
+        trigger.setAttribute('aria-expanded','false');
+
+        if (prefersReduced) {
+          setPanelHeight(panel, '0px');
+          panel.hidden = true;
+          return;
+        }
+
+        const current = panel.scrollHeight;
+        setPanelHeight(panel, current + 'px');
+        requestAnimationFrame(() => {
+          setPanelHeight(panel, '0px');
+        });
+
+        const onEnd = (e) => {
+          if (e.propertyName !== 'height') return;
+          panel.removeEventListener('transitionend', onEnd);
+          if (!item.classList.contains('is-open')) panel.hidden = true;
+        };
+        panel.addEventListener('transitionend', onEnd);
+      }
+
+      const items = Array.from(root.querySelectorAll('.acc-item'));
+
+      root.addEventListener('click', (e) => {
+        const btn = e.target.closest('.acc-trigger');
+        if (!btn) return;
+        const item = btn.closest('.acc-item');
+        if (!item) return;
+
+        const isOpen = item.classList.contains('is-open');
+        items.forEach(other => {
+          if (other !== item) closeItem(other);
+        });
+
+        if (isOpen) closeItem(item);
+        else openItem(item);
       });
     })();
   </script>

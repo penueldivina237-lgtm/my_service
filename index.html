@@ -3104,21 +3104,50 @@
       const waInput = document.getElementById('waInput');
       const waNumber = '13653845983';
 
+      let openedAt = 0;
+
+      const isOpen = () => waChatBox.style.display === 'flex';
+
+      const openChat = () => {
+        waChatBox.style.display = 'flex';
+        openedAt = Date.now();
+        // focus after paint to avoid scroll jump on some mobile browsers
+        window.setTimeout(() => {
+          try { waInput?.focus?.(); } catch (e) {}
+        }, 0);
+      };
+
+      const closeChat = () => {
+        waChatBox.style.display = 'none';
+      };
+
       waFloat.addEventListener('click', () => {
-        const isVisible = waChatBox.style.display === 'flex';
-        waChatBox.style.display = isVisible ? 'none' : 'flex';
+        // First click: open the in-page chat UI. Next click (when open): launch WhatsApp.
+        if (!isOpen()) {
+          openChat();
+          return;
+        }
+
+        // Guard against accidental double-tap immediately after opening
+        if (Date.now() - openedAt < 450) return;
+
+        startChat();
       });
 
       waClose.addEventListener('click', (e) => {
         e.stopPropagation();
-        waChatBox.style.display = 'none';
+        closeChat();
       });
 
       function startChat() {
+        if (!isOpen()) {
+          openChat();
+          return;
+        }
         const msg = waInput.value.trim() || "Hi Divine, I visited your website and would like to discuss software, cybersecurity, and/or DevSecOps services. Could we schedule a consultation?";
         const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
         window.open(url, '_blank');
-        waChatBox.style.display = 'none';
+        closeChat();
         waInput.value = '';
       }
 

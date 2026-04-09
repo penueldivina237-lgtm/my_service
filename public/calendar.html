@@ -2,65 +2,297 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Book Instantly</title>
   <meta name="description" content="Pick a session, date, and time to request a booking. Payment can be enabled via Stripe Payment Links." />
 
   <style>
-    :root { color-scheme: dark; }
+    :root {
+      color-scheme: dark;
+      --gold: #d4af37;
+      --fg: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.72);
+      --panel: rgba(0,0,0,0.46);
+      --line: rgba(255,255,255,0.12);
+      --line-gold: rgba(212,175,55,0.22);
+      --ring: rgba(212,175,55,0.14);
+    }
+
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+    }
 
     body {
       margin: 0;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 600px at 15% 10%, rgba(212,175,55,0.14), transparent 60%),
-                  radial-gradient(900px 500px at 90% 15%, rgba(255,255,255,0.06), transparent 55%),
-                  #050505;
-      color: rgba(255,255,255,0.92);
+      color: var(--fg);
+      background: #050505;
     }
 
-    .wrap { max-width: 980px; margin: 0 auto; padding: 24px 16px 32px; }
+    .bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      background:
+        radial-gradient(1200px 700px at 18% 10%, rgba(212,175,55,0.18), transparent 60%),
+        radial-gradient(900px 520px at 92% 12%, rgba(255,255,255,0.06), transparent 55%),
+        radial-gradient(1000px 600px at 60% 85%, rgba(212,175,55,0.10), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,0.03), transparent 42%);
+    }
 
-    h1 { margin: 0; font-size: 1.35rem; letter-spacing: 0.4px; }
-    .sub { margin: 6px 0 0; color: rgba(255,255,255,0.72); line-height: 1.4; max-width: 75ch; }
+    .bg::before,
+    .bg::after {
+      content: '';
+      position: absolute;
+      inset: -30%;
+      background:
+        radial-gradient(closest-side, rgba(212,175,55,0.14), transparent 70%),
+        radial-gradient(closest-side, rgba(255,255,255,0.05), transparent 72%);
+      filter: blur(18px);
+      transform: translate3d(0,0,0);
+      opacity: 0.75;
+      animation: floatField 18s ease-in-out infinite;
+    }
+
+    .bg::after {
+      animation-duration: 26s;
+      opacity: 0.55;
+      mix-blend-mode: screen;
+    }
+
+    @keyframes floatField {
+      0% { transform: translate(-2%, -1%) scale(1.02); }
+      50% { transform: translate(2%, 1%) scale(1.06); }
+      100% { transform: translate(-2%, -1%) scale(1.02); }
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding:
+        calc(22px + env(safe-area-inset-top))
+        calc(16px + env(safe-area-inset-right))
+        calc(30px + env(safe-area-inset-bottom))
+        calc(16px + env(safe-area-inset-left));
+    }
+
+    .hero {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid rgba(212,175,55,0.14);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.30));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      background: radial-gradient(650px 180px at 25% 0%, rgba(212,175,55,0.24), transparent 62%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 1.45rem;
+      letter-spacing: 0.4px;
+    }
+
+    .sub {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      max-width: 78ch;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 14px;
+      margin-top: 14px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+    }
 
     .card {
-      margin-top: 14px;
-      border: 1px solid rgba(212,175,55,0.20);
-      background: rgba(0,0,0,0.45);
-      border-radius: 16px;
+      border: 1px solid var(--line-gold);
+      background: var(--panel);
+      border-radius: 18px;
       overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.50);
+      box-shadow: 0 22px 70px rgba(0,0,0,0.55);
+      position: relative;
     }
 
-    form { padding: 16px; display: grid; gap: 12px; }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(900px 240px at 20% 0%, rgba(212,175,55,0.12), transparent 60%);
+      opacity: 0.9;
+    }
 
-    .row { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    @media (max-width: 720px) { .row { grid-template-columns: 1fr; } }
+    .side { padding: 16px; display: grid; gap: 12px; }
 
-    label { font-weight: 800; color: rgba(255,255,255,0.88); font-size: 0.95rem; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.20);
+      background: rgba(212,175,55,0.08);
+      color: rgba(255,255,255,0.92);
+      font-weight: 900;
+      width: fit-content;
+    }
+
+    .badge .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--gold);
+      box-shadow: 0 0 0 5px rgba(212,175,55,0.10);
+      animation: pulseDot 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(0.92); opacity: 0.8; }
+      50% { transform: scale(1.06); opacity: 1; }
+    }
+
+    .meta {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.30);
+    }
+
+    .meta-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      color: rgba(255,255,255,0.82);
+      font-weight: 800;
+    }
+
+    .meta-row span { color: rgba(255,255,255,0.68); font-weight: 700; }
+
+    .helper {
+      color: rgba(255,255,255,0.70);
+      line-height: 1.45;
+      font-size: 0.95rem;
+    }
+
+    .form-card { padding: 16px; }
+
+    form { display: grid; gap: 12px; }
+
+    .row {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (max-width: 720px) {
+      .row { grid-template-columns: 1fr; }
+    }
+
+    label { font-weight: 900; color: rgba(255,255,255,0.88); font-size: 0.95rem; }
 
     input, select, textarea {
       width: 100%;
       padding: 12px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      border: 1px solid var(--line);
       background: rgba(255,255,255,0.04);
       color: rgba(255,255,255,0.92);
       outline: none;
       box-sizing: border-box;
+      transition: border-color 150ms ease, box-shadow 150ms ease;
     }
 
     input:focus, select:focus, textarea:focus {
       border-color: rgba(212,175,55,0.55);
+      box-shadow: 0 0 0 3px var(--ring);
+    }
+
+    textarea { min-height: 128px; resize: vertical; }
+
+    .time-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 720px) {
+      .time-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    .time-btn {
+      padding: 10px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.26);
+      color: rgba(255,255,255,0.90);
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .time-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(212,175,55,0.40);
+      background: rgba(212,175,55,0.10);
+    }
+
+    .time-btn:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--ring);
+    }
+
+    .time-btn[aria-pressed="true"] {
+      border-color: rgba(212,175,55,0.62);
+      background: rgba(212,175,55,0.14);
+      color: rgba(255,255,255,0.95);
       box-shadow: 0 0 0 3px rgba(212,175,55,0.10);
     }
 
-    textarea { min-height: 120px; resize: vertical; }
+    .time-native {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    .field-error {
+      margin-top: 8px;
+      color: rgba(212,175,55,0.95);
+      font-weight: 800;
+      display: none;
+    }
+
+    .field-error.show { display: block; }
 
     .total {
       padding: 12px 14px;
-      border-radius: 12px;
-      border: 1px solid rgba(212,175,55,0.18);
+      border-radius: 14px;
+      border: 1px solid rgba(212,175,55,0.20);
       background: rgba(212,175,55,0.08);
       color: rgba(255,255,255,0.92);
       font-weight: 900;
@@ -78,11 +310,14 @@
       cursor: pointer;
       border: 1px solid rgba(212,175,55,0.55);
       background: rgba(212,175,55,0.14);
-      color: #d4af37;
+      color: var(--gold);
       font-weight: 900;
       text-decoration: none;
       -webkit-tap-highlight-color: transparent;
+      transition: transform 150ms ease, background 150ms ease;
     }
+
+    .btn:hover { transform: translateY(-1px); background: rgba(212,175,55,0.18); }
 
     .btn.secondary {
       border-color: rgba(255,255,255,0.18);
@@ -90,84 +325,123 @@
       color: rgba(255,255,255,0.92);
     }
 
+    .btn.secondary:hover { background: rgba(255,255,255,0.08); }
+
     .note {
       color: rgba(255,255,255,0.72);
       line-height: 1.45;
       font-size: 0.95rem;
     }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: revealIn 520ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .reveal.d2 { animation-delay: 90ms; }
+    .reveal.d3 { animation-delay: 140ms; }
+
+    @keyframes revealIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bg::before, .bg::after { animation: none; }
+      .badge .dot { animation: none; }
+      .reveal { animation: none; opacity: 1; transform: none; }
+      .btn, input, select, textarea, .time-btn { transition: none; }
+    }
   </style>
 </head>
 
 <body>
+  <div class="bg" aria-hidden="true"></div>
+
   <div class="wrap">
-    <h1>Book Instantly (Pick a Time)</h1>
-    <p class="sub">Pick a session, date, and time. If you add Stripe Payment Links, this page can send the user to Stripe to pay. Otherwise, it will open a prefilled email request.</p>
+    <div class="hero reveal">
+      <h1>Book Instantly (Pick a Time)</h1>
+      <p class="sub">Pick a session, choose a date, then tap a time slot. If Stripe is enabled for the session you choose, you’ll be routed to secure payment first.</p>
+    </div>
 
-    <div class="card">
-      <form id="bookingForm" autocomplete="off">
-        <div class="row">
-          <div>
-            <label for="sessionType">Session</label>
-            <select id="sessionType" aria-label="Session">
-              <option value="intro15">15-Minute Intro Call — $0</option>
-              <option value="strategy30" selected>30-Minute Technical Strategy Session — $49.99 CAD</option>
-              <option value="deep60">1-Hour Deep Technical Consultation — $100 CAD</option>
-            </select>
+    <div class="layout">
+      <aside class="card reveal d2" aria-label="Session summary">
+        <div class="side">
+          <div class="badge"><span class="dot" aria-hidden="true"></span><span id="badgeTitle">Session preview</span></div>
+
+          <div class="meta" aria-label="Selected session details">
+            <div class="meta-row"><span>Duration</span><strong id="metaDuration">—</strong></div>
+            <div class="meta-row"><span>Price</span><strong id="metaPrice">—</strong></div>
+            <div class="meta-row"><span>Timezone</span><strong id="metaTz">—</strong></div>
           </div>
-          <div>
-            <label for="date">Preferred date</label>
-            <input id="date" type="date" aria-label="Preferred date" required />
-          </div>
-        </div>
 
-        <div class="row">
-          <div>
-            <label for="time">Preferred time</label>
-            <select id="time" aria-label="Preferred time" required>
-              <option value="09:00">09:00</option>
-              <option value="10:00">10:00</option>
-              <option value="11:00">11:00</option>
-              <option value="13:00">13:00</option>
-              <option value="14:00">14:00</option>
-              <option value="15:00">15:00</option>
-              <option value="16:00">16:00</option>
-            </select>
-          </div>
-          <div>
-            <label for="timezone">Timezone</label>
-            <input id="timezone" type="text" aria-label="Timezone" readonly />
-          </div>
+          <p class="helper">This is a booking request. If payment is enabled for your session, you’ll be redirected to Stripe first. Otherwise, we’ll open a pre-filled email to confirm.</p>
         </div>
+      </aside>
 
-        <div class="row">
-          <div>
-            <label for="name">Name</label>
-            <input id="name" type="text" placeholder="Your name" aria-label="Name" required />
-          </div>
-          <div>
-            <label for="email">Email</label>
-            <input id="email" type="email" placeholder="you@example.com" aria-label="Email" required />
-          </div>
+      <section class="card reveal d3" aria-label="Booking form">
+        <div class="form-card">
+          <form id="bookingForm" novalidate>
+            <div class="row">
+              <div>
+                <label for="session">Session</label>
+                <select id="session" name="session" required>
+                  <option value="">Select…</option>
+                  <option value="strategy_30">30-Minute Strategy Session — $49.99 CAD</option>
+                  <option value="deep_dive_60">60-Minute Deep Dive — $149.99 CAD</option>
+                  <option value="audit_90">90-Minute Brand + Offer Audit — $249.99 CAD</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="date">Date</label>
+                <input id="date" name="date" type="date" required />
+              </div>
+            </div>
+
+            <div>
+              <label for="time">Time</label>
+              <select id="time" name="time" class="time-native" required>
+                <option value="">Select…</option>
+                <option value="09:00">09:00</option>
+                <option value="10:00">10:00</option>
+                <option value="11:00">11:00</option>
+                <option value="13:00">13:00</option>
+                <option value="14:00">14:00</option>
+                <option value="15:00">15:00</option>
+                <option value="16:00">16:00</option>
+              </select>
+              <div class="time-grid" id="timeGrid" role="group" aria-label="Choose a time slot"></div>
+              <div class="field-error" id="timeError">Pick a time slot.</div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="name">Your name</label>
+                <input id="name" name="name" type="text" autocomplete="name" required />
+              </div>
+              <div>
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email" required />
+              </div>
+            </div>
+
+            <div>
+              <label for="details">What do you want to work on?</label>
+              <textarea id="details" name="details" placeholder="A quick sentence is perfect…"></textarea>
+            </div>
+
+            <div class="total" id="totalLine">Total: —</div>
+
+            <div class="actions">
+              <button class="btn" type="submit" id="primaryBtn">Continue</button>
+              <a class="btn secondary" href="./inside.html">Back</a>
+            </div>
+
+            <p class="note" id="noteLine">If payment is enabled, you’ll be redirected to Stripe. Otherwise, we’ll open your email app with a pre-filled message.</p>
+          </form>
         </div>
-
-        <div>
-          <label for="organization">Company / Project (optional)</label>
-          <input id="organization" type="text" placeholder="Company or project name" aria-label="Company or project" />
-        </div>
-
-        <div>
-          <label for="message">Notes (optional)</label>
-          <textarea id="message" placeholder="What should we focus on during the session?" aria-label="Notes"></textarea>
-        </div>
-
-        <div class="total" id="totalCost">Session Price: $49.99 CAD</div>
-        <div class="note" id="payNote"></div>
-
-        <div class="actions">
-          <button type="submit" class="btn" id="primaryBtn">Continue</button>
-          <a class="btn secondary" href="request-consultation.html">Use email form instead</a>
-        </div>
-      </form>
+      </section>
     </div>
   </div>
 
@@ -176,58 +450,111 @@
       const CONSULTATION_EMAIL = 'Emmanuel@globalix-inc.com';
 
       // Paste Stripe Payment Links here when you create them.
-      // Example: strategy30: 'https://buy.stripe.com/xxxx'
+      // Example: strategy_30: 'https://buy.stripe.com/xxxx'
       const STRIPE_PAYMENT_LINKS = {
-        intro15: '',
-        strategy30: '',
-        deep60: '',
+        strategy_30: '',
+        deep_dive_60: '',
+        audit_90: '',
       };
 
       const SESSIONS = {
-        intro15: { key: 'intro15', productName: '15-Minute Intro Call', minutes: 15, priceCad: 0 },
-        strategy30: { key: 'strategy30', productName: '30-Minute Technical Strategy Session', minutes: 30, priceCad: 49.99 },
-        deep60: { key: 'deep60', productName: '1-Hour Deep Technical Consultation', minutes: 60, priceCad: 100 },
+        strategy_30: { key: 'strategy_30', productName: '30-Minute Strategy Session', minutes: 30, priceCad: 49.99 },
+        deep_dive_60: { key: 'deep_dive_60', productName: '60-Minute Deep Dive', minutes: 60, priceCad: 149.99 },
+        audit_90: { key: 'audit_90', productName: '90-Minute Brand + Offer Audit', minutes: 90, priceCad: 249.99 },
       };
 
       const form = document.getElementById('bookingForm');
-      const sessionType = document.getElementById('sessionType');
+      const sessionSelect = document.getElementById('session');
       const dateInput = document.getElementById('date');
-      const timeInput = document.getElementById('time');
-      const tzInput = document.getElementById('timezone');
-      const totalCost = document.getElementById('totalCost');
-      const payNote = document.getElementById('payNote');
+      const timeSelect = document.getElementById('time');
+      const timeGrid = document.getElementById('timeGrid');
+      const timeError = document.getElementById('timeError');
+
+      const badgeTitle = document.getElementById('badgeTitle');
+      const metaDuration = document.getElementById('metaDuration');
+      const metaPrice = document.getElementById('metaPrice');
+      const metaTz = document.getElementById('metaTz');
+
+      const totalLine = document.getElementById('totalLine');
+      const noteLine = document.getElementById('noteLine');
       const primaryBtn = document.getElementById('primaryBtn');
 
+      function formatCad(amount) {
+        try {
+          return new Intl.NumberFormat('en-CA', { style: 'currency', currency: 'CAD' }).format(amount);
+        } catch (e) {
+          return `$${Number(amount).toFixed(2)} CAD`;
+        }
+      }
+
       function safeSessionKey(raw) {
-        const k = String(raw || 'strategy30');
-        return SESSIONS[k] ? k : 'strategy30';
+        const key = String(raw || 'strategy_30');
+        return SESSIONS[key] ? key : 'strategy_30';
       }
 
       function getSelectedSession() {
-        return SESSIONS[safeSessionKey(sessionType?.value)];
+        return SESSIONS[safeSessionKey(sessionSelect.value)];
+      }
+
+      function getTimezone() {
+        try {
+          return Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        } catch (e) {
+          return '';
+        }
+      }
+
+      function updateSummary() {
+        const s = getSelectedSession();
+        badgeTitle.textContent = s.productName;
+        metaDuration.textContent = `${s.minutes} min`;
+        metaPrice.textContent = formatCad(s.priceCad);
+        metaTz.textContent = getTimezone() || 'Local';
       }
 
       function updateTotal() {
         const s = getSelectedSession();
-        totalCost.textContent = `Session Price: $${s.priceCad} CAD`;
-
         const payLink = String(STRIPE_PAYMENT_LINKS[s.key] || '').trim();
-        if (s.priceCad > 0 && payLink) {
-          primaryBtn.textContent = `Pay $${s.priceCad} & Request Time`;
-          payNote.textContent = 'You will be redirected to Stripe to complete payment.';
-        } else if (s.priceCad > 0) {
-          primaryBtn.textContent = 'Request Time (pay later)';
-          payNote.textContent = 'Stripe payment link is not set yet; this will open an email request.';
+
+        totalLine.textContent = `Total: ${formatCad(s.priceCad)}`;
+
+        if (payLink) {
+          primaryBtn.textContent = `Continue to Stripe`;
+          noteLine.textContent = 'Payment is enabled for this session. You’ll be redirected to Stripe first.';
         } else {
-          primaryBtn.textContent = 'Request Time';
-          payNote.textContent = 'This is a free intro call; this will open an email request.';
+          primaryBtn.textContent = 'Continue';
+          noteLine.textContent = 'Payment is not enabled yet. We’ll open your email app with a pre-filled message.';
         }
+      }
+
+      function setTime(value) {
+        timeSelect.value = value;
+        const btns = timeGrid.querySelectorAll('button[data-value]');
+        btns.forEach((b) => {
+          b.setAttribute('aria-pressed', b.getAttribute('data-value') === value ? 'true' : 'false');
+        });
+        timeError.classList.remove('show');
+      }
+
+      function buildTimeGrid() {
+        timeGrid.innerHTML = '';
+        const options = Array.from(timeSelect.options).filter((o) => o.value);
+        options.forEach((opt) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'time-btn';
+          btn.textContent = opt.textContent;
+          btn.setAttribute('data-value', opt.value);
+          btn.setAttribute('aria-pressed', timeSelect.value === opt.value ? 'true' : 'false');
+          btn.addEventListener('click', () => setTime(opt.value));
+          timeGrid.appendChild(btn);
+        });
       }
 
       function initFromQuery() {
         try {
           const key = new URLSearchParams(window.location.search).get('session');
-          if (key) sessionType.value = safeSessionKey(key);
+          if (key) sessionSelect.value = safeSessionKey(key);
         } catch (e) {}
       }
 
@@ -243,51 +570,64 @@
         } catch (e) {}
       }
 
-      function initTimezone() {
-        try {
-          tzInput.value = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-        } catch (e) {
-          tzInput.value = '';
-        }
-      }
-
       function gatherData() {
         const s = getSelectedSession();
         const preferredDate = String(dateInput.value || '').trim();
-        const preferredTime = String(timeInput.value || '').trim();
+        const preferredTime = String(timeSelect.value || '').trim();
         const preferredDateTime = preferredDate && preferredTime ? `${preferredDate} ${preferredTime}` : preferredDate;
+        const timezone = getTimezone();
 
         return {
           name: document.getElementById('name').value.trim(),
           email: document.getElementById('email').value.trim(),
-          organization: document.getElementById('organization').value.trim(),
+          organization: '',
           date: preferredDateTime,
-          timezone: String(tzInput.value || '').trim(),
+          timezone,
           serviceType: 'Consultation',
-          projectSize: 'N/A',
           sessionKey: s.key,
           sessionType: s.productName,
           minutes: s.minutes,
           total: s.priceCad,
           currency: 'CAD',
-          message: document.getElementById('message').value.trim(),
+          message: document.getElementById('details').value.trim(),
         };
       }
 
-      sessionType.addEventListener('change', updateTotal);
+      function ensureTimeSelected() {
+        if (String(timeSelect.value || '').trim()) return true;
+        timeError.classList.add('show');
+        timeGrid.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        const firstBtn = timeGrid.querySelector('button.time-btn');
+        if (firstBtn) firstBtn.focus({ preventScroll: true });
+        return false;
+      }
+
       initFromQuery();
       initDateMin();
-      initTimezone();
+      updateSummary();
       updateTotal();
+      buildTimeGrid();
+
+      sessionSelect.addEventListener('change', () => {
+        updateSummary();
+        updateTotal();
+      });
 
       form.addEventListener('submit', (e) => {
         e.preventDefault();
-        const data = gatherData();
 
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        if (!ensureTimeSelected()) return;
+
+        const data = gatherData();
         try { localStorage.setItem('pendingBooking', JSON.stringify(data)); } catch (err) {}
 
         const payLink = String(STRIPE_PAYMENT_LINKS[data.sessionKey] || '').trim();
-        if (payLink && data.total > 0) {
+        if (payLink) {
           window.location.href = payLink;
           return;
         }
@@ -296,12 +636,11 @@
         const bodyLines = [
           `Name: ${data.name}`,
           `Email: ${data.email}`,
-          `Organization/Project: ${data.organization || '-'}`,
           `Preferred date/time: ${data.date || '-'}`,
           `Timezone: ${data.timezone || '-'}`,
           `Session type: ${data.sessionType}`,
-          `Duration: ${data.minutes} minute(s)` ,
-          `Session price: $${data.total} ${data.currency}`,
+          `Duration: ${data.minutes} minute(s)`,
+          `Session price: ${formatCad(data.total)}`,
           '',
           'Notes:',
           data.message || '-',

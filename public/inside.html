@@ -2463,7 +2463,8 @@
     body.chat-open { overflow: hidden; }
 
     .chat-sheet {
-      width: min(420px, 92vw);
+      width: min(460px, 94vw);
+      height: min(720px, calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
       max-height: calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
       overflow: hidden;
       border-radius: 14px;
@@ -2512,6 +2513,10 @@
       padding: 14px;
       display: grid;
       gap: 12px;
+      min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
     }
 
     .chat-app {
@@ -2602,6 +2607,9 @@
       display: grid;
       gap: 10px;
       min-height: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
     }
 
     .wa-note {
@@ -2655,8 +2663,15 @@
       padding: 0 14px 12px;
       display: flex;
       gap: 8px;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
     }
+
+    .ai-suggestions::-webkit-scrollbar { height: 8px; }
+    .ai-suggestions::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 999px; }
+    .ai-suggestions::-webkit-scrollbar-track { background: transparent; }
 
     .ai-sug {
       border: 1px solid rgba(212,175,55,0.18);
@@ -2699,6 +2714,11 @@
       font-weight: 900;
       cursor: pointer;
       min-width: 78px;
+    }
+
+    @media (max-width: 480px) {
+      .chat-overlay { justify-content: center; }
+      .chat-sheet { width: min(520px, 96vw); }
     }
 
     @media (prefers-reduced-motion: reduce) {

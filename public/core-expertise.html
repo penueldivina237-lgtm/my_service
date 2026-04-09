@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Core Expertise | Divine Emmanuel</title>
+  <meta name="theme-color" content="#0d0d0d" />
+  <link rel="manifest" href="../manifest.webmanifest" />
+  <link rel="icon" href="../assets/icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../assets/icons/icon.svg" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <style>
+    :root {
+      --gold: #d4af37;
+      --bg: #0d0d0d;
+      --panel: #151515;
+      --panel2: #181818;
+      --text: #f5f5f5;
+      --muted: #b9b9b9;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Georgia, 'Times New Roman', serif;
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 24px 16px 48px;
+    }
+
+    a { color: inherit; }
+    .container { max-width: 1040px; margin: 0 auto; }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.25);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .back strong { color: var(--gold); letter-spacing: 0.4px; }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.55);
+      background: rgba(212,175,55,0.10);
+      color: var(--gold);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    h1 {
+      margin: 10px 0 6px;
+      color: var(--gold);
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      font-size: 1.55rem;
+    }
+
+    .subtitle { margin: 0 0 18px; color: var(--muted); }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 950px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+
+    .service {
+      background: var(--panel2);
+      border: 1px solid rgba(212,175,55,0.14);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .service strong { display: block; margin-bottom: 4px; }
+    .service small { color: var(--muted); }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.20);
+      background: rgba(212,175,55,0.08);
+      color: rgba(255,255,255,0.92);
+      margin-top: 10px;
+    }
+
+    .pill b { color: var(--gold); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <a class="back" href="../index.html#home" aria-label="Back to home">
+        <span aria-hidden="true">←</span>
+        <strong>Home</strong>
+      </a>
+      <a class="cta" href="../index.html#booking">Request Consultation</a>
+    </div>
+
+    <h1>Core Expertise</h1>
+    <p class="subtitle">A clear view of the delivery strengths clients hire for.</p>
+
+    <div class="card">
+      <div class="pill"><b>Focus:</b> Full‑Stack delivery • DevSecOps automation • Security-first engineering</div>
+
+      <div class="grid" aria-label="Core expertise list">
+        <div class="service"><strong>SaaS Development</strong><small>Secure auth, roles, dashboards, billing, real-time features.</small></div>
+        <div class="service"><strong>E‑Commerce</strong><small>Headless storefronts, Stripe, conversion UX, stable checkout.</small></div>
+        <div class="service"><strong>Backend / APIs</strong><small>REST/GraphQL, data modeling, caching, performance tuning.</small></div>
+        <div class="service"><strong>DevOps &amp; CI/CD</strong><small>Automated pipelines, releases, environments, safe rollbacks.</small></div>
+        <div class="service"><strong>Cloud &amp; IaC</strong><small>AWS/Azure/GCP foundations, infrastructure as code, secrets.</small></div>
+        <div class="service"><strong>Security Reviews</strong><small>Threat modeling, hardening, secure architecture notes.</small></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

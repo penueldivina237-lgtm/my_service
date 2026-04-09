@@ -236,6 +236,35 @@
       gap: 15px;
     }
 
+    .drawer-dd { border: 0; }
+    .drawer-dd summary.drawer-link {
+      list-style: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: #f5f5f5;
+      transition: 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 0;
+    }
+    .drawer-dd summary.drawer-link::-webkit-details-marker { display: none; }
+    .drawer-dd summary.drawer-link::after { content: '▾'; opacity: 0.8; }
+    .drawer-dd[open] summary.drawer-link::after { content: '▴'; }
+
+    .drawer-dd-menu {
+      display: grid;
+      gap: 10px;
+      padding: 12px 12px;
+      margin-top: 8px;
+      border-radius: 12px;
+      border: 1px solid rgba(212,175,55,0.14);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .drawer-dd-menu .drawer-link { font-size: 1.02rem; }
+
     .drawer-links a {
       font-size: 1.1rem;
       color: #f5f5f5;
@@ -790,6 +819,59 @@
       margin-top: 2px;
     }
 
+    .faq-reveal-wrap {
+      display: grid;
+      place-items: center;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .faq-reveal-btn {
+      border-radius: 999px;
+      padding: 12px 18px;
+      border-color: rgba(212,175,55,0.40);
+      background: rgba(212,175,55,0.08);
+      color: #d4af37;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .faq-reveal-btn::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      background: radial-gradient(circle at 30% 30%, rgba(212,175,55,0.22), transparent 55%);
+      opacity: 0;
+      transition: opacity 260ms ease;
+      pointer-events: none;
+    }
+
+    .faq-reveal-btn:hover::before { opacity: 1; }
+
+    .faq-reveal {
+      width: min(920px, 100%);
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-10px) scale(0.99);
+      filter: blur(10px);
+      transition: max-height 520ms cubic-bezier(0.2, 0.9, 0.2, 1), opacity 320ms ease, transform 420ms ease, filter 420ms ease;
+    }
+
+    .faq-reveal.is-open {
+      max-height: 2000px;
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .faq-reveal { transition: none; transform: none; filter: none; }
+      .faq-reveal-btn::before { transition: none; }
+    }
+
     .about-image img {
       border-radius: 10px;
       max-height: 500px;
@@ -935,6 +1017,30 @@
       border-radius: 10px;
       margin-top: 20px;
       min-width: 300px;
+    }
+
+    .rate-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+
+    .rate-pill {
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.18);
+      background: rgba(212,175,55,0.08);
+      color: rgba(255,255,255,0.92);
+      font-size: 0.95rem;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 520px) {
+      .rate-box { padding: 22px 18px; }
+      .rate-pill { white-space: normal; text-align: center; }
     }
 
     .rate-box h3 {
@@ -1303,23 +1409,86 @@
       border: 1px solid rgba(255,255,255,0.06);
     }
 
-    .booking-demo {
-      max-width: 980px;
-      margin: 0 auto 18px;
+    .booking-quick {
+      max-width: 760px;
+      margin: 0 auto 14px;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(212,175,55,0.14);
+      background: rgba(255,255,255,0.03);
     }
 
-    .booking-demo-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
+    .booking-steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 12px;
     }
 
-    .booking-demo .services-grid {
-      margin-top: 0;
+    .booking-step {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.18);
+      background: rgba(0,0,0,0.35);
+      color: rgba(255,255,255,0.92);
+      font-size: 0.95rem;
     }
 
-    @media (max-width: 900px) {
-      .booking-demo-grid { grid-template-columns: 1fr; }
+    .booking-step span {
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(212,175,55,0.12);
+      border: 1px solid rgba(212,175,55,0.30);
+      color: #d4af37;
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+
+    .booking-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .booking-chip {
+      appearance: none;
+      border: 1px solid rgba(212,175,55,0.18);
+      background: rgba(255,255,255,0.03);
+      color: rgba(255,255,255,0.92);
+      padding: 10px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.95rem;
+    }
+
+    .booking-chip:hover {
+      border-color: rgba(212,175,55,0.55);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+    }
+
+    .booking-chip.is-selected {
+      border-color: rgba(212,175,55,0.70);
+      background: rgba(212,175,55,0.10);
+      color: #d4af37;
+      font-weight: 700;
+    }
+
+    .booking-hint {
+      margin-top: 10px;
+      text-align: center;
+      color: rgba(255,255,255,0.72);
+      font-size: 0.95rem;
     }
 
     .booking-form {
@@ -1636,13 +1805,66 @@
     .sr-only { position: absolute !important; width: 1px; height: 1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
   </style>
 
+  <style>
+    .nav-dd { position: relative; display: inline-flex; align-items: center; }
+    .nav-dd-toggle { display: inline-flex; align-items: center; gap: 8px; }
+    .nav-dd-toggle::after { content: '▾'; font-size: 0.8em; opacity: 0.85; }
+
+    .nav-dd-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      left: 0;
+      min-width: 220px;
+      padding: 10px;
+      border-radius: 14px;
+      background: rgba(0, 0, 0, 0.72);
+      border: 1px solid rgba(212,175,55,0.20);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 46px rgba(0,0,0,0.55);
+      display: none;
+      z-index: 7000;
+    }
+
+    .nav-dd-menu a {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 10px;
+      text-decoration: none;
+      border: 1px solid rgba(212,175,55,0.10);
+      background: rgba(255,255,255,0.03);
+      color: rgba(255,255,255,0.92);
+      transition: 0.2s;
+    }
+
+    .nav-dd-menu a:hover {
+      border-color: rgba(212,175,55,0.45);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+    }
+
+    .nav-dd:hover .nav-dd-menu,
+    .nav-dd:focus-within .nav-dd-menu { display: grid; gap: 8px; }
+
+    @media (max-width: 920px) {
+      .nav-dd { display: none; }
+    }
+  </style>
+
   <header>
     <div class="container nav">
       <div class="brand">DIVINE EMMANUEL</div>
       <nav class="nav-links">
-        <a href="#home">Home</a>
-        <a href="#tech">Delivery &amp; DevOps</a>
-        <a href="#faq">FAQ</a>
+        <div class="nav-dd" aria-label="Home menu">
+          <a href="#home" class="nav-dd-toggle" aria-haspopup="true">Home</a>
+          <div class="nav-dd-menu" role="menu" aria-label="Home sections">
+            <a role="menuitem" href="#tech">Delivery &amp; DevOps</a>
+            <a role="menuitem" href="#gallery">Capabilities</a>
+            <a role="menuitem" href="#booking">Request Consultation</a>
+            <a role="menuitem" href="#faq">FAQ</a>
+            <a role="menuitem" href="#contact">Contact</a>
+          </div>
+        </div>
         <a href="#booking" class="nav-cta">Request Consultation</a>
         <a href="#" id="moreToggle" style="color: #d4af37; font-weight: bold; cursor: pointer;">More +</a>
       </nav>
@@ -1659,16 +1881,22 @@
       <div class="drawer-brand">DIVINE EMMANUEL</div>
       
       <div class="drawer-section-title">Navigation</div>
-      <nav class="drawer-links">
-        <a href="#home" class="drawer-link">Home</a>
-        <a href="#booking" class="drawer-link drawer-cta">Request Consultation</a>
-        <a href="#tech" class="drawer-link">Delivery & DevOps</a>
+      <div class="drawer-links">
+        <details class="drawer-dd" open>
+          <summary class="drawer-link">Home</summary>
+          <div class="drawer-dd-menu" aria-label="Home sections">
+            <a href="#tech" class="drawer-link">Delivery & DevOps</a>
+            <a href="#gallery" class="drawer-link">Capabilities</a>
+            <a href="#booking" class="drawer-link drawer-cta">Request Consultation</a>
+            <a href="#faq" class="drawer-link">FAQ</a>
+            <a href="#contact" class="drawer-link">Contact</a>
+          </div>
+        </details>
+
         <a href="public/service-summary.html" class="drawer-link">Service Summary</a>
-        <a href="#gallery" class="drawer-link">Capabilities</a>
+        <a href="public/core-expertise.html" class="drawer-link">Core Expertise</a>
         <a href="#" id="moreToggleDrawer" class="drawer-link">More +</a>
-        <a href="#faq" class="drawer-link">FAQ</a>
-        <a href="#contact" class="drawer-link">Contact</a>
-      </nav>
+      </div>
 
       <div class="drawer-section-title">Deep Dive</div>
       <nav class="drawer-links">
@@ -1817,20 +2045,22 @@
     </div>
   </section>
 
-  <section class="section-dark rate-section">
+  <section class="section-dark rate-section" id="rates">
     <div class="container">
-      <h2 class="section-title">Investment Overview</h2>
-      <p class="section-subtitle">
-        Transparent and professional pricing for engineering services.
-      </p>
+      <h2 class="section-title">Rates</h2>
+      <p class="section-subtitle">Simple pricing. Confirmed before any paid work begins.</p>
 
       <div class="rate-box">
-        <h3>Consultation & Dev Rate</h3>
         <div class="rate-price">$120/hour</div>
-        <p class="rate-note">
-          Standard consulting rate for software engineering, cybersecurity-focused reviews, and DevOps delivery work.
-          Quick 30-minute assessments are available for smaller, well-scoped requests; standard consultations are 2 hours.
-          Fixed-project pricing and ongoing retainers are available upon request. Any paid work is confirmed before starting.
+
+        <div class="rate-pills" aria-label="Rate highlights">
+          <div class="rate-pill">Quick assessment: 30 minutes</div>
+          <div class="rate-pill">Standard consultation: 2 hours</div>
+          <div class="rate-pill">Fixed‑price / retainer available</div>
+        </div>
+
+        <p class="rate-note" style="margin: 14px 0 0; color: #cfcfcf;">
+          Scope + any applicable fees are confirmed by email first.
         </p>
       </div>
     </div>
@@ -1920,52 +2150,23 @@
         <span class="mobile-only">Choose a service and submit — or use the <a href="public/estimator.html" style="color:#d4af37;text-decoration:underline;font-weight:bold;">Project Estimator</a>.</span>
       </p>
 
-      <div class="booking-demo" aria-label="Consultation request overview">
-        <div class="booking-demo-grid">
-          <div>
-            <h3 class="chart-title" style="text-align:left; margin-bottom: 10px;">What you can request</h3>
-            <div class="services-grid">
-              <div class="service-card">
-                <h3>Full‑Stack Web App</h3>
-                <p>Build or enhance secure web apps, dashboards, and customer portals.</p>
-              </div>
-              <div class="service-card">
-                <h3>API / Backend Engineering</h3>
-                <p>Performance, reliability, auth, integrations, and clean architecture.</p>
-              </div>
-              <div class="service-card">
-                <h3>DevSecOps &amp; CI/CD</h3>
-                <p>Automated builds/releases, environments, and deployment hardening.</p>
-              </div>
-              <div class="service-card">
-                <h3>Security Review</h3>
-                <p>Threat model + prioritized fixes to reduce real-world risk.</p>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <h3 class="chart-title" style="text-align:left; margin-bottom: 10px;">How it works</h3>
-            <div class="services-grid">
-              <div class="service-card">
-                <h3>1) Pick a service</h3>
-                <p>Select what you need (or choose “Not sure”).</p>
-              </div>
-              <div class="service-card">
-                <h3>2) Add key details</h3>
-                <p>Goals, current stack, timeline, and any constraints.</p>
-              </div>
-              <div class="service-card">
-                <h3>3) Submit (email opens)</h3>
-                <p>You’ll get a prefilled email—hit Send to finish.</p>
-              </div>
-              <div class="service-card">
-                <h3>4) Get next steps</h3>
-                <p>Clear plan, risks/mitigations, and a recommended path forward.</p>
-              </div>
-            </div>
-          </div>
+      <div class="booking-quick" aria-label="Consultation quick start">
+        <div class="booking-steps" aria-label="3-step process">
+          <div class="booking-step"><span>1</span> Choose</div>
+          <div class="booking-step"><span>2</span> Add details</div>
+          <div class="booking-step"><span>3</span> Submit</div>
         </div>
+
+        <div class="booking-chips" aria-label="Popular requests">
+          <button type="button" class="booking-chip" data-service="Full-Stack Web App (Build/Enhancement)">Full‑Stack Web</button>
+          <button type="button" class="booking-chip" data-service="Backend / API Engineering">API / Backend</button>
+          <button type="button" class="booking-chip" data-service="DevSecOps: CI/CD & Release Automation">CI/CD</button>
+          <button type="button" class="booking-chip" data-service="Security Assessment (Web/App/API)">Security Review</button>
+          <button type="button" class="booking-chip" data-service="Advisory / Training">Advisory</button>
+          <button type="button" class="booking-chip" data-service="Not sure (help me choose)">Not sure</button>
+        </div>
+
+        <div class="booking-hint">Tap a chip to preselect the service in the form.</div>
       </div>
 
       <div class="booking-box">
@@ -2030,54 +2231,62 @@
   <section id="faq" class="section-dark">
     <div class="container">
       <h2 class="section-title">FAQ</h2>
-      <p class="section-subtitle">Quick answers before you reach out.</p>
+      <p class="section-subtitle">Tap to reveal.</p>
 
-      <div class="pro-summary-accordion section-accordion faq-accordion" id="faqAccordion">
-        <div class="acc-item">
-          <button type="button" class="acc-trigger" aria-expanded="false">
-            <span class="acc-title">How does the consultation work?</span>
-            <span class="acc-icon" aria-hidden="true"></span>
-          </button>
-          <div class="acc-panel" hidden>
-            <p>
-              Use the consultation form to generate a prefilled email request. We confirm scope and any fees by email before any paid work begins.
-            </p>
-          </div>
-        </div>
+      <div class="faq-reveal-wrap">
+        <button type="button" class="btn btn-outline faq-reveal-btn" id="faqRevealBtn" aria-controls="faqRevealPanel" aria-expanded="false">
+          Open FAQs
+        </button>
 
-        <div class="acc-item">
-          <button type="button" class="acc-trigger" aria-expanded="false">
-            <span class="acc-title">What do I get after a consultation?</span>
-            <span class="acc-icon" aria-hidden="true"></span>
-          </button>
-          <div class="acc-panel" hidden>
-            <p>
-              A clear summary of requirements, recommended architecture, risks/mitigations, and prioritized next steps. If needed, you’ll also get implementation notes your team can follow.
-            </p>
-          </div>
-        </div>
+        <div id="faqRevealPanel" class="faq-reveal" hidden>
+          <div class="pro-summary-accordion section-accordion faq-accordion" id="faqAccordion">
+            <div class="acc-item">
+              <button type="button" class="acc-trigger" aria-expanded="false">
+                <span class="acc-title">How does the consultation work?</span>
+                <span class="acc-icon" aria-hidden="true"></span>
+              </button>
+              <div class="acc-panel" hidden>
+                <p>
+                  Use the form to generate a prefilled email request. Scope and any fees are confirmed by email before any paid work begins.
+                </p>
+              </div>
+            </div>
 
-        <div class="acc-item">
-          <button type="button" class="acc-trigger" aria-expanded="false">
-            <span class="acc-title">Can you work with an existing codebase/team?</span>
-            <span class="acc-icon" aria-hidden="true"></span>
-          </button>
-          <div class="acc-panel" hidden>
-            <p>
-              Yes. I can start with an audit, targeted fixes, or a small scoped milestone, then expand into CI/CD, reliability improvements, or security hardening.
-            </p>
-          </div>
-        </div>
+            <div class="acc-item">
+              <button type="button" class="acc-trigger" aria-expanded="false">
+                <span class="acc-title">What do I get after a consultation?</span>
+                <span class="acc-icon" aria-hidden="true"></span>
+              </button>
+              <div class="acc-panel" hidden>
+                <p>
+                  Clear next steps, key risks, and a recommended plan you can execute.
+                </p>
+              </div>
+            </div>
 
-        <div class="acc-item">
-          <button type="button" class="acc-trigger" aria-expanded="false">
-            <span class="acc-title">How do you use AI in your workflow?</span>
-            <span class="acc-icon" aria-hidden="true"></span>
-          </button>
-          <div class="acc-panel" hidden>
-            <p>
-              I use AI to speed up documentation, reviews, test scaffolding, and runbooks — while keeping quality, privacy, and maintainability first.
-            </p>
+            <div class="acc-item">
+              <button type="button" class="acc-trigger" aria-expanded="false">
+                <span class="acc-title">Can you work with an existing codebase/team?</span>
+                <span class="acc-icon" aria-hidden="true"></span>
+              </button>
+              <div class="acc-panel" hidden>
+                <p>
+                  Yes — audits, targeted fixes, and milestone delivery all work.
+                </p>
+              </div>
+            </div>
+
+            <div class="acc-item">
+              <button type="button" class="acc-trigger" aria-expanded="false">
+                <span class="acc-title">How do you use AI in your workflow?</span>
+                <span class="acc-icon" aria-hidden="true"></span>
+              </button>
+              <div class="acc-panel" hidden>
+                <p>
+                  Speeding up notes, reviews, and checklists — while keeping quality and maintainability first.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -2265,6 +2474,11 @@
       const coreExpertiseAccordion = document.getElementById('coreExpertiseAccordion');
       const faqAccordion = document.getElementById('faqAccordion');
       const moreProfileAccordion = document.getElementById('moreProfileAccordion');
+      const faqRevealBtn = document.getElementById('faqRevealBtn');
+      const faqRevealPanel = document.getElementById('faqRevealPanel');
+
+      const serviceTypeSelect = document.getElementById('serviceType');
+      const bookingChips = Array.from(document.querySelectorAll('.booking-chip'));
 
       const hasDrawer = !!(menuToggle && drawer && drawerOverlay);
 
@@ -2410,6 +2624,40 @@
       wireAccordion(faqAccordion);
       wireAccordion(moreProfileAccordion);
 
+      // Consultation: chips preselect the service dropdown
+      if (serviceTypeSelect && bookingChips.length) {
+        const selectChip = (chip) => {
+          bookingChips.forEach((c) => c.classList.toggle('is-selected', c === chip));
+        };
+
+        bookingChips.forEach((chip) => {
+          chip.addEventListener('click', () => {
+            const value = chip.getAttribute('data-service') || '';
+            if (!value) return;
+            serviceTypeSelect.value = value;
+            serviceTypeSelect.dispatchEvent(new Event('change', { bubbles: true }));
+            selectChip(chip);
+            serviceTypeSelect.focus({ preventScroll: true });
+          });
+        });
+
+        // Default highlight: match current select value
+        const initial = bookingChips.find((c) => (c.getAttribute('data-service') || '') === String(serviceTypeSelect.value));
+        if (initial) selectChip(initial);
+      }
+
+      // FAQ: reveal accordion on click (classic button -> modern animation)
+      if (faqRevealBtn && faqRevealPanel) {
+        faqRevealBtn.addEventListener('click', () => {
+          faqRevealPanel.hidden = false;
+          requestAnimationFrame(() => {
+            faqRevealPanel.classList.add('is-open');
+            faqRevealBtn.setAttribute('aria-expanded', 'true');
+            faqRevealBtn.style.display = 'none';
+          });
+        });
+      }
+
       // Close drawer when a link is clicked
       if (hasDrawer) {
         drawerLinks.forEach(link => {
@@ -2470,12 +2718,9 @@
         <div class="more-modal-section-title">Navigation</div>
         <nav class="more-modal-links" aria-label="Navigation links">
           <a href="#home" class="more-modal-link">Home</a>
-          <a href="#tech" class="more-modal-link">Delivery &amp; DevOps</a>
-          <a href="public/service-summary.html" class="more-modal-link">Service Summary</a>
-          <a href="#gallery" class="more-modal-link">Capabilities</a>
-          <a href="#faq" class="more-modal-link">FAQ</a>
           <a href="#booking" class="more-modal-link more-modal-cta">Request Consultation</a>
-          <a href="#contact" class="more-modal-link">Contact</a>
+          <a href="public/service-summary.html" class="more-modal-link">Service Summary</a>
+          <a href="public/core-expertise.html" class="more-modal-link">Core Expertise</a>
         </nav>
 
         <div class="more-modal-section-title">Profile (Nested)</div>
@@ -2501,40 +2746,6 @@
               <p style="margin:0;">
                 From discovery to deployment, I turn requirements into secure builds, automated releases, and stable operations.
               </p>
-            </div>
-          </div>
-
-          <div class="acc-item">
-            <button type="button" class="acc-trigger" aria-expanded="false">
-              <span class="acc-title">Core Expertise</span>
-              <span class="acc-icon" aria-hidden="true"></span>
-            </button>
-            <div class="acc-panel" hidden>
-              <p class="section-subtitle" style="margin-top:0;">
-                Full-stack delivery + DevOps automation + cybersecurity analytics.
-              </p>
-              <div class="services-grid">
-                <div class="service-card">
-                  <h3>SaaS Development</h3>
-                  <p>
-                    Building full-stack platforms from the ground up with secure authentication and real-time features.
-                  </p>
-                </div>
-
-                <div class="service-card">
-                  <h3>E-Commerce</h3>
-                  <p>
-                    Scalable commerce solutions with headless architecture, Stripe integration, and high conversion design.
-                  </p>
-                </div>
-
-                <div class="service-card">
-                  <h3>DevOps &amp; Cloud</h3>
-                  <p>
-                    Deployment automation, CI/CD pipelines, and cloud hosting on Vercel, AWS, or DigitalOcean for 99.9% uptime.
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
         </div>

@@ -1468,7 +1468,7 @@
 
   <header>
     <div class="container nav inside-nav">
-      <a class="back-btn" href="../index.html?home=1" aria-label="Back to home">
+      <a class="back-btn" href="../index.html" aria-label="Back to home">
         <span aria-hidden="true">←</span>
         <span>Back</span>
       </a>
@@ -1532,7 +1532,7 @@
           <p>Experience</p>
         </div>
         <div class="stat-card">
-          <h3>$80/hr</h3>
+          <h3>$120</h3>
           <p>Consulting Rate</p>
         </div>
         <div class="stat-card">
@@ -1892,7 +1892,7 @@
             <label class="sr-only" for="message">Project details</label>
             <textarea id="message" placeholder="Tell me about your technical requirements, goals, or current stack..." aria-label="Booking message"></textarea>
 
-            <div class="estimate-box" id="totalCost">Estimated Consultation: $160</div>
+            <div class="estimate-box" id="totalCost">Estimated Consultation: $240</div>
 
             <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:6px;">
               <button type="submit" class="btn btn-primary">Request Consultation via Email</button>
@@ -1901,7 +1901,7 @@
 
           <div class="rate-highlight">
             <h3>Investment Information</h3>
-            <p><strong>Consulting Rate:</strong> From $80/hour</p>
+            <p><strong>Consulting Rate:</strong> $120/hour</p>
             <p><strong>Consultation:</strong> Standard is 2 hours. Quick 30-minute assessments are available for smaller, well-scoped requests.</p>
             <p>Scope and any applicable fees are confirmed by email before any paid work begins.</p>
           </div>
@@ -1959,7 +1959,7 @@
   </footer>
 
   <script>
-    const HOURLY_RATE = 80;
+    const HOURLY_RATE = 120;
     const CONSULTATION_EMAIL = 'Emmanuel@globalix-inc.com';
 
     const bookingForm = document.getElementById('bookingForm');
@@ -2752,7 +2752,7 @@
         }
 
         if (/(rate|price|pricing|cost|hourly|budget)/i.test(q)) {
-          return "My baseline rate starts at $80/hour (scope dependent). If you want to outline scope quickly, use the [estimator], or submit a [consultation] and I’ll confirm next steps by email.";
+          return "My baseline rate is $120/hour. If you want to outline scope quickly, use the [estimator], or submit a [consultation] and I’ll confirm next steps by email.";
         }
 
         if (/(consultation|book|booking|schedule|start|hire)/i.test(q)) {

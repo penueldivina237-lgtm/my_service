@@ -356,7 +356,7 @@
         <label class="sr-only" for="message">Project details</label>
         <textarea id="message" placeholder="Tell me about your tech requirements, goals, or current stack..." aria-label="Booking message"></textarea>
 
-        <div class="total" id="totalCost">Estimated Consultation: $160</div>
+        <div class="total" id="totalCost">Estimated Consultation: $240</div>
 
         <div class="note">
           This opens your email app with a prefilled request. Scope and any applicable fees are confirmed by email before any paid work begins.
@@ -372,7 +372,7 @@
       const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!prefersReduced) requestAnimationFrame(() => document.body.classList.add('arrive'));
 
-      const hourlyRate = 80;
+      const hourlyRate = 120;
       const CONSULTATION_EMAIL = 'Emmanuel@globalix-inc.com';
 
       const consultationLengthInput = document.getElementById('consultationLength');
@@ -955,7 +955,7 @@
         }
 
         if (/(rate|price|pricing|cost|hourly|budget)/i.test(q)) {
-          return "My baseline rate starts at $80/hour (scope dependent). If you want to outline scope quickly, use the [estimator], or submit a [consultation] and I’ll confirm next steps by email.";
+          return "My baseline rate is $120/hour. If you want to outline scope quickly, use the [estimator], or submit a [consultation] and I’ll confirm next steps by email.";
         }
 
         if (/(consultation|book|booking|schedule|start|hire)/i.test(q)) {

@@ -287,7 +287,7 @@
           <h3 class="quote-title">Investment Summary</h3>
           <div class="quote-row">
             <span class="row-label">Consulting Rate</span>
-            <span class="row-value">$80/hr</span>
+            <span class="row-value">$120/hr</span>
           </div>
           <div class="quote-row">
             <span class="row-label">Selected Modules</span>
@@ -327,7 +327,7 @@
       { id: 'email', name: 'Automated Workflows', hours: 8, description: 'Email notifications and lead tracking systems' }
     ];
 
-    const HOURLY_RATE = 80;
+    const HOURLY_RATE = 120;
     let selectedIds = new Set();
 
     function init() {
@@ -950,7 +950,7 @@
         }
 
         if (/(rate|price|pricing|cost|hourly|budget)/i.test(q)) {
-          return "My baseline rate starts at $80/hour (scope dependent). If you want to outline scope quickly, use the [estimator], or submit a [consultation] and I’ll confirm next steps by email.";
+          return "My baseline rate is $120/hour. If you want to outline scope quickly, use the [estimator], or submit a [consultation] and I’ll confirm next steps by email.";
         }
 
         if (/(consultation|book|booking|schedule|start|hire)/i.test(q)) {

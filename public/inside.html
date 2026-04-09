@@ -1886,14 +1886,14 @@
             <label class="sr-only" for="sessionType">Session type</label>
             <select id="sessionType" aria-label="Session type">
               <option value="intro15">15-Minute Intro Call — $0</option>
-              <option value="strategy30" selected>30-Minute Technical Strategy Session — $50 CAD</option>
+              <option value="strategy30" selected>30-Minute Technical Strategy Session — $49.99 CAD</option>
               <option value="deep60">1-Hour Deep Technical Consultation — $100 CAD</option>
             </select>
 
             <label class="sr-only" for="message">Project details</label>
             <textarea id="message" placeholder="Tell me about your technical requirements, goals, or current stack..." aria-label="Booking message"></textarea>
 
-            <div class="estimate-box" id="totalCost">Session Price: $50 CAD</div>
+            <div class="estimate-box" id="totalCost">Session Price: $49.99 CAD</div>
 
             <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:6px;">
               <button type="submit" class="btn btn-primary">Request Consultation via Email</button>
@@ -1902,7 +1902,7 @@
 
           <div class="rate-highlight">
             <h3>Investment Information</h3>
-            <p><strong>Consultations:</strong> $0 (15 min intro), $50 CAD (30 min strategy), $100 CAD (60 min deep dive)</p>
+            <p><strong>Consultations:</strong> $0 (15 min intro), $49.99 CAD (30 min strategy), $100 CAD (60 min deep dive)</p>
             <p><strong>Focus:</strong> DevOps, Full‑Stack, or Cybersecurity guidance with clear next steps.</p>
             <p>Scope and any applicable fees are confirmed by email before any paid work begins.</p>
           </div>
@@ -1975,7 +1975,7 @@
 
     const SESSIONS = {
       intro15: { key: 'intro15', productName: '15-Minute Intro Call', minutes: 15, priceCad: 0 },
-      strategy30: { key: 'strategy30', productName: '30-Minute Technical Strategy Session', minutes: 30, priceCad: 50 },
+      strategy30: { key: 'strategy30', productName: '30-Minute Technical Strategy Session', minutes: 30, priceCad: 49.99 },
       deep60: { key: 'deep60', productName: '1-Hour Deep Technical Consultation', minutes: 60, priceCad: 100 },
     };
 
@@ -2781,7 +2781,7 @@
         }
 
         if (/(rate|price|pricing|cost|hourly|budget)/i.test(q)) {
-          return "Sessions: 15‑Minute Intro Call (Free), 30‑Minute Technical Strategy Session ($50 CAD), or 1‑Hour Deep Technical Consultation ($100 CAD). Use [consultation] to book and I’ll confirm next steps by email.";
+          return "Sessions: 15‑Minute Intro Call (Free), 30‑Minute Technical Strategy Session ($49.99 CAD), or 1‑Hour Deep Technical Consultation ($100 CAD). Use [consultation] to book and I’ll confirm next steps by email.";
         }
 
         if (/(consultation|book|booking|schedule|start|hire)/i.test(q)) {

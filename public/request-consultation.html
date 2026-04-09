@@ -306,7 +306,7 @@
       <p style="margin:0 0 10px; color:#cfcfcf;"><em>Perfect for first-time clients</em></p>
 
       <h3 style="color: var(--gold); margin: 14px 0 6px;">🔹 Technical Strategy Session (30 Minutes)</h3>
-      <p style="margin:0 0 6px;"><strong>$50 CAD</strong></p>
+      <p style="margin:0 0 6px;"><strong>$49.99 CAD</strong></p>
       <ul style="margin:0 0 8px 18px; color:#e6e6e6;">
         <li>Focused discussion on your specific needs</li>
         <li>DevOps, Full-Stack, or Cybersecurity guidance</li>
@@ -401,14 +401,14 @@
         <label class="sr-only" for="sessionType">Session type</label>
         <select id="sessionType" aria-label="Session type">
           <option value="intro15">15-Minute Intro Call — $0</option>
-          <option value="strategy30" selected>30-Minute Technical Strategy Session — $50 CAD</option>
+          <option value="strategy30" selected>30-Minute Technical Strategy Session — $49.99 CAD</option>
           <option value="deep60">1-Hour Deep Technical Consultation — $100 CAD</option>
         </select>
 
         <label class="sr-only" for="message">Project details</label>
         <textarea id="message" placeholder="Tell me about your tech requirements, goals, or current stack..." aria-label="Booking message"></textarea>
 
-        <div class="total" id="totalCost">Session Price: $50 CAD</div>
+        <div class="total" id="totalCost">Session Price: $49.99 CAD</div>
 
         <div class="note">
           This opens your email app with a prefilled request. Scope and any applicable fees are confirmed by email before any paid work begins.
@@ -442,7 +442,7 @@
 
       const SESSIONS = {
         intro15: { key: 'intro15', productName: '15-Minute Intro Call', minutes: 15, priceCad: 0 },
-        strategy30: { key: 'strategy30', productName: '30-Minute Technical Strategy Session', minutes: 30, priceCad: 50 },
+        strategy30: { key: 'strategy30', productName: '30-Minute Technical Strategy Session', minutes: 30, priceCad: 49.99 },
         deep60: { key: 'deep60', productName: '1-Hour Deep Technical Consultation', minutes: 60, priceCad: 100 },
       };
 
@@ -1038,7 +1038,7 @@
         }
 
         if (/(rate|price|pricing|cost|hourly|budget)/i.test(q)) {
-          return "Sessions: 15‑Minute Intro Call (Free), 30‑Minute Technical Strategy Session ($50 CAD), or 1‑Hour Deep Technical Consultation ($100 CAD). Use [consultation] to book and I’ll confirm next steps by email.";
+          return "Sessions: 15‑Minute Intro Call (Free), 30‑Minute Technical Strategy Session ($49.99 CAD), or 1‑Hour Deep Technical Consultation ($100 CAD). Use [consultation] to book and I’ll confirm next steps by email.";
         }
 
         if (/(consultation|book|booking|schedule|start|hire)/i.test(q)) {

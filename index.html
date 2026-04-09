@@ -483,20 +483,25 @@
     }
 
     .people-plus .avatar {
-      width: 42px;
-      height: 42px;
+      width: 56px;
+      height: 56px;
       border-radius: 999px;
       border: 2px solid rgba(212, 175, 55, 0.55);
-      object-fit: cover;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       background: #111;
       box-shadow: 0 10px 26px rgba(0,0,0,0.35);
     }
 
+    .people-plus .avatar svg { width: 100%; height: 100%; display: block; }
+
     .people-plus .avatar + .avatar { margin-left: -14px; }
 
     .people-plus .avatar-add {
-      width: 42px;
-      height: 42px;
+      width: 56px;
+      height: 56px;
       border-radius: 999px;
       margin-left: -14px;
       border: 2px dashed rgba(212, 175, 55, 0.55);
@@ -511,6 +516,8 @@
 
     @media (prefers-reduced-motion: reduce) {
       .social-icon { transition: none; }
+      .pro-summary-accordion .acc-panel,
+      .pro-summary-accordion .acc-icon { transition: none; }
     }
 
     .about-grid {
@@ -535,72 +542,92 @@
     .pro-summary-text { display: block; }
     .pro-summary-mobile { display: none; }
 
-    .pro-summary-mini {
-      color: #e2e2e2;
-      margin-bottom: 14px;
-      text-align: center;
-      font-size: 0.98rem;
-      line-height: 1.5;
+    .pro-summary-accordion {
+      margin-top: 4px;
     }
 
-    .pro-summary-ball {
-      width: 132px;
-      height: 132px;
-      border-radius: 999px;
-      border: 1px solid rgba(212, 175, 55, 0.55);
-      background: rgba(212, 175, 55, 0.12);
-      color: #d4af37;
-      font-weight: 800;
-      letter-spacing: 0.6px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      cursor: pointer;
-      user-select: none;
-      margin: 0 auto;
-      box-shadow: 0 14px 34px rgba(0,0,0,0.35);
+    .pro-summary-accordion .acc-item {
+      background: #191919;
+      border-radius: 12px;
+      border-top: 3px solid #d4af37;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+      overflow: hidden;
     }
 
-    .pro-summary-ball:active { transform: scale(0.98); }
-
-    .pro-summary-modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 6500; }
-    .pro-summary-modal.active { display: flex; }
-    .pro-summary-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.76); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
-    .pro-summary-panel {
-      position: relative;
-      z-index: 1;
-      width: min(720px, 92vw);
-      max-height: calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior: contain;
-      background: rgba(0, 0, 0, 0.62);
-      border: 1px solid rgba(212, 175, 55, 0.22);
-      border-radius: 16px;
-      padding: 18px;
-      padding-top: 54px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    .pro-summary-panel h3 { color: #d4af37; margin-bottom: 10px; }
-    .pro-summary-panel p { color: #e2e2e2; margin-bottom: 14px; }
-
-    .pro-summary-close {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 38px;
-      height: 38px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(0,0,0,0.35);
+    .pro-summary-accordion .acc-trigger {
+      width: 100%;
+      background: transparent;
+      border: 0;
       color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 18px 16px;
       cursor: pointer;
+      text-align: left;
+      font: inherit;
+    }
+
+    .pro-summary-accordion .acc-title {
+      font-weight: 900;
+      letter-spacing: 0.2px;
+    }
+
+    .pro-summary-accordion .acc-icon {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 auto;
+      border-radius: 999px;
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      background: rgba(212, 175, 55, 0.08);
+      position: relative;
+      transition: transform 220ms ease, background 220ms ease, border-color 220ms ease;
+    }
+
+    .pro-summary-accordion .acc-icon::before,
+    .pro-summary-accordion .acc-icon::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 14px;
+      height: 2px;
+      background: rgba(212, 175, 55, 0.95);
+      transform: translate(-50%, -50%);
+      border-radius: 2px;
+    }
+
+    .pro-summary-accordion .acc-icon::after {
+      transform: translate(-50%, -50%) rotate(90deg);
+    }
+
+    .pro-summary-accordion .acc-item.is-open .acc-icon {
+      transform: rotate(180deg);
+      background: rgba(212, 175, 55, 0.14);
+      border-color: rgba(212, 175, 55, 0.55);
+    }
+
+    .pro-summary-accordion .acc-item.is-open .acc-icon::after {
+      transform: translate(-50%, -50%) rotate(0deg);
+      opacity: 0;
+    }
+
+    .pro-summary-accordion .acc-panel {
+      height: 0;
+      overflow: hidden;
+      padding: 0 16px;
+      transition: height 320ms cubic-bezier(0.2, 0.9, 0.2, 1);
+    }
+
+    .pro-summary-accordion .acc-panel p {
+      color: #d8d8d8;
+      font-size: 0.98rem;
+      margin-bottom: 14px;
+    }
+
+    .pro-summary-accordion .acc-item.is-open .acc-panel {
+      padding-top: 2px;
     }
 
     .about-image img {
@@ -1407,9 +1434,58 @@
         </div>
 
         <div class="people-plus" aria-label="Team and collaboration">
-          <img class="avatar" src="assets/images/image1.jpeg" alt="" aria-hidden="true" loading="lazy" />
-          <img class="avatar" src="assets/images/Image_06.png" alt="" aria-hidden="true" loading="lazy" />
-          <img class="avatar" src="assets/images/image_04.png" alt="" aria-hidden="true" loading="lazy" />
+          <div class="avatar" aria-hidden="true">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <radialGradient id="aiG1" cx="35%" cy="30%" r="75%">
+                  <stop offset="0%" stop-color="rgba(212,175,55,0.45)"/>
+                  <stop offset="65%" stop-color="rgba(255,255,255,0.05)"/>
+                  <stop offset="100%" stop-color="rgba(0,0,0,0.65)"/>
+                </radialGradient>
+              </defs>
+              <rect width="100" height="100" rx="50" fill="url(#aiG1)"/>
+              <circle cx="50" cy="46" r="20" fill="rgba(255,255,255,0.10)" stroke="rgba(212,175,55,0.55)" stroke-width="2"/>
+              <path d="M22 72c7-14 49-14 56 0" fill="none" stroke="rgba(212,175,55,0.55)" stroke-width="2" stroke-linecap="round"/>
+              <path d="M32 45h14M54 45h14" stroke="rgba(212,175,55,0.85)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M18 20h10M72 20h10M18 80h10M72 80h10" stroke="rgba(255,255,255,0.10)" stroke-width="2" stroke-linecap="round"/>
+              <path d="M50 10v12M50 78v12" stroke="rgba(212,175,55,0.25)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="avatar" aria-hidden="true">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <radialGradient id="aiG2" cx="60%" cy="35%" r="75%">
+                  <stop offset="0%" stop-color="rgba(212,175,55,0.38)"/>
+                  <stop offset="55%" stop-color="rgba(255,255,255,0.04)"/>
+                  <stop offset="100%" stop-color="rgba(0,0,0,0.70)"/>
+                </radialGradient>
+              </defs>
+              <rect width="100" height="100" rx="50" fill="url(#aiG2)"/>
+              <path d="M30 60c4 8 36 8 40 0" fill="none" stroke="rgba(212,175,55,0.7)" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="38" cy="44" r="4" fill="rgba(212,175,55,0.9)"/>
+              <circle cx="62" cy="44" r="4" fill="rgba(212,175,55,0.9)"/>
+              <path d="M20 34c10-20 50-20 60 0" fill="none" stroke="rgba(255,255,255,0.10)" stroke-width="2"/>
+              <path d="M22 28h56" stroke="rgba(212,175,55,0.25)" stroke-width="2" stroke-linecap="round"/>
+              <path d="M28 24v10M72 24v10" stroke="rgba(212,175,55,0.25)" stroke-width="2" stroke-linecap="round"/>
+              <path d="M16 50h12M72 50h12" stroke="rgba(255,255,255,0.08)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="avatar" aria-hidden="true">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <radialGradient id="aiG3" cx="40%" cy="40%" r="80%">
+                  <stop offset="0%" stop-color="rgba(212,175,55,0.42)"/>
+                  <stop offset="60%" stop-color="rgba(255,255,255,0.05)"/>
+                  <stop offset="100%" stop-color="rgba(0,0,0,0.68)"/>
+                </radialGradient>
+              </defs>
+              <rect width="100" height="100" rx="50" fill="url(#aiG3)"/>
+              <circle cx="50" cy="50" r="26" fill="rgba(255,255,255,0.06)" stroke="rgba(212,175,55,0.45)" stroke-width="2"/>
+              <path d="M36 50h28" stroke="rgba(212,175,55,0.85)" stroke-width="3" stroke-linecap="round"/>
+              <path d="M50 36v28" stroke="rgba(255,255,255,0.08)" stroke-width="2" stroke-linecap="round"/>
+              <path d="M24 18l12 12M76 18L64 30M24 82l12-12M76 82L64 70" stroke="rgba(212,175,55,0.22)" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
           <div class="avatar-add" aria-hidden="true">+</div>
         </div>
       </div>
@@ -1445,8 +1521,28 @@
           </div>
 
           <div class="pro-summary-mobile">
-            <p class="pro-summary-mini">Professional Summary</p>
-            <button type="button" class="pro-summary-ball" id="proSummaryOpen" aria-haspopup="dialog" aria-controls="proSummaryModal" aria-label="Open professional summary">Open</button>
+            <div class="pro-summary-accordion" id="proSummaryAccordion">
+              <div class="acc-item">
+                <button type="button" class="acc-trigger" aria-expanded="false">
+                  <span class="acc-title">Professional Summary</span>
+                  <span class="acc-icon" aria-hidden="true"></span>
+                </button>
+                <div class="acc-panel" hidden>
+                  <p>
+                    I’m Divine Emmanuel, a Hamilton, Ontario–based tech professional delivering AI-enabled full-stack DevSecOps services.
+                    I help teams design, build, and operate secure systems — improving delivery speed, reliability, and security posture using practical automation and AI-assisted workflows.
+                  </p>
+                  <p>
+                    My approach is practical and outcomes-driven: clean code, scalable architecture, and security-by-design.
+                    I use AI responsibly to accelerate delivery (documentation, code review support, test scaffolding, and operational runbooks) while keeping quality, privacy, and maintainability first.
+                  </p>
+                  <p>
+                    Whether it’s a new product build, a security assessment, or a CI/CD + cloud upgrade,
+                    I bring a disciplined process across architecture, implementation, observability, and documentation — with clear handoff notes your team can maintain.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -1906,11 +2002,7 @@
       const moreSolutionsBackdrop = moreSolutionsModal?.querySelector('.more-modal-backdrop');
       const moreSolutionsLinks = moreSolutionsModal?.querySelectorAll('a');
 
-      const proSummaryOpen = document.getElementById('proSummaryOpen');
-      const proSummaryModal = document.getElementById('proSummaryModal');
-      const proSummaryBackdrop = proSummaryModal?.querySelector('.pro-summary-backdrop');
-      const proSummaryPanel = proSummaryModal?.querySelector('.pro-summary-panel');
-      const proSummaryClose = document.getElementById('proSummaryClose');
+      const proSummaryAccordion = document.getElementById('proSummaryAccordion');
 
       const hasDrawer = !!(menuToggle && drawer && drawerOverlay);
 
@@ -1935,21 +2027,6 @@
         if (!moreSolutionsModal) return;
         moreSolutionsModal.classList.remove('active');
         moreSolutionsModal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      };
-
-      const openProSummary = () => {
-        if (!proSummaryModal) return;
-        proSummaryModal.classList.add('active');
-        proSummaryModal.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-        proSummaryPanel?.focus();
-      };
-
-      const closeProSummary = () => {
-        if (!proSummaryModal) return;
-        proSummaryModal.classList.remove('active');
-        proSummaryModal.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
       };
 
@@ -1991,16 +2068,66 @@
         });
       }
 
-      if (proSummaryOpen) {
-        proSummaryOpen.addEventListener('click', () => {
-          closeDrawer();
-          closeMoreSolutions();
-          openProSummary();
+      if (proSummaryAccordion) {
+        const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const item = proSummaryAccordion.querySelector('.acc-item');
+        const trigger = proSummaryAccordion.querySelector('.acc-trigger');
+        const panel = proSummaryAccordion.querySelector('.acc-panel');
+
+        const open = () => {
+          if (!item || !trigger || !panel) return;
+          item.classList.add('is-open');
+          trigger.setAttribute('aria-expanded', 'true');
+          panel.hidden = false;
+
+          if (prefersReduced) {
+            panel.style.height = 'auto';
+            return;
+          }
+
+          panel.style.height = '0px';
+          const target = panel.scrollHeight;
+          requestAnimationFrame(() => {
+            panel.style.height = target + 'px';
+          });
+          const onEnd = (e) => {
+            if (e.propertyName !== 'height') return;
+            panel.removeEventListener('transitionend', onEnd);
+            if (item.classList.contains('is-open')) panel.style.height = 'auto';
+          };
+          panel.addEventListener('transitionend', onEnd);
+        };
+
+        const close = () => {
+          if (!item || !trigger || !panel) return;
+          item.classList.remove('is-open');
+          trigger.setAttribute('aria-expanded', 'false');
+
+          if (prefersReduced) {
+            panel.style.height = '0px';
+            panel.hidden = true;
+            return;
+          }
+
+          const current = panel.scrollHeight;
+          panel.style.height = current + 'px';
+          requestAnimationFrame(() => {
+            panel.style.height = '0px';
+          });
+          const onEnd = (e) => {
+            if (e.propertyName !== 'height') return;
+            panel.removeEventListener('transitionend', onEnd);
+            if (!item.classList.contains('is-open')) panel.hidden = true;
+          };
+          panel.addEventListener('transitionend', onEnd);
+        };
+
+        trigger?.addEventListener('click', () => {
+          const isOpen = item?.classList.contains('is-open');
+          if (isOpen) close();
+          else open();
         });
       }
-
-      proSummaryClose?.addEventListener('click', closeProSummary);
-      proSummaryBackdrop?.addEventListener('click', closeProSummary);
 
       // Close drawer when a link is clicked
       if (hasDrawer) {
@@ -2011,10 +2138,6 @@
 
       // Escape key to close drawer
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && proSummaryModal?.classList.contains('active')) {
-          closeProSummary();
-          return;
-        }
         if (e.key === 'Escape' && moreSolutionsModal?.classList.contains('active')) {
           closeMoreSolutions();
           return;
@@ -2049,27 +2172,6 @@
     <div class="video-modal-content" role="dialog" aria-modal="true" tabindex="-1">
       <button class="video-modal-close" aria-label="Close video">✕</button>
       <div id="videoModalPlayer" class="video-modal-player"></div>
-    </div>
-  </div>
-
-  <!-- Professional Summary modal (mobile) -->
-  <div id="proSummaryModal" class="pro-summary-modal" aria-hidden="true">
-    <div class="pro-summary-backdrop" aria-hidden="true"></div>
-    <div class="pro-summary-panel" role="dialog" aria-modal="true" tabindex="-1" aria-label="Professional summary">
-      <button type="button" class="pro-summary-close" id="proSummaryClose" aria-label="Close professional summary">✕</button>
-      <h3>Professional Summary</h3>
-      <p>
-        I’m Divine Emmanuel, a Hamilton, Ontario–based tech professional delivering AI-enabled full-stack DevSecOps services.
-        I help teams design, build, and operate secure systems — improving delivery speed, reliability, and security posture using practical automation and AI-assisted workflows.
-      </p>
-      <p>
-        My approach is practical and outcomes-driven: clean code, scalable architecture, and security-by-design.
-        I use AI responsibly to accelerate delivery (documentation, code review support, test scaffolding, and operational runbooks) while keeping quality, privacy, and maintainability first.
-      </p>
-      <p>
-        Whether it’s a new product build, a security assessment, or a CI/CD + cloud upgrade,
-        I bring a disciplined process across architecture, implementation, observability, and documentation — with clear handoff notes your team can maintain.
-      </p>
     </div>
   </div>
 

@@ -1062,6 +1062,45 @@
       height: 100%;
       pointer-events: none;
     }
+
+    .flow-lines-svg-mobile { display: none; }
+
+    .workflow-nodes {
+      display: flex;
+      justify-content: space-around;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    .node-box--a { margin-top: -20px; }
+    .node-box--b { margin-top: 20px; }
+    .node-box--c { margin-top: -20px; }
+
+    @media (max-width: 720px) {
+      .workflow-container {
+        height: auto;
+        padding: 26px 14px;
+      }
+
+      .flow-lines-svg-desktop { display: none; }
+      .flow-lines-svg-mobile { display: block; }
+
+      .workflow-nodes {
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 18px;
+      }
+
+      .node-box {
+        width: min(340px, 86vw);
+      }
+
+      .node-box--a,
+      .node-box--b,
+      .node-box--c { margin-top: 0; }
+    }
     /* All continuous animations removed */
     .connector-line {
       fill: none;
@@ -1262,6 +1301,25 @@
       padding: 35px;
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .booking-demo {
+      max-width: 980px;
+      margin: 0 auto 18px;
+    }
+
+    .booking-demo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .booking-demo .services-grid {
+      margin-top: 0;
+    }
+
+    @media (max-width: 900px) {
+      .booking-demo-grid { grid-template-columns: 1fr; }
     }
 
     .booking-form {
@@ -1583,8 +1641,8 @@
       <div class="brand">DIVINE EMMANUEL</div>
       <nav class="nav-links">
         <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
+        <a href="#tech">Delivery &amp; DevOps</a>
+        <a href="#faq">FAQ</a>
         <a href="#booking" class="nav-cta">Request Consultation</a>
         <a href="#" id="moreToggle" style="color: #d4af37; font-weight: bold; cursor: pointer;">More +</a>
       </nav>
@@ -1603,12 +1661,12 @@
       <div class="drawer-section-title">Navigation</div>
       <nav class="drawer-links">
         <a href="#home" class="drawer-link">Home</a>
-        <a href="#about" class="drawer-link">About</a>
-        <a href="#services" class="drawer-link">Expertise</a>
-        <a href="#tech" class="drawer-link">Delivery & DevOps</a>
-        <a href="#flyer" class="drawer-link">Service Summary</a>
-        <a href="#gallery" class="drawer-link">Capabilities</a>
         <a href="#booking" class="drawer-link drawer-cta">Request Consultation</a>
+        <a href="#tech" class="drawer-link">Delivery & DevOps</a>
+        <a href="public/service-summary.html" class="drawer-link">Service Summary</a>
+        <a href="#gallery" class="drawer-link">Capabilities</a>
+        <a href="#" id="moreToggleDrawer" class="drawer-link">More +</a>
+        <a href="#faq" class="drawer-link">FAQ</a>
         <a href="#contact" class="drawer-link">Contact</a>
       </nav>
 
@@ -1641,7 +1699,7 @@
         <p class="hero-brief">Secure Systems. Reliable Delivery. Measurable Outcomes.</p>
         <div class="btn-group">
           <a href="#booking" class="btn btn-primary">Request Consultation</a>
-          <a href="#flyer" class="btn btn-outline">Service Summary</a>
+          <a href="public/service-summary.html" class="btn btn-outline">Service Summary</a>
         </div>
 
         <div class="people-plus" aria-label="Team and collaboration">
@@ -1715,131 +1773,6 @@
     </div>
   </section>
 
-  <section id="about" class="section-dark">
-    <div class="container">
-      <div class="pj-desktop">
-        <div class="pro-summary-accordion section-accordion" id="pjDesktopAccordion">
-          <div class="acc-item">
-            <button type="button" class="acc-trigger" aria-expanded="false">
-              <span class="acc-title">Professional Journey</span>
-              <span class="acc-icon" aria-hidden="true"></span>
-            </button>
-            <div class="acc-panel" hidden>
-              <p class="section-subtitle">
-                <span class="desktop-only">Professional engineering services for modern businesses.</span>
-                <span class="mobile-only">Professional engineering for modern teams.</span>
-              </p>
-
-              <div class="about-grid">
-                <div class="about-box">
-                  <div class="pro-summary-text">
-                    <p>
-                      Based in Hamilton, Ontario, I deliver AI-enabled full-stack + DevSecOps work end-to-end — architecture, build, CI/CD, cloud, and security hardening — with clear handoff notes your team can maintain.
-                    </p>
-                  </div>
-
-                  <div class="pro-summary-mobile">
-                    <div class="pro-summary-accordion" id="proSummaryAccordion">
-                      <div class="acc-item">
-                        <button type="button" class="acc-trigger" aria-expanded="false">
-                          <span class="acc-title">Professional Summary</span>
-                          <span class="acc-icon" aria-hidden="true"></span>
-                        </button>
-                        <div class="acc-panel" hidden>
-                          <p>
-                            Based in Hamilton, Ontario, I deliver AI-enabled full-stack + DevSecOps work end-to-end — architecture, build, CI/CD, cloud, and security hardening — with clear handoff notes your team can maintain.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="about-image">
-                  <img src="assets/images/image_04.png" alt="Divine Emmanuel - Software Engineer" loading="lazy" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="pj-mobile">
-        <div class="pro-summary-accordion pj-accordion" id="pjAccordion">
-          <div class="acc-item">
-            <button type="button" class="acc-trigger" aria-expanded="false">
-              <span class="acc-title">Professional Summary</span>
-              <span class="acc-icon" aria-hidden="true"></span>
-            </button>
-            <div class="acc-panel" hidden>
-              <p>
-                Based in Hamilton, Ontario, I deliver AI-enabled full-stack + DevSecOps work end-to-end — architecture, build, CI/CD, cloud, and security hardening — with clear handoff notes your team can maintain.
-              </p>
-            </div>
-          </div>
-          <div class="acc-item">
-            <button type="button" class="acc-trigger" aria-expanded="false">
-              <span class="acc-title">Professional Journey</span>
-              <span class="acc-icon" aria-hidden="true"></span>
-            </button>
-            <div class="acc-panel" hidden>
-              <p class="pj-subtitle">Professional engineering for modern teams.</p>
-              <div class="pj-body">
-                <img src="assets/images/image_04.png" alt="Divine Emmanuel - Software Engineer" loading="lazy" />
-                <div>
-                  <p style="margin-bottom:0;">
-                    From discovery to deployment, I turn requirements into secure builds, automated releases, and stable operations.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="services">
-    <div class="container">
-      <div class="pro-summary-accordion section-accordion" id="coreExpertiseAccordion">
-        <div class="acc-item">
-          <button type="button" class="acc-trigger" aria-expanded="false">
-            <span class="acc-title">Core Expertise</span>
-            <span class="acc-icon" aria-hidden="true"></span>
-          </button>
-          <div class="acc-panel" hidden>
-            <p class="section-subtitle">
-              Full-stack delivery + DevOps automation + cybersecurity analytics.
-            </p>
-
-            <div class="services-grid">
-              <div class="service-card">
-                <h3>SaaS Development</h3>
-                <p>
-                  Building full-stack platforms from the ground up with secure authentication and real-time features.
-                </p>
-              </div>
-
-              <div class="service-card">
-                <h3>E-Commerce</h3>
-                <p>
-                  Scalable commerce solutions with headless architecture, Stripe integration, and high conversion design.
-                </p>
-              </div>
-
-              <div class="service-card">
-                <h3>DevOps & Cloud</h3>
-                <p>
-                  Deployment automation, CI/CD pipelines, and cloud hosting on Vercel, AWS, or DigitalOcean for 99.9% uptime.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section id="tech">
     <div class="container">
       <h2 class="section-title">Workflow Architecture</h2>
@@ -1849,27 +1782,32 @@
 
       <!-- Re-implemented Workflow Visualization -->
       <div class="workflow-container">
-        <svg class="flow-lines-svg">
+        <svg class="flow-lines-svg flow-lines-svg-desktop" viewBox="0 0 1000 380" preserveAspectRatio="none" aria-hidden="true">
           <path class="connector-line" d="M 200 190 L 450 190" />
           <path class="connector-line" d="M 600 190 L 850 190" />
           <path class="connector-line" d="M 450 190 Q 525 100 600 190" />
           <path class="connector-line" d="M 450 190 Q 525 280 600 190" />
         </svg>
 
-        <div style="display:flex; justify-content:space-around; width:100%; position:relative; z-index:2;">
-          <div class="node-box" style="margin-top:-20px;">
+        <svg class="flow-lines-svg flow-lines-svg-mobile" viewBox="0 0 320 520" preserveAspectRatio="none" aria-hidden="true">
+          <path class="connector-line" d="M 160 155 L 160 255" />
+          <path class="connector-line" d="M 160 265 L 160 365" />
+        </svg>
+
+        <div class="workflow-nodes">
+          <div class="node-box node-box--a">
             <h4>Planning</h4>
             <span>SRS & UX Mapping</span>
             <div style="width:20px; height:20px; background:#d4af37; border-radius:50%; margin:10px auto 0; box-shadow: 0 0 10px #d4af37;"></div>
           </div>
           
-          <div class="node-box" style="margin-top:20px;">
+          <div class="node-box node-box--b">
             <h4>Engineering</h4>
             <span>Software / Security / DevOps</span>
             <div style="width:20px; height:20px; background:#00ff41; border-radius:50%; margin:10px auto 0; box-shadow: 0 0 10px #00ff41;"></div>
           </div>
 
-          <div class="node-box" style="margin-top:-20px;">
+          <div class="node-box node-box--c">
             <h4>Deployment</h4>
             <span>CI/CD & Monitoring</span>
             <div style="width:20px; height:20px; background:#ffbd2e; border-radius:50%; margin:10px auto 0; box-shadow: 0 0 10px #ffbd2e;"></div>
@@ -1894,48 +1832,6 @@
           Quick 30-minute assessments are available for smaller, well-scoped requests; standard consultations are 2 hours.
           Fixed-project pricing and ongoing retainers are available upon request. Any paid work is confirmed before starting.
         </p>
-      </div>
-    </div>
-  </section>
-
-  <section id="flyer">
-    <div class="container">
-      <h2 class="section-title">Service Summary</h2>
-      <p class="section-subtitle">
-        A brief overview of services for quick reference.
-      </p>
-
-      <div class="flyer-wrap">
-        <div class="flyer-image">
-          <img src="assets/images/image1.jpeg" alt="Divine Emmanuel professional portrait" loading="lazy" />
-        </div>
-
-        <div class="flyer-text">
-          <div class="tag">5+ YEARS</div>
-          <h2>Divine Emmanuel</h2>
-          <p>
-            Full-Stack DevSecOps Engineering services (software delivery, DevOps automation, and cybersecurity analytics).
-            Based in Hamilton, Ontario, Canada.
-          </p>
-
-          <ul class="flyer-list">
-            <li>Full-Stack Web & API Engineering</li>
-            <li>Mobile Engineering (React Native)</li>
-            <li>DevOps & CI/CD Automation</li>
-            <li>Cloud Delivery & Observability</li>
-            <li>Cybersecurity Hardening</li>
-            <li>Security & Code Audits</li>
-          </ul>
-
-          <div class="flyer-rate">
-            <strong>Hourly Rate: $120/hour</strong><br />
-            Consultation / Development
-          </div>
-
-          <div class="contact-lines">
-            <p><strong>Location:</strong> Hamilton, ON, Canada</p>
-          </div>
-        </div>
       </div>
     </div>
   </section>
@@ -2020,9 +1916,57 @@
     <div class="container">
       <h2 class="section-title">Request a Consultation</h2>
       <p class="section-subtitle">
-        <span class="desktop-only">Submit your request or use the <a href="public/estimator.html" style="color:#d4af37;text-decoration:underline;font-weight:bold;">Project Estimator</a> to outline scope and priorities.</span>
-        <span class="mobile-only">Submit your request — or use the <a href="public/estimator.html" style="color:#d4af37;text-decoration:underline;font-weight:bold;">Project Estimator</a>.</span>
+        <span class="desktop-only">Choose a service, add a few details, and submit. Or use the <a href="public/estimator.html" style="color:#d4af37;text-decoration:underline;font-weight:bold;">Project Estimator</a> to outline scope.</span>
+        <span class="mobile-only">Choose a service and submit — or use the <a href="public/estimator.html" style="color:#d4af37;text-decoration:underline;font-weight:bold;">Project Estimator</a>.</span>
       </p>
+
+      <div class="booking-demo" aria-label="Consultation request overview">
+        <div class="booking-demo-grid">
+          <div>
+            <h3 class="chart-title" style="text-align:left; margin-bottom: 10px;">What you can request</h3>
+            <div class="services-grid">
+              <div class="service-card">
+                <h3>Full‑Stack Web App</h3>
+                <p>Build or enhance secure web apps, dashboards, and customer portals.</p>
+              </div>
+              <div class="service-card">
+                <h3>API / Backend Engineering</h3>
+                <p>Performance, reliability, auth, integrations, and clean architecture.</p>
+              </div>
+              <div class="service-card">
+                <h3>DevSecOps &amp; CI/CD</h3>
+                <p>Automated builds/releases, environments, and deployment hardening.</p>
+              </div>
+              <div class="service-card">
+                <h3>Security Review</h3>
+                <p>Threat model + prioritized fixes to reduce real-world risk.</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="chart-title" style="text-align:left; margin-bottom: 10px;">How it works</h3>
+            <div class="services-grid">
+              <div class="service-card">
+                <h3>1) Pick a service</h3>
+                <p>Select what you need (or choose “Not sure”).</p>
+              </div>
+              <div class="service-card">
+                <h3>2) Add key details</h3>
+                <p>Goals, current stack, timeline, and any constraints.</p>
+              </div>
+              <div class="service-card">
+                <h3>3) Submit (email opens)</h3>
+                <p>You’ll get a prefilled email—hit Send to finish.</p>
+              </div>
+              <div class="service-card">
+                <h3>4) Get next steps</h3>
+                <p>Clear plan, risks/mitigations, and a recommended path forward.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="booking-box">
         <form class="booking-form" id="bookingForm">
@@ -2309,6 +2253,7 @@
       const drawerOverlay = document.getElementById('drawerOverlay');
       const drawerLinks = document.querySelectorAll('.drawer-link');
       const moreToggle = document.getElementById('moreToggle');
+      const moreToggleDrawer = document.getElementById('moreToggleDrawer');
       const moreSolutionsModal = document.getElementById('moreSolutionsModal');
       const moreSolutionsContent = moreSolutionsModal?.querySelector('.more-modal-content');
       const moreSolutionsBackdrop = moreSolutionsModal?.querySelector('.more-modal-backdrop');
@@ -2319,6 +2264,7 @@
       const pjDesktopAccordion = document.getElementById('pjDesktopAccordion');
       const coreExpertiseAccordion = document.getElementById('coreExpertiseAccordion');
       const faqAccordion = document.getElementById('faqAccordion');
+      const moreProfileAccordion = document.getElementById('moreProfileAccordion');
 
       const hasDrawer = !!(menuToggle && drawer && drawerOverlay);
 
@@ -2378,6 +2324,14 @@
 
       if (moreToggle) {
         moreToggle.addEventListener('click', (e) => {
+          e.preventDefault();
+          closeDrawer();
+          openMoreSolutions();
+        });
+      }
+
+      if (moreToggleDrawer) {
+        moreToggleDrawer.addEventListener('click', (e) => {
           e.preventDefault();
           closeDrawer();
           openMoreSolutions();
@@ -2454,11 +2408,15 @@
       wireAccordion(pjDesktopAccordion);
       wireAccordion(coreExpertiseAccordion);
       wireAccordion(faqAccordion);
+      wireAccordion(moreProfileAccordion);
 
       // Close drawer when a link is clicked
       if (hasDrawer) {
         drawerLinks.forEach(link => {
-          link.addEventListener('click', closeDrawer);
+          link.addEventListener('click', (e) => {
+            if (moreToggleDrawer && e.currentTarget === moreToggleDrawer) return;
+            closeDrawer();
+          });
         });
       }
 
@@ -2512,14 +2470,74 @@
         <div class="more-modal-section-title">Navigation</div>
         <nav class="more-modal-links" aria-label="Navigation links">
           <a href="#home" class="more-modal-link">Home</a>
-          <a href="#about" class="more-modal-link">About</a>
-          <a href="#services" class="more-modal-link">Expertise</a>
           <a href="#tech" class="more-modal-link">Delivery &amp; DevOps</a>
-          <a href="#flyer" class="more-modal-link">Service Summary</a>
+          <a href="public/service-summary.html" class="more-modal-link">Service Summary</a>
           <a href="#gallery" class="more-modal-link">Capabilities</a>
+          <a href="#faq" class="more-modal-link">FAQ</a>
           <a href="#booking" class="more-modal-link more-modal-cta">Request Consultation</a>
           <a href="#contact" class="more-modal-link">Contact</a>
         </nav>
+
+        <div class="more-modal-section-title">Profile (Nested)</div>
+        <div class="pro-summary-accordion section-accordion" id="moreProfileAccordion">
+          <div class="acc-item">
+            <button type="button" class="acc-trigger" aria-expanded="false">
+              <span class="acc-title">Professional Summary</span>
+              <span class="acc-icon" aria-hidden="true"></span>
+            </button>
+            <div class="acc-panel" hidden>
+              <p>
+                Based in Hamilton, Ontario, I deliver AI-enabled full-stack + DevSecOps work end-to-end — architecture, build, CI/CD, cloud, and security hardening — with clear handoff notes your team can maintain.
+              </p>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <button type="button" class="acc-trigger" aria-expanded="false">
+              <span class="acc-title">Professional Journey</span>
+              <span class="acc-icon" aria-hidden="true"></span>
+            </button>
+            <div class="acc-panel" hidden>
+              <p style="margin:0;">
+                From discovery to deployment, I turn requirements into secure builds, automated releases, and stable operations.
+              </p>
+            </div>
+          </div>
+
+          <div class="acc-item">
+            <button type="button" class="acc-trigger" aria-expanded="false">
+              <span class="acc-title">Core Expertise</span>
+              <span class="acc-icon" aria-hidden="true"></span>
+            </button>
+            <div class="acc-panel" hidden>
+              <p class="section-subtitle" style="margin-top:0;">
+                Full-stack delivery + DevOps automation + cybersecurity analytics.
+              </p>
+              <div class="services-grid">
+                <div class="service-card">
+                  <h3>SaaS Development</h3>
+                  <p>
+                    Building full-stack platforms from the ground up with secure authentication and real-time features.
+                  </p>
+                </div>
+
+                <div class="service-card">
+                  <h3>E-Commerce</h3>
+                  <p>
+                    Scalable commerce solutions with headless architecture, Stripe integration, and high conversion design.
+                  </p>
+                </div>
+
+                <div class="service-card">
+                  <h3>DevOps &amp; Cloud</h3>
+                  <p>
+                    Deployment automation, CI/CD pipelines, and cloud hosting on Vercel, AWS, or DigitalOcean for 99.9% uptime.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="more-modal-section-title">Deep Dive</div>
         <nav class="more-modal-links" aria-label="Deep dive links">

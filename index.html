@@ -545,7 +545,15 @@
       display: block;
     }
 
-    .people-plus .avatar img { object-fit: cover; }
+    .people-plus .avatar img {
+      object-fit: cover;
+      z-index: 2;
+    }
+
+    .people-plus .avatar svg {
+      z-index: 1;
+      pointer-events: none;
+    }
 
     .people-plus .avatar + .avatar { margin-left: -14px; }
 

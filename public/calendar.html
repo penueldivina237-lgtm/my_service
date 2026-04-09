@@ -3,13 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Book a Time</title>
-  <meta name="description" content="Pick a time for your session. Payment can be enabled in Calendly via Stripe." />
+  <title>Book Instantly</title>
+  <meta name="description" content="Pick a session, date, and time to request a booking. Payment can be enabled via Stripe Payment Links." />
 
   <style>
-    :root {
-      color-scheme: dark;
-    }
+    :root { color-scheme: dark; }
 
     body {
       margin: 0;
@@ -20,56 +18,62 @@
       color: rgba(255,255,255,0.92);
     }
 
-    .wrap {
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 24px 16px 32px;
+    .wrap { max-width: 980px; margin: 0 auto; padding: 24px 16px 32px; }
+
+    h1 { margin: 0; font-size: 1.35rem; letter-spacing: 0.4px; }
+    .sub { margin: 6px 0 0; color: rgba(255,255,255,0.72); line-height: 1.4; max-width: 75ch; }
+
+    .card {
+      margin-top: 14px;
+      border: 1px solid rgba(212,175,55,0.20);
+      background: rgba(0,0,0,0.45);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.50);
     }
 
-    .top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
+    form { padding: 16px; display: grid; gap: 12px; }
 
-    h1 {
-      margin: 0;
-      font-size: 1.35rem;
-      letter-spacing: 0.4px;
-    }
+    .row { display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (max-width: 720px) { .row { grid-template-columns: 1fr; } }
 
-    .sub {
-      margin: 6px 0 0;
-      color: rgba(255,255,255,0.72);
-      line-height: 1.4;
-      max-width: 70ch;
-    }
+    label { font-weight: 800; color: rgba(255,255,255,0.88); font-size: 0.95rem; }
 
-    .controls {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    select {
-      padding: 10px 12px;
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 12px;
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.12);
       background: rgba(255,255,255,0.04);
       color: rgba(255,255,255,0.92);
       outline: none;
+      box-sizing: border-box;
     }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: rgba(212,175,55,0.55);
+      box-shadow: 0 0 0 3px rgba(212,175,55,0.10);
+    }
+
+    textarea { min-height: 120px; resize: vertical; }
+
+    .total {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(212,175,55,0.18);
+      background: rgba(212,175,55,0.08);
+      color: rgba(255,255,255,0.92);
+      font-weight: 900;
+    }
+
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
 
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 10px 12px;
+      padding: 12px 14px;
       border-radius: 999px;
       cursor: pointer;
       border: 1px solid rgba(212,175,55,0.55);
@@ -80,156 +84,236 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    .card {
-      border: 1px solid rgba(212,175,55,0.20);
-      background: rgba(0,0,0,0.45);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.50);
+    .btn.secondary {
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+      color: rgba(255,255,255,0.92);
     }
 
-    .placeholder {
-      padding: 16px;
-      color: rgba(255,255,255,0.80);
-      line-height: 1.5;
-    }
-
-    .placeholder strong { color: rgba(255,255,255,0.92); }
-
-    .hint {
-      margin-top: 10px;
+    .note {
       color: rgba(255,255,255,0.72);
+      line-height: 1.45;
       font-size: 0.95rem;
-    }
-
-    /* Calendly inline widget needs a fixed-ish height */
-    #calendlyHost {
-      min-height: min(760px, calc(100dvh - 220px));
-    }
-
-    @media (max-width: 480px) {
-      h1 { font-size: 1.2rem; }
-      #calendlyHost { min-height: min(720px, calc(100dvh - 240px)); }
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
-    <div class="top">
-      <div>
-        <h1>Book Instantly (Pick a Time)</h1>
-        <p class="sub">Choose a session and pick a time slot. If you enable payments in Calendly, Stripe checkout happens inside the booking flow.</p>
-      </div>
-
-      <div class="controls" aria-label="Booking controls">
-        <label for="sessionSelect" style="position:absolute;left:-9999px;">Session</label>
-        <select id="sessionSelect" aria-label="Session">
-          <option value="intro15">15-Minute Intro Call — $0</option>
-          <option value="strategy30" selected>30-Minute Technical Strategy Session — $49.99 CAD</option>
-          <option value="deep60">1-Hour Deep Technical Consultation — $100 CAD</option>
-        </select>
-
-        <a class="btn" id="openInNewTab" href="#" target="_blank" rel="noopener">Open in new tab</a>
-      </div>
-    </div>
+    <h1>Book Instantly (Pick a Time)</h1>
+    <p class="sub">Pick a session, date, and time. If you add Stripe Payment Links, this page can send the user to Stripe to pay. Otherwise, it will open a prefilled email request.</p>
 
     <div class="card">
-      <div id="calendlyHost" aria-label="Calendly booking"></div>
-      <div id="calendlyPlaceholder" class="placeholder" hidden>
-        <strong>Calendly isn’t configured yet.</strong>
-        <div class="hint">Paste your Calendly links into this page (see the script at the bottom), then this booking calendar will appear here.</div>
-      </div>
-    </div>
+      <form id="bookingForm" autocomplete="off">
+        <div class="row">
+          <div>
+            <label for="sessionType">Session</label>
+            <select id="sessionType" aria-label="Session">
+              <option value="intro15">15-Minute Intro Call — $0</option>
+              <option value="strategy30" selected>30-Minute Technical Strategy Session — $49.99 CAD</option>
+              <option value="deep60">1-Hour Deep Technical Consultation — $100 CAD</option>
+            </select>
+          </div>
+          <div>
+            <label for="date">Preferred date</label>
+            <input id="date" type="date" aria-label="Preferred date" required />
+          </div>
+        </div>
 
-    <noscript>
-      <div class="hint">This page needs JavaScript enabled to load the booking calendar.</div>
-    </noscript>
+        <div class="row">
+          <div>
+            <label for="time">Preferred time</label>
+            <select id="time" aria-label="Preferred time" required>
+              <option value="09:00">09:00</option>
+              <option value="10:00">10:00</option>
+              <option value="11:00">11:00</option>
+              <option value="13:00">13:00</option>
+              <option value="14:00">14:00</option>
+              <option value="15:00">15:00</option>
+              <option value="16:00">16:00</option>
+            </select>
+          </div>
+          <div>
+            <label for="timezone">Timezone</label>
+            <input id="timezone" type="text" aria-label="Timezone" readonly />
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="name">Name</label>
+            <input id="name" type="text" placeholder="Your name" aria-label="Name" required />
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="you@example.com" aria-label="Email" required />
+          </div>
+        </div>
+
+        <div>
+          <label for="organization">Company / Project (optional)</label>
+          <input id="organization" type="text" placeholder="Company or project name" aria-label="Company or project" />
+        </div>
+
+        <div>
+          <label for="message">Notes (optional)</label>
+          <textarea id="message" placeholder="What should we focus on during the session?" aria-label="Notes"></textarea>
+        </div>
+
+        <div class="total" id="totalCost">Session Price: $49.99 CAD</div>
+        <div class="note" id="payNote"></div>
+
+        <div class="actions">
+          <button type="submit" class="btn" id="primaryBtn">Continue</button>
+          <a class="btn secondary" href="request-consultation.html">Use email form instead</a>
+        </div>
+      </form>
+    </div>
   </div>
 
-  <!-- Calendly inline booking -->
-  <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript"></script>
   <script>
     (() => {
-      // Option A (recommended): paste one event URL per session (best UX).
-      const CALENDLY_EVENT_URLS = {
+      const CONSULTATION_EMAIL = 'Emmanuel@globalix-inc.com';
+
+      // Paste Stripe Payment Links here when you create them.
+      // Example: strategy30: 'https://buy.stripe.com/xxxx'
+      const STRIPE_PAYMENT_LINKS = {
         intro15: '',
         strategy30: '',
         deep60: '',
       };
 
-      // Option B: paste your Calendly profile URL (single general booking page).
-      // Example: 'https://calendly.com/your-handle'
-      const CALENDLY_PROFILE_URL = '';
+      const SESSIONS = {
+        intro15: { key: 'intro15', productName: '15-Minute Intro Call', minutes: 15, priceCad: 0 },
+        strategy30: { key: 'strategy30', productName: '30-Minute Technical Strategy Session', minutes: 30, priceCad: 49.99 },
+        deep60: { key: 'deep60', productName: '1-Hour Deep Technical Consultation', minutes: 60, priceCad: 100 },
+      };
 
-      const host = document.getElementById('calendlyHost');
-      const placeholder = document.getElementById('calendlyPlaceholder');
-      const sessionSelect = document.getElementById('sessionSelect');
-      const openInNewTab = document.getElementById('openInNewTab');
+      const form = document.getElementById('bookingForm');
+      const sessionType = document.getElementById('sessionType');
+      const dateInput = document.getElementById('date');
+      const timeInput = document.getElementById('time');
+      const tzInput = document.getElementById('timezone');
+      const totalCost = document.getElementById('totalCost');
+      const payNote = document.getElementById('payNote');
+      const primaryBtn = document.getElementById('primaryBtn');
 
-      function getSessionKey() {
-        return String(sessionSelect?.value || 'strategy30');
+      function safeSessionKey(raw) {
+        const k = String(raw || 'strategy30');
+        return SESSIONS[k] ? k : 'strategy30';
       }
 
-      function getUrl(sessionKey) {
-        return String(CALENDLY_EVENT_URLS[sessionKey] || CALENDLY_PROFILE_URL || '').trim();
+      function getSelectedSession() {
+        return SESSIONS[safeSessionKey(sessionType?.value)];
       }
 
-      function renderInline(url) {
-        host.innerHTML = '';
+      function updateTotal() {
+        const s = getSelectedSession();
+        totalCost.textContent = `Session Price: $${s.priceCad} CAD`;
 
-        if (!url) {
-          placeholder.hidden = false;
-          openInNewTab.href = '#';
-          openInNewTab.setAttribute('aria-disabled', 'true');
-          return;
+        const payLink = String(STRIPE_PAYMENT_LINKS[s.key] || '').trim();
+        if (s.priceCad > 0 && payLink) {
+          primaryBtn.textContent = `Pay $${s.priceCad} & Request Time`;
+          payNote.textContent = 'You will be redirected to Stripe to complete payment.';
+        } else if (s.priceCad > 0) {
+          primaryBtn.textContent = 'Request Time (pay later)';
+          payNote.textContent = 'Stripe payment link is not set yet; this will open an email request.';
+        } else {
+          primaryBtn.textContent = 'Request Time';
+          payNote.textContent = 'This is a free intro call; this will open an email request.';
         }
-
-        placeholder.hidden = true;
-        openInNewTab.removeAttribute('aria-disabled');
-        openInNewTab.href = url;
-
-        if (window.Calendly && typeof window.Calendly.initInlineWidget === 'function') {
-          window.Calendly.initInlineWidget({ url, parentElement: host });
-          return;
-        }
-
-        // Fallback if Calendly script didn't load
-        const p = document.createElement('div');
-        p.className = 'placeholder';
-        p.innerHTML = 'Calendly failed to load. <a class="btn" style="margin-top:10px;display:inline-flex;" target="_blank" rel="noopener">Open booking</a>';
-        host.appendChild(p);
-        const a = p.querySelector('a');
-        if (a) a.href = url;
       }
 
-      function syncFromQuery() {
+      function initFromQuery() {
         try {
           const key = new URLSearchParams(window.location.search).get('session');
-          if (key && (key === 'intro15' || key === 'strategy30' || key === 'deep60')) {
-            sessionSelect.value = key;
-          }
+          if (key) sessionType.value = safeSessionKey(key);
         } catch (e) {}
       }
 
-      function update() {
-        const key = getSessionKey();
-        const url = getUrl(key);
-        renderInline(url);
-
-        // keep URL in sync without reloading
+      function initDateMin() {
         try {
-          const u = new URL(window.location.href);
-          u.searchParams.set('session', key);
-          history.replaceState({}, '', u);
+          const today = new Date();
+          const yyyy = today.getFullYear();
+          const mm = String(today.getMonth() + 1).padStart(2, '0');
+          const dd = String(today.getDate()).padStart(2, '0');
+          const min = `${yyyy}-${mm}-${dd}`;
+          dateInput.min = min;
+          if (!dateInput.value) dateInput.value = min;
         } catch (e) {}
       }
 
-      syncFromQuery();
-      sessionSelect.addEventListener('change', update);
+      function initTimezone() {
+        try {
+          tzInput.value = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+        } catch (e) {
+          tzInput.value = '';
+        }
+      }
 
-      // Let Calendly script load, then render
-      window.addEventListener('load', update);
-      if (document.readyState === 'complete') update();
+      function gatherData() {
+        const s = getSelectedSession();
+        const preferredDate = String(dateInput.value || '').trim();
+        const preferredTime = String(timeInput.value || '').trim();
+        const preferredDateTime = preferredDate && preferredTime ? `${preferredDate} ${preferredTime}` : preferredDate;
+
+        return {
+          name: document.getElementById('name').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          organization: document.getElementById('organization').value.trim(),
+          date: preferredDateTime,
+          timezone: String(tzInput.value || '').trim(),
+          serviceType: 'Consultation',
+          projectSize: 'N/A',
+          sessionKey: s.key,
+          sessionType: s.productName,
+          minutes: s.minutes,
+          total: s.priceCad,
+          currency: 'CAD',
+          message: document.getElementById('message').value.trim(),
+        };
+      }
+
+      sessionType.addEventListener('change', updateTotal);
+      initFromQuery();
+      initDateMin();
+      initTimezone();
+      updateTotal();
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = gatherData();
+
+        try { localStorage.setItem('pendingBooking', JSON.stringify(data)); } catch (err) {}
+
+        const payLink = String(STRIPE_PAYMENT_LINKS[data.sessionKey] || '').trim();
+        if (payLink && data.total > 0) {
+          window.location.href = payLink;
+          return;
+        }
+
+        const subject = `Session Booking Request — ${data.sessionType}`;
+        const bodyLines = [
+          `Name: ${data.name}`,
+          `Email: ${data.email}`,
+          `Organization/Project: ${data.organization || '-'}`,
+          `Preferred date/time: ${data.date || '-'}`,
+          `Timezone: ${data.timezone || '-'}`,
+          `Session type: ${data.sessionType}`,
+          `Duration: ${data.minutes} minute(s)` ,
+          `Session price: $${data.total} ${data.currency}`,
+          '',
+          'Notes:',
+          data.message || '-',
+        ];
+
+        const mailtoUrl = `mailto:${CONSULTATION_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+        window.location.href = mailtoUrl;
+
+        setTimeout(() => {
+          window.location.href = 'booking-success.html';
+        }, 500);
+      });
     })();
   </script>
 </body>

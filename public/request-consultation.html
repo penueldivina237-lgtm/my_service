@@ -538,10 +538,8 @@
 
       if (instantBookingBtn) {
         instantBookingBtn.addEventListener('click', () => {
-          const opened = openCalendlyForSelectedSession();
-          if (!opened) {
-            fallbackToEmailRequest(getSelectedSession().key);
-          }
+          const key = getSelectedSession().key;
+          window.location.href = `calendar.html?session=${encodeURIComponent(key)}`;
         });
       }
 

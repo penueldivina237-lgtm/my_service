@@ -287,8 +287,59 @@
 
     <section class="hero" aria-label="Consultation intro">
       <h1>Request Consultation</h1>
-      <p class="subtitle">Pick a service, add a few details, and submit. This page opens a prefilled email request so we can confirm scope and next steps.</p>
+      <p class="subtitle">Pick a session, choose a service, add a few details, and submit. This page opens a prefilled email request so we can confirm scope and next steps.</p>
     </section>
+
+    <div class="card" aria-label="Consultation packages">
+      <h2 style="color: var(--gold); margin-bottom: 10px;">🚀 Book a Consultation</h2>
+      <p style="color:#e6e6e6; margin-bottom: 16px;">
+        Whether you're building a new product, scaling your infrastructure, or securing your systems, this session is designed to give you clear direction and expert insight.
+      </p>
+
+      <h3 style="color: var(--gold); margin: 14px 0 6px;">🔹 Free Intro Call (15 Minutes)</h3>
+      <p style="margin:0 0 6px;"><strong>$0</strong></p>
+      <ul style="margin:0 0 8px 18px; color:#e6e6e6;">
+        <li>Quick discussion about your project</li>
+        <li>Understand your goals and challenges</li>
+        <li>Determine the best next steps</li>
+      </ul>
+      <p style="margin:0 0 10px; color:#cfcfcf;"><em>Perfect for first-time clients</em></p>
+
+      <h3 style="color: var(--gold); margin: 14px 0 6px;">🔹 Technical Strategy Session (30 Minutes)</h3>
+      <p style="margin:0 0 6px;"><strong>$50 CAD</strong></p>
+      <ul style="margin:0 0 8px 18px; color:#e6e6e6;">
+        <li>Focused discussion on your specific needs</li>
+        <li>DevOps, Full-Stack, or Cybersecurity guidance</li>
+        <li>Actionable recommendations you can implement immediately</li>
+      </ul>
+      <p style="margin:0 0 10px; color:#cfcfcf;"><em>Best for quick problem-solving and expert direction</em></p>
+
+      <h3 style="color: var(--gold); margin: 14px 0 6px;">🔹 Deep Dive Consultation (60 Minutes)</h3>
+      <p style="margin:0 0 6px;"><strong>$100 CAD</strong></p>
+      <ul style="margin:0 0 8px 18px; color:#e6e6e6;">
+        <li>In-depth analysis of your project or system</li>
+        <li>Architecture, security, or performance review</li>
+        <li>Step-by-step strategic guidance</li>
+        <li>Clear roadmap for execution</li>
+      </ul>
+      <p style="margin:0 0 16px; color:#cfcfcf;"><em>Ideal for serious projects and business-critical decisions</em></p>
+
+      <h3 style="color: var(--gold); margin: 12px 0 6px;">💼 What You Can Get Help With</h3>
+      <ul style="margin:0 0 14px 18px; color:#e6e6e6;">
+        <li>DevOps setup &amp; cloud architecture</li>
+        <li>Full-stack application planning &amp; debugging</li>
+        <li>Cybersecurity audits &amp; risk assessment</li>
+        <li>Performance optimization</li>
+        <li>System design &amp; scalability</li>
+      </ul>
+
+      <h3 style="color: var(--gold); margin: 12px 0 6px;">🔒 Why Book With Us?</h3>
+      <ul style="margin:0 0 0 18px; color:#e6e6e6;">
+        <li>Clear, no-fluff technical advice</li>
+        <li>Business-focused solutions (not just code)</li>
+        <li>Scalable strategies tailored to your goals</li>
+      </ul>
+    </div>
 
     <div class="booking-quick" aria-label="Consultation quick start">
       <div class="booking-steps" aria-label="3-step process">
@@ -347,16 +398,17 @@
           <option value="Ongoing / Retainer">Ongoing / Retainer</option>
         </select>
 
-        <label class="sr-only" for="consultationLength">Consultation length</label>
-        <select id="consultationLength" aria-label="Consultation length">
-          <option value="2" selected>Standard Consultation (2 hours)</option>
-          <option value="0.5">Quick Assessment (30 minutes) — for small requests</option>
+        <label class="sr-only" for="sessionType">Session type</label>
+        <select id="sessionType" aria-label="Session type">
+          <option value="intro15">Free Intro Call (15 Minutes) — $0</option>
+          <option value="strategy30" selected>Technical Strategy Session (30 Minutes) — $50 CAD</option>
+          <option value="deep60">Deep Dive Consultation (60 Minutes) — $100 CAD</option>
         </select>
 
         <label class="sr-only" for="message">Project details</label>
         <textarea id="message" placeholder="Tell me about your tech requirements, goals, or current stack..." aria-label="Booking message"></textarea>
 
-        <div class="total" id="totalCost">Estimated Consultation: $240</div>
+        <div class="total" id="totalCost">Session Fee: $50 CAD</div>
 
         <div class="note">
           This opens your email app with a prefilled request. Scope and any applicable fees are confirmed by email before any paid work begins.
@@ -372,10 +424,9 @@
       const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!prefersReduced) requestAnimationFrame(() => document.body.classList.add('arrive'));
 
-      const hourlyRate = 120;
       const CONSULTATION_EMAIL = 'Emmanuel@globalix-inc.com';
 
-      const consultationLengthInput = document.getElementById('consultationLength');
+      const sessionTypeInput = document.getElementById('sessionType');
       const projectSizeInput = document.getElementById('projectSize');
       const totalCost = document.getElementById('totalCost');
       const bookingForm = document.getElementById('bookingForm');
@@ -383,10 +434,20 @@
       const serviceTypeSelect = document.getElementById('serviceType');
       const bookingChips = Array.from(document.querySelectorAll('.booking-chip'));
 
+      const SESSIONS = {
+        intro15: { label: 'Free Intro Call (15 Minutes)', minutes: 15, feeCad: 0 },
+        strategy30: { label: 'Technical Strategy Session (30 Minutes)', minutes: 30, feeCad: 50 },
+        deep60: { label: 'Deep Dive Consultation (60 Minutes)', minutes: 60, feeCad: 100 },
+      };
+
+      function getSelectedSession() {
+        const key = String(sessionTypeInput?.value || 'strategy30');
+        return SESSIONS[key] || SESSIONS.strategy30;
+      }
+
       function updateTotal() {
-        const hours = parseFloat(consultationLengthInput.value) || 2;
-        const total = Math.round(hours * hourlyRate);
-        totalCost.textContent = `Estimated Consultation: $${total}`;
+        const s = getSelectedSession();
+        totalCost.textContent = `Session Fee: $${s.feeCad} CAD`;
       }
 
       function gatherBookingData() {
@@ -396,10 +457,23 @@
         const date = document.getElementById('date').value;
         const serviceType = serviceTypeSelect.value;
         const projectSize = projectSizeInput.value;
-        const hours = parseFloat(consultationLengthInput.value) || 2;
+        const session = getSelectedSession();
         const message = document.getElementById('message').value.trim();
-        const total = Math.round(hours * hourlyRate);
-        return { name, email, organization, date, serviceType, projectSize, hours, message, total };
+        const total = session.feeCad;
+
+        return {
+          name,
+          email,
+          organization,
+          date,
+          serviceType,
+          projectSize,
+          sessionType: session.label,
+          minutes: session.minutes,
+          total,
+          currency: 'CAD',
+          message,
+        };
       }
 
       // Chips preselect the service dropdown
@@ -423,14 +497,7 @@
         if (initial) selectChip(initial);
       }
 
-      consultationLengthInput.addEventListener('change', updateTotal);
-
-      projectSizeInput.addEventListener('change', () => {
-        const size = (projectSizeInput.value || '').toLowerCase();
-        const isSmall = size.includes('small');
-        consultationLengthInput.value = isSmall ? '0.5' : '2';
-        updateTotal();
-      });
+      sessionTypeInput.addEventListener('change', updateTotal);
 
       bookingForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -446,8 +513,9 @@
           `Preferred consultation date: ${data.date}`,
           `Service type: ${data.serviceType}`,
           `Project size: ${data.projectSize}`,
-          `Consultation length: ${data.hours} hour(s)`,
-          `Estimated consultation fee: $${data.total}`,
+          `Session type: ${data.sessionType}`,
+          `Duration: ${data.minutes} minute(s)`,
+          `Session fee: $${data.total} ${data.currency}`,
           '',
           'Project details:',
           data.message || '(no message provided)'
@@ -955,7 +1023,7 @@
         }
 
         if (/(rate|price|pricing|cost|hourly|budget)/i.test(q)) {
-          return "My baseline rate is $120/hour. If you want to outline scope quickly, use the [estimator], or submit a [consultation] and I’ll confirm next steps by email.";
+          return "Consultations: Free 15‑minute intro call, $50 CAD (30‑minute technical strategy), or $100 CAD (60‑minute deep dive). Use [consultation] to request a session and I’ll confirm next steps by email.";
         }
 
         if (/(consultation|book|booking|schedule|start|hire)/i.test(q)) {

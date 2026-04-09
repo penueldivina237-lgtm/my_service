@@ -58,8 +58,9 @@
           <strong>Company/Project:</strong> ${data.organization || '-'}<br>
           <strong>Preferred Date:</strong> ${data.date || '-'}<br>
           <strong>Service:</strong> ${data.serviceType || '-'}<br>
-          <strong>Consultation Length:</strong> ${data.hours || '-'} hour(s)<br>
-          <strong>Estimated Consultation Fee:</strong> $${data.total || '-'}
+          <strong>Session Type:</strong> ${data.sessionType || '-'}<br>
+          <strong>Duration:</strong> ${data.minutes || '-'} minute(s)<br>
+          <strong>Session Fee:</strong> $${data.total || '-'} ${data.currency || 'CAD'}
           </p>
           <p style="margin-top:8px"><strong>Technical Details:</strong><br><pre>${data.message || '-'}</pre></p>
         `;
@@ -571,7 +572,7 @@
         }
 
         if (/(rate|price|pricing|cost|hourly|budget)/i.test(q)) {
-          return "My baseline rate is $120/hour. If you want to outline scope quickly, use the [estimator], or submit a [consultation] and I’ll confirm next steps by email.";
+          return "Consultations: Free 15‑minute intro call, $50 CAD (30‑minute technical strategy), or $100 CAD (60‑minute deep dive). Use [consultation] to request a session and I’ll confirm next steps by email.";
         }
 
         if (/(consultation|book|booking|schedule|start|hire)/i.test(q)) {

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://penueldivina237-lgtm.github.io/my_service/sitemap.xml

@@ -358,7 +358,7 @@
           <button type="button" class="chat-close" id="chatClose" aria-label="Close chat">&times;</button>
         </div>
 
-        <div id="chatPicker" class="chat-picker" aria-label="Chat app picker">
+        <div id="chatPicker" class="chat-picker" aria-label="Chat app picker" hidden>
           <button type="button" class="chat-app" id="chatAppWhatsApp" aria-label="Chat on WhatsApp">
             <span class="chat-app-icon wa" aria-hidden="true">
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -372,7 +372,7 @@
             </span>
           </button>
 
-          <button type="button" class="chat-app" id="chatAppAI" aria-label="Chat with AI assistant">
+          <button type="button" class="chat-app" id="chatAppAI" aria-label="Chat with AI assistant" hidden>
             <span class="chat-app-icon ai" aria-hidden="true">
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M12 2l1.3 4.2L18 7.6l-4.1 1.3L12 13l-1.9-4.1L6 7.6l4.7-1.4L12 2Z" fill="currentColor"/>
@@ -389,7 +389,7 @@
 
         <div id="waPanel" class="wa-panel" aria-label="WhatsApp message" hidden>
           <div class="ai-header">
-            <button type="button" class="ai-back" id="waBack" aria-label="Back to chat options">←</button>
+            <button type="button" class="ai-back" id="waBack" aria-label="Close chat">←</button>
             <div class="ai-title">WhatsApp</div>
           </div>
 
@@ -484,20 +484,47 @@
       height: min(720px, calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
       max-height: calc(100dvh - 32px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
       overflow: hidden;
+      position: relative;
+      isolation: isolate;
       border-radius: 14px;
       border: 1px solid rgba(212, 175, 55, 0.20);
       background: rgba(0,0,0,0.55);
       -webkit-backdrop-filter: blur(8px);
       backdrop-filter: blur(8px);
       box-shadow: 0 20px 60px rgba(0,0,0,0.55);
-      transform: translateY(14px);
+      transform: translateY(16px) scale(0.98);
       opacity: 0;
-      transition: transform 260ms ease, opacity 260ms ease;
+      transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), opacity 220ms ease;
+      will-change: transform, opacity;
       display: grid;
       grid-template-rows: auto 1fr;
     }
 
-    .chat-overlay.is-open .chat-sheet { transform: translateY(0); opacity: 1; }
+    .chat-sheet::after {
+      content: '';
+      position: absolute;
+      inset: -46px;
+      background:
+        radial-gradient(420px 240px at 20% 15%, rgba(212,175,55,0.40), transparent 60%),
+        radial-gradient(360px 220px at 85% 20%, rgba(37,211,102,0.22), transparent 62%),
+        radial-gradient(520px 360px at 55% 85%, rgba(212,175,55,0.18), transparent 60%);
+      filter: blur(26px);
+      opacity: 0.70;
+      transform: translate3d(0,0,0);
+      animation: chatAurora 6.2s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .chat-sheet > * { position: relative; z-index: 1; }
+
+    @keyframes chatAurora {
+      0% { transform: translate3d(-10px, 8px, 0) scale(1.02); opacity: 0.55; }
+      45% { transform: translate3d(12px, -10px, 0) scale(1.06); opacity: 0.85; }
+      100% { transform: translate3d(-10px, 8px, 0) scale(1.02); opacity: 0.55; }
+    }
+
+    .chat-overlay.is-open .chat-sheet { transform: translateY(0) scale(1); opacity: 1; }
 
     .chat-sheet-header {
       display: flex;
@@ -741,6 +768,7 @@
     @media (prefers-reduced-motion: reduce) {
       .chat-launcher, .chat-sheet, .chat-app { transition: none; }
       .chat-launcher::before { animation: none; }
+      .chat-sheet::after { animation: none; }
       .chat-overlay { -webkit-backdrop-filter: none; backdrop-filter: none; }
     }
   </style>
@@ -786,6 +814,7 @@
         setTimeout(() => {
           try { sheet.focus({ preventScroll: true }); } catch (e) {}
         }, 0);
+        showWhatsApp();
       }
 
       function closeOverlay() {
@@ -794,26 +823,17 @@
         document.body.classList.remove('chat-open');
         setTimeout(() => {
           overlay.style.display = 'none';
-          showPicker();
+          showWhatsApp();
           try { lastActiveEl && lastActiveEl.focus && lastActiveEl.focus(); } catch (e) {}
         }, 180);
       }
 
       function showPicker() {
-        aiPanel.hidden = true;
-        waPanel.hidden = true;
-        picker.hidden = false;
-        try { appWhatsApp.focus({ preventScroll: true }); } catch (e) {}
+        showWhatsApp();
       }
 
       function showAI() {
-        picker.hidden = true;
-        waPanel.hidden = true;
-        aiPanel.hidden = false;
-        ensureAiBoot();
-        setTimeout(() => {
-          try { aiInput.focus({ preventScroll: true }); } catch (e) {}
-        }, 0);
+        showWhatsApp();
       }
 
       function showWhatsApp(prefill) {
@@ -852,16 +872,18 @@
         showWhatsApp();
       });
 
-      appAI.addEventListener('click', () => {
-        showAI();
-      });
+      if (appAI) {
+        appAI.addEventListener('click', () => {
+          showWhatsApp();
+        });
+      }
 
       aiBack.addEventListener('click', () => {
-        showPicker();
+        closeOverlay();
       });
 
       waBack.addEventListener('click', () => {
-        showPicker();
+        closeOverlay();
       });
 
       waForm.addEventListener('submit', (e) => {
